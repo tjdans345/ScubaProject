@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +48,7 @@
                   <ul class="widget-posts">
                     <li class="clearfix">
                       <div class="widget-posts-image">
-                      	<a href="#"><img src="../assets/images/rp-1.jpg" alt="Post Thumbnail"/></a>
+                      	<a href="#"><img src="${contextPath}/resources/assets/images/rp-1.jpg" alt="Post Thumbnail"/></a>
                       </div>
                       <div class="widget-posts-body">
                         <div class="widget-posts-title"><a href="#">샾 이름</a></div>
@@ -54,7 +56,7 @@
                     </li>
                     <li class="clearfix">
                       <div class="widget-posts-image">
-                      	<a href="#"><img src="../assets/images/rp-2.jpg" alt="Post Thumbnail"/></a>
+                      	<a href="#"><img src="${contextPath}/resources/assets/images/rp-2.jpg" alt="Post Thumbnail"/></a>
                       </div>
                       <div class="widget-posts-body">
                         <div class="widget-posts-title"><a href="#">샾 이름</a></div>
