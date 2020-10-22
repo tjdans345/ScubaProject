@@ -10,7 +10,7 @@
 		class="org.apache.ibatis.datasource.pooled.PooledDataSource">
 		<property name="driver" value="com.mysql.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://localhost:3306/Squba" />
+			value="jdbc:mysql://localhost:3306/Scuba" />
 		<property name="username" value="scuba" />
 		<property name="password" value="scuba132157" />
 	</bean>
