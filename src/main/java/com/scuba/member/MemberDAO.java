@@ -21,4 +21,12 @@ public class MemberDAO {
 	public String getPwd(String id) {
 		return sqlSession.selectOne("mapper.member.getPwd",id);
 	}
+	//닉네임 확인
+	public int nicknameCheck(String nickname) {
+		return sqlSession.selectOne("mapper.member.nicknameCheck",nickname);
+	}
+	//이메일 체크
+	public int emailCheck(String email) {
+		return sqlSession.selectOne("mapper.member.emailCheck",email);
+	}
 }

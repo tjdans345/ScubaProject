@@ -20,4 +20,12 @@ public class MemberService {
 	public String getPwd(String id) {
 		return memberDAO.getPwd(id);
 	}
+	//닉네임 확인
+	public int nicknameCheck(String nickname) {
+		return memberDAO.nicknameCheck(nickname);
+	}
+	//이메일 체크
+	public int emailCheck(String email) {
+		return memberDAO.emailCheck(email);
+	}
 }

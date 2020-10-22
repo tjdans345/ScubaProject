@@ -98,7 +98,15 @@
                   <li><a href="index_op_fullscreen_gradient_overlay.html">이용안내</a></li>
                 </ul>
                </li>
-              <li ><a href="${contextPath}/login.mem" style="display: inline-block;">로그인</a>
+              <li>
+				<c:choose>
+					<c:when test="${id == null}">
+					    <a href="${contextPath}/login.mem" style="display: inline-block;">로그인</a>
+					</c:when>
+					<c:otherwise>
+					    <a href="${contextPath}/login.mem" style="display: inline-block;">로그인 중</a>
+					</c:otherwise>
+				</c:choose>
               </li>
             </ul>
           </div>

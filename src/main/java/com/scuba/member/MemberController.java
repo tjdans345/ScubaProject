@@ -88,10 +88,34 @@ public class MemberController {
 		}
 		return idCheck ;
 	}
+//닉네임 체크
+	@ResponseBody
+	@RequestMapping(value = "nicknameCheck" , method = RequestMethod.POST)
+	public int nicknameCheck(String nickname) throws Exception{
+		int nicknameCheck=0;
+		if(1==memberService.nicknameCheck(nickname)) {
+			nicknameCheck = 1; // 이미 존재하는 닉네임
+		}else {
+			nicknameCheck = 2; // 없는 닉네임
+		}
+		return nicknameCheck ;
+	}
 //이메일 체크
 	@ResponseBody
-	@RequestMapping(value = "emailCheck", method = RequestMethod.POST)
-	public int emailCheck(String email) throws Exception {
+	@RequestMapping(value = "emailCheck" , method = RequestMethod.POST)
+	public int emailCheck(String email) throws Exception{
+		int emailCheck=0;
+		if(1==memberService.emailCheck(email)) {
+			emailCheck = 1; // 이미 존재하는 닉네임
+		}else {
+			emailCheck = 2; // 없는 닉네임
+		}
+		return emailCheck ;
+	}
+//이메일 체크
+	@ResponseBody
+	@RequestMapping(value = "emailSend", method = RequestMethod.POST)
+	public int emailSend(String email) throws Exception {
 		//인증번호 생성
 		int random = (int)(Math.random()*1000000);
 		if(random<100000) random += 100000;
