@@ -10,16 +10,10 @@
 <jsp:include page="../inc/Top.jsp"/>
 
 <script type="text/javascript">
-console.log(msg);
-var msg = "${msg}";
-if(msg !=""){
-	alert(msg);
-	console.log(msg);
-	var msg = "";
-	console.log(msg);
+if('${msg}'!=""){
+	window.alert('${msg}');
 }
 </script>
-<c:remove var="msg"/>
 </head>
 <body>
 <!-- 로그인 -->

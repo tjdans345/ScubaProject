@@ -7,12 +7,76 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 가입</title>
-<!-- 주소 넣기  -->
-<!-- 폰번호 하나 뺴기 -->
 <jsp:include page="../inc/Top.jsp"/>
+<script type="text/javascript">
+// 이메일 인증 
+function emailCheck() {
+	var Check = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+	var email = $('#email').val();
+	if(email==""){
+		window.alert("이메일을 입력해 주세요 .");
+	}else if(!Check.test(email)){
+		window.alert("이메일 형식이 잘못 되었습니다 .");
+	}else{
+		$.ajax({
+			url:'emailCheck.mem',
+			type : 'POST',
+			data : {email:email},
+			success: function(data) {
+				$('#emailcheck_c').val(data);
+			},
+			error: function(){
+				alert("실패");
+			}
+		});
+		window.alert('인증 메일이 발송되었습니다 .');
+		$('#emailcheck').css('display','block');
+	}
+}
+//회원가입시 공백 체크
+function userjoin() {
+	if($('#id').val()==""){
+		alert("아이디를 입력해 주세요 .");
+		$('#id').focus
+		return false;
+	}else if($('#pwd').val()==""){
+		alert("비밀번호를 입력해 주세요");
+		$('#pwd').focus
+		return false;
+	}else if($('#pwd_c').val()==""){
+		alert("비밀번호를 확인해 주세요");
+		$('#pwd_c').focus
+		return false;
+	}else if($('#nickname').val()==""){
+		alert("닉네임를 입력해 주세요");
+		$('#nickname').focus
+		return false;
+	}else if($('#email').val()==""){
+		alert("이메일을 입력해 주세요");
+		$('#email').focus
+		return false;
+	}else if($('#emailcheck_c').val()==""){
+		alert("이메일 인증을 진행해 주세요");
+		return false;
+	}else if($('#emailcheck').val()==""){
+		alert("인증번호를 입력해 주세요");
+		$('#emailcheck').focus
+		return false;
+	}else{
+		$('#joinform').submit();
+		return false;
+	}
+}
+</script>
+<style type="text/css">
+.form-control{
+	text-transform: none;
+}
+</style>
 </head>
 <body>
-
+<!-- 이메일 인증시 인증 숫자 저장 폼 -->
+<input id="emailcheck_c" style="display: none;">
 <!-- 회원가입 폼 -->
 	<section class="module" >
          <div class="container" align="center">
@@ -20,7 +84,7 @@
             <div class="col-sm-4 col-sm-offset-4" >
                <h4 class="font-alt">회원 가입</h4>
                <hr class="divider-w mb-10">
-               <form class="form" action="${contextPath}/userjoin.mem" method="post" style="min-width: 245px;">
+               <form class="form" id="joinform" action="${contextPath}/userjoin.mem" method="post" style="min-width: 245px;">
 				  <div class="form-group">
                     <input class="form-control" id="id" type="text" name="id" placeholder="id"/>
                   </div>
@@ -35,15 +99,15 @@
                   </div>
                   <div class="form-group">
                     <div class="input-group">
-                      <input class="form-control" type="email" id="email" name="email" placeholder="Your Email" data-validation-required-message="Please enter your email address." required="required"/><span class="input-group-btn">
-                        <button class="btn btn-g btn-round" id="subscription-form-submit" type="submit">Submit</button></span>
+                      <input class="form-control" type="text" id="email" name="email" placeholder="Your Email"/><span class="input-group-btn">
+                        <button class="btn btn-g btn-round" id="subscription-form-submit" type="button" onclick="emailCheck()">Submit</button></span>
                     </div>    
                   </div> 
-                  <div class="form-group" id="emailcheck" style="display: none;">
-                    <input class="form-control" type="text" name="emailcheck" placeholder="인증번호"/>
+                  <div class="form-group">
+                    <input class="form-control" id="emailcheck" style="display: none;" type="text" name="emailcheck" placeholder="인증번호"/>
                   </div>    
                   <div class="form-group" style="float: right;">
-                    <button class="btn btn-round btn-b" type="submit">회원 가입</button>
+                    <button class="btn btn-round btn-b" type="button" onclick="userjoin()">회원 가입</button>
                     <button class="btn btn-round btn-b" onclick="history.back()">취소</button>
                   </div>
                </form>
@@ -52,6 +116,87 @@
          </div>
        </section>
 <!-- 회원가입 폼 -->
+<script type="text/javascript">
+//아이디 유효성 & 중복 검사
+$('#id').on("blur",function(){
+	if($('#id').val()!=""){
+	var id = $('#id').val();
+	var idCheck = /^[a-z]+[a-z0-9]{5,19}$/g;
+	if(!idCheck.test(id)){
+		alert("아이디는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.");
+		$('#id').val("");
+		$('#id').focus();
+	}
+	else{
+		$.ajax({
+			url:'idCheck.mem',
+			type:'POST',
+			data:{id:id},
+			success:function(data){
+				if(data==1){
+					alert("이미 존재하는 아이디 입니다 .");
+					$('#id').val("");
+					$('#id').focus();
+				}
+			},
+			error:function(){
+				window.alert("실패");
+			}
+		});
+	}
+	}
+	});
+
+//비밀번호 정규식
+$('#pwd').on('blur',function(){
+	if($('#pwd').val()!=""){
+	var pwd = $('#pwd').val();
+	var pwdCheck = /^[A-Za-z0-9]{8,20}$/;
+	if(!pwdCheck.test(pwd)){
+		alert("비밀번호는 최소 8 자 최대 20 자 이며 ,최소 하나의 문자 및 하나의 숫자 를 포함해야 합니다")
+		$('#pwd').val("");
+		$('#pwd_c').val("");
+		$('#pwd').focus();
+	}
+	}
+});
+//비밀번호 확인 비교
+$('#pwd_c').on('blur',function(){
+	if($('#pwd_c').val()!=""){
+	var pwd = $('#pwd').val();
+	var pwd_c = $('#pwd_c').val();
+	if(pwd!=pwd_c){
+		alert("비밀번호가 일치하지 않습니다 .");
+		$('#pwd_c').val("");
+		$('#pwd_c').focus();
+	}
+	}
+});
+//닉네임 정규식
+$('#nickname').on('blur',function(){
+	if($('#nickname').val()!=""){
+	var nickname = $('#nickname').val();
+	var nicknameCheck = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,20}$/;
+	if(!nicknameCheck.test(nickname)){
+		alert("닉네임은 2 ~ 20 글자로 입력해 주세요 .");
+		$('#nickname').val("");
+		$('#nickname').focus();
+	}
+	}
+});
+//인증번호 비교 
+$('#emailcheck').on('blur',function(){
+	if($('#emailcheck').val()!=""){
+	var emailcheck = $('#emailcheck').val();
+	var emailcheck_c = $('#emailcheck_c').val();
+	if(emailcheck != emailcheck_c){
+		alert("인증번호를 확인해 주세요 .");
+		$('#emailcheck').val("");
+		$('#emailcheck').focus();
+	}
+	}
+});
+</script>
 <jsp:include page="../inc/Footer.jsp"/>
 </body>
 </html>
