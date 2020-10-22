@@ -2,7 +2,24 @@
 <!DOCTYPE mapper
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.Member">
-
-
+<mapper namespace="mapper.member" >
+<!-- 유저 회원가입 -->
+<insert id="joinMember" parameterType="hashmap">
+	<![CDATA[
+	INSERT INTO member (id,pwd,nickname,email) 
+	VALUES (#{id},#{pwd},#{nickname},#{email})
+	]]>
+</insert>
+<!-- 아이디 있는지 확인 -->
+<select id="idCheck" parameterType="String" resultType="int">
+	<![CDATA[
+	select count(*) from member where id = #{id}
+	]]>
+</select>
+<!-- 비밀번호 가져오기 -->
+<select id="getPwd" parameterType="String" resultType="String">
+	<![CDATA[
+	select pwd from member where id = #{id}
+	]]>
+</select>
 </mapper>
