@@ -64,7 +64,6 @@ function userjoin() {
 		return false;
 	}else{
 		$('#joinform').submit();
-		return false;
 	}
 }
 </script>
@@ -146,7 +145,6 @@ $('#id').on("blur",function(){
 	}
 	}
 	});
-
 //비밀번호 정규식
 $('#pwd').on('blur',function(){
 	if($('#pwd').val()!=""){
