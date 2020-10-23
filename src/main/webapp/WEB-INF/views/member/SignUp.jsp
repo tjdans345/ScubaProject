@@ -9,17 +9,15 @@
 <title>회원 가입</title>
 <jsp:include page="../inc/Top.jsp"/>
 <script type="text/javascript">
-// 이메일 인증 
-function emailCheck() {
-	var Check = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+//이메일 인증 
+function emailSend() {
 	var email = $('#email').val();
 	if(email==""){
 		window.alert("이메일을 입력해 주세요 .");
-	}else if(!Check.test(email)){
-		window.alert("이메일 형식이 잘못 되었습니다 .");
+		$('#email').focus();
 	}else{
 		$.ajax({
-			url:'emailCheck.mem',
+			url:'emailSend.mem',
 			type : 'POST',
 			data : {email:email},
 			success: function(data) {
@@ -67,11 +65,6 @@ function userjoin() {
 	}
 }
 </script>
-<style type="text/css">
-.form-control{
-	text-transform: none;
-}
-</style>
 </head>
 <body>
 <!-- 이메일 인증시 인증 숫자 저장 폼 -->
@@ -99,7 +92,7 @@ function userjoin() {
                   <div class="form-group">
                     <div class="input-group">
                       <input class="form-control" type="text" id="email" name="email" placeholder="Your Email"/><span class="input-group-btn">
-                        <button class="btn btn-g btn-round" id="subscription-form-submit" type="button" onclick="emailCheck()">Submit</button></span>
+                        <button class="btn btn-g btn-round" id="subscription-form-submit" type="button" onclick="emailSend()">Submit</button></span>
                     </div>    
                   </div> 
                   <div class="form-group">
@@ -125,8 +118,7 @@ $('#id').on("blur",function(){
 		alert("아이디는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.");
 		$('#id').val("");
 		$('#id').focus();
-	}
-	else{
+	}else{
 		$.ajax({
 			url:'idCheck.mem',
 			type:'POST',
@@ -179,6 +171,50 @@ $('#nickname').on('blur',function(){
 		alert("닉네임은 2 ~ 20 글자로 입력해 주세요 .");
 		$('#nickname').val("");
 		$('#nickname').focus();
+	}else{
+		$.ajax({
+			url:'nicknameCheck.mem',
+			type:'POST',
+			data:{nickname:nickname},
+			success:function(data){
+				if(data==1){
+					alert("이미 존재하는 닉네임 입니다 .");
+					$('#nickname').val("");
+					$('#nickname').focus();
+				}
+			},
+			error:function(){
+				window.alert("실패");
+			}
+		});
+	}
+	}
+});
+//이메일 정규식
+$('#email').on('blur',function(){
+	if($('#email').val()!=""){
+	var email = $('#email').val();
+	var emailCheck = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+	if(!emailCheck.test(email)){
+		alert("이메일 형식이 잘못 되었습니다 .");
+		$('#email').val("");
+		$('#email').focus();
+	}else{
+		$.ajax({
+			url:'emailCheck.mem',
+			type:'POST',
+			data:{email:email},
+			success:function(data){
+				if(data==1){
+					alert("이미 존재하는 이메일 입니다 .");
+					$('#email').val("");
+					$('#email').focus();
+				}
+			},
+			error:function(){
+				window.alert("실패");
+			}
+		});
 	}
 	}
 });
