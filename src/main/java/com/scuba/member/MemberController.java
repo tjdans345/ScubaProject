@@ -49,7 +49,7 @@ public class MemberController {
 	@RequestMapping(value = "userjoin" , method = RequestMethod.POST)
 	public ModelAndView userjoin(MemberVO memberVO,
 								HttpServletRequest request) throws Exception {
-		memberVO.setPwd(pwdchage(memberVO.getPwd()));
+		memberVO.setPwd(pwdchange(memberVO.getPwd()));
 		memberService.joinMember(memberVO);
 		request.getSession().setAttribute("id",memberVO.getId());
 		modelAndView.setViewName("redirect:/index.scu");
@@ -62,7 +62,7 @@ public class MemberController {
 						,HttpServletResponse response) throws Exception {
 		String msg ="";
 		if(1 == memberService.idCheck(memberVO.getId())) {
-			if(pwdchage(memberVO.getPwd()).equals(memberService.getPwd(memberVO.getId()))) {
+			if(pwdchange(memberVO.getPwd()).equals(memberService.getPwd(memberVO.getId()))) {
 				request.getSession().setAttribute("id",memberVO.getId());
 				modelAndView.setViewName("redirect:/index.scu");
 			}else {
@@ -189,8 +189,13 @@ public class MemberController {
 		messageHelper.setText(content);
 		mailSender.send(message);
 	}
+<<<<<<< HEAD
+//비밀번호 보안 SHA-256방식
+    public String pwdchange(String plainText) throws Exception {
+=======
 //비밀번호 보안
     private String pwdchage(String plainText) throws Exception {
+>>>>>>> 3470494d55fd41816c071e454c0a2a4a9ed64dfa
     	String Alg = "AES/CBC/PKCS5Padding";
     	String PK = "012123453456731234890123451234012";
     	String IV = PK.substring(0,16);

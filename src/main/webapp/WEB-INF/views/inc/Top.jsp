@@ -82,7 +82,7 @@
               </li>
               <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">커뮤니티</a>
                 <ul class="dropdown-menu" style="background-color: #c4dffb;">
-                  <li><a href="index_finance.html">자유 게시판</a></li>
+                  <li><a href="${contextPath}/freeBoard.free">자유 게시판</a></li>
                   <li><a href="index_mp_fullscreen_video_background.html">구인 구직</a></li>
                   <li><a href="index_op_fullscreen_gradient_overlay.html">동료 모집</a></li>
                   <li><a href="index_agency.html">후기 게시판</a></li>
