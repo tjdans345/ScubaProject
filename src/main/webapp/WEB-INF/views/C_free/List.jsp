@@ -1,12 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../inc/Top.jsp" %>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
+  	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <title>Titan | Multipurpose HTML5 Template</title>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+    	$("#writebtn").click(function() {
+			location.href="${contextPath}/writeboard.free";
+		});
+    	
+	});
+    </script>
+    
+    
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
-  <jsp:include page="../inc/Top.jsp"/>
       <div class="main">
         <section class="module">
           <div class="container">
@@ -27,7 +39,7 @@
                   <option>좋아요순</option>
                   <option>조회순</option>
                 </select>
-              <button class="btn btn-border-d btn-round" style="float: right;">글쓰기</button>
+              <button id="writebtn" class="btn btn-border-d btn-round" style="float: right;">글쓰기</button>
             </div>
             <hr class="divider-w pt-20">
             <div class="row">

@@ -33,8 +33,6 @@
 		});
 	</script>
 	
-	
-	
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
   <jsp:include page="../inc/Top.jsp"/>
