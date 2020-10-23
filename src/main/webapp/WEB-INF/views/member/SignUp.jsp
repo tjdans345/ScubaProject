@@ -137,7 +137,6 @@ $('#id').on("blur",function(){
 	}
 	}
 	});
-
 //비밀번호 정규식
 $('#pwd').on('blur',function(){
 	if($('#pwd').val()!=""){
