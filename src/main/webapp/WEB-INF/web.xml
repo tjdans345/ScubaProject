@@ -71,4 +71,27 @@
 		<url-pattern>*.mem</url-pattern>
 	</servlet-mapping>
 	<!-- 멤버 페이지 이동 -->
+	
+	<!-- 자유게시판 페이지 이동 -->
+	<servlet>
+		<servlet-name>FreeBoardServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/freeboard-context.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FreeBoardServlet</servlet-name>
+		<url-pattern>*.free</url-pattern>
+	</servlet-mapping>
+	<!-- 자유게시판 페이지 이동 -->
+	
+	
+	
+	
+	
 </web-app>
