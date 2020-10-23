@@ -106,13 +106,13 @@ public class MemberController {
 	public int emailCheck(String email) throws Exception{
 		int emailCheck=0;
 		if(1==memberService.emailCheck(email)) {
-			emailCheck = 1; // 이미 존재하는 닉네임
+			emailCheck = 1; // 이미 존재하는 이메일
 		}else {
-			emailCheck = 2; // 없는 닉네임
+			emailCheck = 2; // 없는 이메일
 		}
 		return emailCheck ;
 	}
-//이메일 체크
+//이메일 인증
 	@ResponseBody
 	@RequestMapping(value = "emailSend", method = RequestMethod.POST)
 	public int emailSend(String email) throws Exception {
@@ -124,7 +124,61 @@ public class MemberController {
 		sendMail(email, title, content);
 		return random;
 	}
-	
+//아이디 찾기
+	@ResponseBody
+	@RequestMapping(value = "findId", method = RequestMethod.POST)
+	public String findId(String email) throws Exception {
+		String callId="";
+		if(memberService.emailCheck(email)==0) {
+			callId = "none"; //회원 없음
+		}else {
+			callId = memberService.findId(email);
+		}
+		return callId;
+	}
+//비밀번호 찾기
+	@ResponseBody
+	@RequestMapping(value = "sendEmailPwd", method = RequestMethod.POST)
+	public String sendEmailPwd(String id , String email) throws Exception {
+		String pwdCheck="";
+		if(memberService.idCheck(id)==0) {
+			pwdCheck = "noneId"; //회원 없음
+		}else if(!memberService.findEmail(id).equals(email)){
+			pwdCheck = "noneEmail"; // 이메일 없음
+		}
+		return pwdCheck;
+	}
+//비밀번호 찾기 메일보내기
+	@ResponseBody
+	@RequestMapping(value = "sendEmailPwd2", method = RequestMethod.POST)
+	public int sendEmailPwd2(String id , String email) throws Exception {
+		int CheckNum=0;
+		//인증번호 생성
+		int random = (int)(Math.random()*1000000);
+		if(random<100000) random += 100000;
+			String title = "비밀번호 찾기 이메일 입니다 .";
+			String content = id + " 님의 인증 번호는 "+ random +"입니다."; 
+			CheckNum = random;
+			sendMail(email, title, content);
+		return CheckNum;
+	}
+//비밀번호 변경 이동
+	@RequestMapping(value = "PwdChange" , method = RequestMethod.POST)
+	public ModelAndView PwdChange(String id){
+		modelAndView.addObject("id",id);
+		modelAndView.setViewName("member/PwdChange");
+		return modelAndView;
+	}
+//비밀번호 변경
+	@RequestMapping(value = "findPwdChage" , method = RequestMethod.POST)
+	public ModelAndView findPwdChage(MemberVO memberVO,
+									HttpServletRequest request) throws Exception{
+		memberVO.setPwd(pwdchage(memberVO.getPwd()));
+		memberService.findPwdChage(memberVO);
+		request.getSession().setAttribute("id",memberVO.getId());
+		modelAndView.setViewName("redirect:/index.scu");
+		return modelAndView;
+	}
 //메일 보내기
 	public void sendMail(String email , String title , String content) throws Exception{
 		MimeMessage message = mailSender.createMimeMessage();
@@ -136,7 +190,7 @@ public class MemberController {
 		mailSender.send(message);
 	}
 //비밀번호 보안
-    public String pwdchage(String plainText) throws Exception {
+    private String pwdchage(String plainText) throws Exception {
     	String Alg = "AES/CBC/PKCS5Padding";
     	String PK = "012123453456731234890123451234012";
     	String IV = PK.substring(0,16);

@@ -9,7 +9,7 @@
 <title>회원 가입</title>
 <jsp:include page="../inc/Top.jsp"/>
 <script type="text/javascript">
-// 이메일 인증 
+//이메일 인증 
 function emailSend() {
 	var email = $('#email').val();
 	if(email==""){
@@ -65,11 +65,6 @@ function userjoin() {
 	}
 }
 </script>
-<style type="text/css">
-.form-control{
-	text-transform: none;
-}
-</style>
 </head>
 <body>
 <!-- 이메일 인증시 인증 숫자 저장 폼 -->

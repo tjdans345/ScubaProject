@@ -28,4 +28,16 @@ public class MemberService {
 	public int emailCheck(String email) {
 		return memberDAO.emailCheck(email);
 	}
+	//아이디 찾기
+	public String findId(String email) {
+		return memberDAO.findId(email);
+	}
+	//이메일 가져오기
+	public String findEmail(String id) {
+		return memberDAO.findEmail(id);
+	}
+	//비밀번호 찾기 변경
+	public void findPwdChage(MemberVO memberVO) {
+		memberDAO.findPwdChage(memberVO);
+	}
 }

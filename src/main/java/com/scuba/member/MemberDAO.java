@@ -29,4 +29,16 @@ public class MemberDAO {
 	public int emailCheck(String email) {
 		return sqlSession.selectOne("mapper.member.emailCheck",email);
 	}
+	//아이디 찾기
+	public String findId(String email) {
+		return sqlSession.selectOne("mapper.member.findId",email);
+	}
+	//이메일 확인하기
+	public String findEmail(String id) {
+		return sqlSession.selectOne("mapper.member.findEmail",id);
+	}
+	//비밀번호 찾기 변경
+	public void findPwdChage(MemberVO memberVO) {
+		sqlSession.selectOne("mapper.member.findPwdChage",memberVO);
+	}
 }
