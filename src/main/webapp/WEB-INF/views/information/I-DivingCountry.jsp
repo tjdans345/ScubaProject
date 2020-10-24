@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@include file="../inc/Top.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page="../inc/Top.jsp"/>
 		<section class="module">
 	      <div class="row">
             <div class="col-sm-6 col-sm-offset-3">
@@ -28,15 +28,16 @@
                   <option>동해</option>
                   <option>서해</option>
                 </select>
+                <a href="${contextPath}/EnterCountry.info">나라 등록</a>
               </div>
-              <div class="col-sm-12"><img src="../assets/images/section-1.jpg" alt="Title of Image"/></div>
+              <div class="col-sm-12"><img src="${contextPath}/resources/assets/images/section-1.jpg" alt="Title of Image"/></div>
             </div>
 <!--             이미지 -->
 <!-- 추천지역 -->
             <div class="row multi-columns-row post-columns" style="margin-top: 25px;">
               <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="post">
-                  <div class="post-thumbnail"><a href="#"><img src="../assets/images/post-1.jpg" alt="Blog-post Thumbnail"/></a></div>
+                  <div class="post-thumbnail"><a href="#"><img src="${contextPath}/resources/assets/images/post-1.jpg" alt="Blog-post Thumbnail"/></a></div>
                   <div class="post-header font-alt">
                     <h2 class="post-title"><a href="#">지역 1</a></h2>
                   </div>
@@ -44,7 +45,7 @@
               </div>
               <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="post">
-                  <div class="post-thumbnail"><a href="#"><img src="../assets/images/post-2.jpg" alt="Blog-post Thumbnail"/></a></div>
+                  <div class="post-thumbnail"><a href="#"><img src="${contextPath}/resources/assets/images/post-2.jpg" alt="Blog-post Thumbnail"/></a></div>
                   <div class="post-header font-alt">
                     <h2 class="post-title"><a href="#">지역 2</a></h2>
                   </div>
@@ -52,7 +53,7 @@
               </div>
               <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="post">
-                  <div class="post-thumbnail"><a href="#"><img src="../assets/images/post-3.jpg" alt="Blog-post Thumbnail"/></a></div>
+                  <div class="post-thumbnail"><a href="#"><img src="${contextPath}/resources/assets/images/post-3.jpg" alt="Blog-post Thumbnail"/></a></div>
                   <div class="post-header font-alt">
                     <h2 class="post-title"><a href="#">지역 3</a></h2>
                   </div>

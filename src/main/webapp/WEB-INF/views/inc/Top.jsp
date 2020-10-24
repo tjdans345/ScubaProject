@@ -73,7 +73,7 @@
             <ul class="nav navbar-nav navbar-right topMenu">
               <li ><a href="R-ResortList.jsp" style="display: inline-block;">샾 소개</a>
               </li>
-                <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">정보소개</a>
+                <li class="dropdown"><a class="dropdown-toggle" href="${contextPath}/DivingCountry.info" data-toggle="dropdown">정보소개</a>
                 <ul class="dropdown-menu" style="background-color: #c4dffb;">
                   <li><a href="index_mp_fullscreen_video_background.html">지도 사진</a></li>
                   <li><a href="index_op_fullscreen_gradient_overlay.html">포인트 리스트</a></li>

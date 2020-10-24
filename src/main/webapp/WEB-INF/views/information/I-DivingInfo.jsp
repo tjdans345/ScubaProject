@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +31,7 @@
                   <option>서해</option>
                 </select>
               </div>
-              <div class="col-sm-12"><img src="../assets/images/section-1.jpg" alt="Title of Image"/></div>
+              <div class="col-sm-12"><img src="${contextPath}/resources/assets/images/section-1.jpg" alt="Title of Image"/></div>
             </div>
 <!--             이미지 -->
 <!-- 			메인 설명 -->
@@ -64,42 +66,42 @@
               <div class="owl-carousel text-center" data-items="5" data-pagination="false" data-navigation="false">
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-1.jpg" alt="Leather belt"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-1.jpg" alt="Leather belt"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">어류 1</a></h4>
                     </div>
                   </div>
                 </div>
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-3.jpg" alt="Derby shoes"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-3.jpg" alt="Derby shoes"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">어류2</a></h4>
                     </div>
                   </div>
                 </div>
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-2.jpg" alt="Leather belt"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-2.jpg" alt="Leather belt"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">어류3</a></h4>
                     </div>
                   </div>
                 </div>
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-4.jpg" alt="Leather belt"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-4.jpg" alt="Leather belt"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">어류4</a></h4>
                     </div>
                   </div>
                 </div>
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-5.jpg" alt="Chelsea boots"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-5.jpg" alt="Chelsea boots"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">어류5</a></h4>
                     </div>
                   </div>
                 </div>
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-6.jpg" alt="Leather belt"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-6.jpg" alt="Leather belt"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">어류6</a></h4>
                     </div>
                   </div>
@@ -134,7 +136,7 @@
 	                    </tr>
 	                    <tr>
 	                      <td class="hidden-xs">1</td>
-	                      <td><a href="#"><img src="../assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
+	                      <td><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
 	                      <td>
 	                        <h5 class="product-title font-alt">Accessories Pack</h5>
 	                      </td>
@@ -148,7 +150,7 @@
 	                    </tr>
 	                    <tr>
 	                      <td class="hidden-xs">2</td>
-	                      <td><a href="#"><img src="../assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
+	                      <td><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
 	                      <td>
 	                        <h5 class="product-title font-alt">Accessories Pack</h5>
 	                      </td>
@@ -176,7 +178,7 @@
 	                      <th width="50%">인사말</th>
 	                    </tr>
 	                    <tr>
-	                      <td class="hidden-xs"><a href="#"><img src="../assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
+	                      <td class="hidden-xs"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
 	                      <td>
 	                        <h5 class="product-title font-alt">코랄그랜드</h5>
 	                      </td>
@@ -191,7 +193,7 @@
 	                      </td>
 	                    </tr>
 	                    <tr>
-	                      <td class="hidden-xs"><a href="#"><img src="../assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
+	                      <td class="hidden-xs"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
 	                      <td>
 	                        <h5 class="product-title font-alt">코랄그랜드</h5>
 	                      </td>
@@ -206,7 +208,7 @@
 	                      </td>
 	                    </tr>
 	                    <tr>
-	                      <td class="hidden-xs"><a href="#"><img src="../assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
+	                      <td class="hidden-xs"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
 	                      <td>
 	                        <h5 class="product-title font-alt">코랄그랜드</h5>
 	                      </td>
@@ -221,7 +223,7 @@
 	                      </td>
 	                    </tr>
 	                    <tr>
-	                      <td class="hidden-xs"><a href="#"><img src="../assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
+	                      <td class="hidden-xs"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
 	                      <td>
 	                        <h5 class="product-title font-alt">코랄그랜드</h5>
 	                      </td>
