@@ -28,6 +28,12 @@
 	</bean>
 <!-- 마이바티스 -->
 
+<!-- 파일업로드 -->
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<property name="maxUploadSize" value="15728640"/>
+</bean>
+<!-- 파일업로드 -->
+
 <!-- 메일보내기 -->
 	  <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	    <property name="host" value="smtp.gmail.com" />

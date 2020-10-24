@@ -63,7 +63,7 @@ function preView(event) {
 	            </div>
 <!--             이미지 -->
                 <hr class="divider-w mt-10 mb-20">
-                <form class="form" role="form" id="form" method="post" action="${contextPath}/A.info">
+                <form class="form" role="form" id="form" method="post" action="${contextPath}/sendCountry.info" enctype="multipart/form-data">
                   <div class="form-group">
                     <input class="form-control input-sm" name="CountryName" type="text" placeholder="국가명" required/>
                   </div>
@@ -91,22 +91,22 @@ function preView(event) {
 	                    	<td colspan="4">(도시)다이빙 적정 기간</td>
 	                    </tr>
 	                    <tr>
-		                    <td><input type="checkbox" name="Season" value="1">&nbsp;1월</td>
-		                    <td><input type="checkbox" name="Season" value="2">&nbsp;2월</td>
-		                    <td><input type="checkbox" name="Season" value="3">&nbsp;3월</td>
-		                    <td><input type="checkbox" name="Season" value="4">&nbsp;4월</td>
+		                    <td><input type="checkbox" class="Season" name="Season0" value="1">&nbsp;1월</td>
+		                    <td><input type="checkbox" class="Season" name="Season1" value="2">&nbsp;2월</td>
+		                    <td><input type="checkbox" class="Season" name="Season2" value="3">&nbsp;3월</td>
+		                    <td><input type="checkbox" class="Season" name="Season3" value="4">&nbsp;4월</td>
 	                    </tr>
 	                    <tr>
-		                   	<td><input type="checkbox" name="Season" value="5">&nbsp;5월</td>
-		                    <td><input type="checkbox" name="Season" value="6">&nbsp;6월</td>
-		                    <td><input type="checkbox" name="Season" value="7">&nbsp;7월</td>
-		                    <td><input type="checkbox" name="Season" value="8">&nbsp;8월</td>
+		                   	<td><input type="checkbox" class="Season" name="Season4" value="5">&nbsp;5월</td>
+		                    <td><input type="checkbox" class="Season" name="Season5" value="6">&nbsp;6월</td>
+		                    <td><input type="checkbox" class="Season" name="Season6" value="7">&nbsp;7월</td>
+		                    <td><input type="checkbox" class="Season" name="Season7" value="8">&nbsp;8월</td>
 	                    </tr>
 		                <tr>
-		                   	<td><input type="checkbox" name="Season" value="9">&nbsp;9월</td>
-		                    <td><input type="checkbox" name="Season" value="10">&nbsp;10월</td>
-		                    <td><input type="checkbox" name="Season" value="11">&nbsp;11월</td>
-		                    <td><input type="checkbox" name="Season" value="12">&nbsp;12월</td>
+		                   	<td><input type="checkbox" class="Season" name="Season8" value="9">&nbsp;9월</td>
+		                    <td><input type="checkbox" class="Season" name="Season9" value="10">&nbsp;10월</td>
+		                    <td><input type="checkbox" class="Season" name="Season10" value="11">&nbsp;11월</td>
+		                    <td><input type="checkbox" class="Season" name="Season11" value="12">&nbsp;12월</td>
 	                    </tr>
                     </table>
                   </div>
@@ -134,7 +134,7 @@ function preView(event) {
         </section>
         <script type="text/javascript">
         function checkform() {
-        	var season = document.getElementsByName("Season");
+        	var season = document.getElementsByClassName("Season");
         	var seasonCheck = false;
         	for(var i = 0 ; i <season.length ; i++){
         		if(season[i].checked==true) seasonCheck = true;
