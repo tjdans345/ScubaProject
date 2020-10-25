@@ -40,6 +40,24 @@ function preView(event) {
 	$('#preView').empty();
 	reader.readAsDataURL(event.target.files[0]);
 }
+function CountryChage() {
+	var CountryName = $("#CountryNameCategory option:selected").val();
+	$.ajax({
+		url:'getCountryinfo.info',
+		type:'POST',
+		data : {CountryName : CountryName},
+		success : function(data){
+			$('#CountryName').val(data.CountryName);
+			document.getElementById('CountryName').readOnly = true;
+			$('#preView').empty();
+			var img = document.createElement("img");
+			console.log(data.file);
+			img.setAttribute("src",data.file);
+			img.setAttribute("onclick","getLocation()");
+			document.querySelector("div#preView").appendChild(img);
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -50,11 +68,11 @@ function preView(event) {
               <!--           이미지 -->
 	            <div class="row">
 	            <div class="col-sm-4 mb-sm-20">
-	            <select class="form-control" style="margin-bottom: 10px;">
-                  <option selected="selected">국가 명</option>
-                  <option>제주도</option>
-                  <option>동해</option>
-                  <option>서해</option>
+	            <select class="form-control" id="CountryNameCategory" onchange="CountryChage()" style="margin-bottom: 10px;">
+                  <option selected="selected" disabled="disabled">국가 명</option>
+                  <c:forEach var="CountryName" items="${CountryList}">
+                  <option value="${CountryName}">${CountryName}</option>
+                  </c:forEach>
                 </select>
                 </div>
 	              <div class="col-sm-12" id="preView">
@@ -65,7 +83,7 @@ function preView(event) {
                 <hr class="divider-w mt-10 mb-20">
                 <form class="form" role="form" id="form" method="post" action="${contextPath}/sendCountry.info" enctype="multipart/form-data">
                   <div class="form-group">
-                    <input class="form-control input-sm" name="CountryName" type="text" placeholder="국가명" required/>
+                    <input class="form-control input-sm" id="CountryName" name="CountryName" type="text" placeholder="국가명" required/>
                   </div>
                   <div class="form-group">
                     <input class="form-control input-sm" name="CountryImage" type="file" accept="image/*" onchange="preView(event)" placeholder="지도 이미지" required/>
