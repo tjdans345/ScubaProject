@@ -18,6 +18,6 @@ public class FreeBoardVO {
 	private int likecount;
 	private Date writedate;
 	private String title;
-	private String content;
+	private String freecontent;
 	private String communityname;
 }

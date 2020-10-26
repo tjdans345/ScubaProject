@@ -33,9 +33,10 @@ public class FreeBoardController {
 	public ModelAndView write(FreeBoardVO freeboardVO) {
 		System.out.println("와쓰와쓰 컨트롤러");
 		System.out.println("잉?" + freeboardVO.getTitle());
+		System.out.println("컨텐트zzz" + freeboardVO.getFreecontent());
 		freeboardVO.setCommunityname(communityname);
 		mav.setViewName("C_free/List");
 		return mav;
 	}
-
+	
 }
