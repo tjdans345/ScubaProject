@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
+@RequestMapping("/index/")
 public class HomeController {
 	
-	@RequestMapping(value = "index.scu", method = RequestMethod.GET)
+	@RequestMapping(value = "main", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		return "index/index";
 	}
