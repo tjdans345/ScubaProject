@@ -28,7 +28,9 @@
                   <option>동해</option>
                   <option>서해</option>
                 </select>
-                <a href="${contextPath}/EnterCountry.info">나라 등록</a>
+                <a href="${contextPath}/EnterCountry.info">나라 등록 o</a>
+                <a href="${contextPath}/EnterCountry.info">지역 등록 x</a>
+                <a href="${contextPath}/EnterCountry.info">포인트 등록 x</a>
               </div>
               <div class="col-sm-12"><img src="${contextPath}/resources/assets/images/section-1.jpg" alt="Title of Image"/></div>
             </div>

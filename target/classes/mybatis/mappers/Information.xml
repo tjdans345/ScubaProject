@@ -14,13 +14,13 @@
 <!-- 	국가명 리스트 가져오기 -->
 	<select id="getCountryName" resultType="String">
 	<![CDATA[
-	select CountryName from country
+	select distinct CountryName from country
 	]]>
 	</select>
 <!-- 	국가 정보 가져오기 -->
 	<select id="getCountryinfo" parameterType="String" resultType="informationVO">
 	<![CDATA[
-	select * from country where CountryName = #{CountryName}
+	select * from country where CountryName = #{CountryName} limit 1
 	]]>
 	</select>
 </mapper>

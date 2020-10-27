@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
+//이미지 X,Y 좌표 구하기 
 function getLocation() {
 	$('#pointChecker').remove();
 	var Xpoint = event.offsetX / $('#preView>img').width();
@@ -29,6 +30,7 @@ function getLocation() {
 		$('#pointChecker').remove();
 	});
 }
+//미리보기
 function preView(event) {
 	var reader = new FileReader();
 	reader.onload = function(event) {
@@ -40,6 +42,7 @@ function preView(event) {
 	$('#preView').empty();
 	reader.readAsDataURL(event.target.files[0]);
 }
+//나라 카테고리 변경
 function CountryChage() {
 	var CountryName = $("#CountryNameCategory option:selected").val();
 	$.ajax({
@@ -47,14 +50,25 @@ function CountryChage() {
 		type:'POST',
 		data : {CountryName : CountryName},
 		success : function(data){
+			//나라이름
 			$('#CountryName').val(data.CountryName);
 			document.getElementById('CountryName').readOnly = true;
+			//이미지
 			$('#preView').empty();
 			var img = document.createElement("img");
-			console.log(data.file);
-			img.setAttribute("src",data.file);
+			img.setAttribute("src",data.url+data.CountryImage);
 			img.setAttribute("onclick","getLocation()");
 			document.querySelector("div#preView").appendChild(img);
+			//이미지 파일쪽
+			$('#CountryImageUp').empty();
+			var input = document.createElement("input");
+			input.setAttribute("class","form-control input-sm");
+			input.setAttribute("type","text");
+			input.setAttribute("id","CountryImage");
+			input.setAttribute("name","CountryImageAlread");
+			document.querySelector("div#CountryImageUp").appendChild(input);
+			$('#CountryImage').val(data.CountryImage);
+			document.getElementById('CountryImage').readOnly = true;
 		}
 	});
 }
@@ -85,8 +99,8 @@ function CountryChage() {
                   <div class="form-group">
                     <input class="form-control input-sm" id="CountryName" name="CountryName" type="text" placeholder="국가명" required/>
                   </div>
-                  <div class="form-group">
-                    <input class="form-control input-sm" name="CountryImage" type="file" accept="image/*" onchange="preView(event)" placeholder="지도 이미지" required/>
+                  <div class="form-group" id="CountryImageUp">
+                    <input class="form-control input-sm" id="CountryImage" name="CountryImage" type="file" accept="image/*" onchange="preView(event)" placeholder="지도 이미지" required/>
                   </div>
                   <div class="form-group">
                     <input class="form-control input-sm" name="CityXpoint" id="Xpoint" type="text" placeholder="x축 좌표" readonly="readonly"/>

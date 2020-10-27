@@ -17,10 +17,9 @@ public class InformationService {
 	private InformationDAO informationDAO;
 	//파일 업로드
 	public void FileUpload(MultipartFile file,String url) throws Exception {
-		//이름변경 메소드 
-		//용량줄이는 메소드
 		File saveFile =new File(url,file.getOriginalFilename());
 		if(!new File(url).exists()) new File(url).mkdirs();
+		System.out.println(url);
 		file.transferTo(saveFile);
 	}
 	//국가 DB 인설트
