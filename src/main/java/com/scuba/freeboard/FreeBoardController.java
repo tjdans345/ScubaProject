@@ -13,7 +13,7 @@ public class FreeBoardController {
 	FreeBoardService freeboardService;
 
 	private ModelAndView mav = new ModelAndView();
-	String communityname = "free";
+	String communityname = "free"; 
 	// 자유게시판 이동
 	@RequestMapping(value = "freeBoard")
 	public ModelAndView freeboard() {

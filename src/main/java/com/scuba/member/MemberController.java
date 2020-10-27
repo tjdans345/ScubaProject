@@ -43,8 +43,8 @@ public class MemberController {
 	@RequestMapping(value = "signUp")
 	public ModelAndView signUp() {
 		modelAndView.setViewName("member/SignUp");
-		return modelAndView;
-	}
+		return modelAndView; 
+	} 
 //회원가입
 	@RequestMapping(value = "userjoin" , method = RequestMethod.POST)
 	public ModelAndView userjoin(MemberVO memberVO,
