@@ -36,7 +36,7 @@
 
 	<!-- 페이지 이동 -->
 	<servlet>
-		<servlet-name>baseServlet</servlet-name>
+		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet
 		</servlet-class>
 		<init-param>
@@ -47,7 +47,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>baseServlet</servlet-name>
+		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!-- 페이지 이동 -->

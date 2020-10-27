@@ -10,7 +10,7 @@
     <script type="text/javascript">
     $(document).ready(function() {
     	$("#writebtn").click(function() {
-			location.href="${contextPath}/writeboard.free";
+			location.href="${contextPath}/freeBoard/writeboard";
 		});
     	
 	});

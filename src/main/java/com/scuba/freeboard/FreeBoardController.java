@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping("/freeBoard/*")
 public class FreeBoardController {
 
 	@Autowired
@@ -15,7 +16,7 @@ public class FreeBoardController {
 	private ModelAndView mav = new ModelAndView();
 	String communityname = "free"; 
 	// 자유게시판 이동
-	@RequestMapping(value = "freeBoard")
+	@RequestMapping(value = "freeBoardList")
 	public ModelAndView freeboard() {
 		mav.setViewName("C_free/List");
 		return mav;

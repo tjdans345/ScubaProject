@@ -1,6 +1,6 @@
 {
   "name": "ckeditor4-plugin-exportpdf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Plugin adds export to PDF functionality to CKEditor 4.",
   "main": "plugin.js",
   "author": "CKSource (http://cksource.com/)",
