@@ -67,7 +67,7 @@
       <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="background-color: #e0efff;">
         <div class="container">
           <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="index.html" style="color: black;">Titan</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="${contextPath}/" style="color: black;">Titan</a>
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right topMenu">
@@ -82,7 +82,7 @@
               </li>
               <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">커뮤니티</a>
                 <ul class="dropdown-menu" style="background-color: #c4dffb;">
-                  <li><a href="${contextPath}/freeBoard.free">자유 게시판</a></li>
+                  <li><a href="${contextPath}/freeBoard/freeBoardList">자유 게시판</a></li>
                   <li><a href="index_mp_fullscreen_video_background.html">구인 구직</a></li>
                   <li><a href="index_op_fullscreen_gradient_overlay.html">동료 모집</a></li>
                   <li><a href="index_agency.html">후기 게시판</a></li>

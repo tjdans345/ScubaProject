@@ -1,18 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../inc/Top.jsp" %>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
+  	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <title>Titan | Multipurpose HTML5 Template</title>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+    	$("#writebtn").click(function() {
+			location.href="${contextPath}/freeBoard/writeboard";
+		});
+    	
+	});
+    </script>
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
-  <jsp:include page="../inc/Top.jsp"/>
       <div class="main">
         <section class="module">
           <div class="container">
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
                 <h1 class="module-title font-alt" style="margin-bottom: 5%">자유 게시판</h1>
+                ${content}
                 <form role="form" style="text-align:-webkit-center;">
                   <div class="search-box" style="width: 60%;">
                     <input class="form-control" type="text" placeholder="Search..."/>
@@ -27,7 +38,7 @@
                   <option>좋아요순</option>
                   <option>조회순</option>
                 </select>
-              <button class="btn btn-border-d btn-round" style="float: right;">글쓰기</button>
+              <button id="writebtn" class="btn btn-border-d btn-round" style="float: right;">글쓰기</button>
             </div>
             <hr class="divider-w pt-20">
             <div class="row">
