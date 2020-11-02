@@ -2,6 +2,7 @@ package com.scuba.common;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
@@ -32,22 +33,26 @@ public class fileupload {
 		
 		String fileName = upload.getOriginalFilename();
 		
-		byte[] bytes = upload.getBytes();
-		String uploadPath = request.getSession().getServletContext().getRealPath("/WEB-INF/views/images/");
-		OutputStream out = new FileOutputStream(new File(uploadPath + fileName));
+//		byte[] bytes = upload.getBytes();
+//		OutputStream out = new FileOutputStream(new File(uploadPath + fileName));
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/images/");
+		File file = new File(uploadPath, fileName);
+		upload.transferTo(file);	
 		// 서버 업로드 
 		// write메소드의 매개값으로 파일의 총 바이트를 매개값으로 줌
 		String callback = request.getParameter("CKEditorFuncNum");
 		
 		// 서버 => 클라이언트로 텍스트 전송(자바스크립트 실행)
 		PrintWriter printWriter = response.getWriter();
-		String fileUrl = request.getContextPath()+ "/WEB-INF/views/images/"+ fileName;
+		String fileUrl = request.getContextPath()+ "/resources/images/"+ fileName;
 		System.out.println("콜백"+callback);
 		System.out.println("파일유알엘"+fileUrl);
+		request.setAttribute("img", fileUrl);
 		printWriter.println("<script>window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + fileUrl + "','이미지가 업로드되었습니다.')" + "</script>" );
-		
 		
 		printWriter.flush();
 	}
+	
+	
 	
 }

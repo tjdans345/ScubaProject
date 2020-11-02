@@ -1,5 +1,7 @@
 package com.scuba.freeboard;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,11 +33,10 @@ public class FreeBoardController {
 
 	// 글 등록
 	@RequestMapping(value = "writeinsert", method = RequestMethod.POST)
-	public ModelAndView write(FreeBoardVO freeboardVO) {
-		System.out.println("와쓰와쓰 컨트롤러");
-		System.out.println("잉?" + freeboardVO.getTitle());
-		System.out.println("컨텐트zzz" + freeboardVO.getFreecontent());
+	public ModelAndView write(FreeBoardVO freeboardVO, HttpServletRequest request) {
 		freeboardVO.setCommunityname(communityname);
+		mav.addObject("url", request.getContextPath()+ "/resources/images/");
+		mav.addObject("content", freeboardVO.getFreecontent());
 		mav.setViewName("C_free/List");
 		return mav;
 	}

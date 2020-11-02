@@ -23,6 +23,7 @@
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
                 <h1 class="module-title font-alt" style="margin-bottom: 5%">자유 게시판</h1>
+                ${content}
                 <form role="form" style="text-align:-webkit-center;">
                   <div class="search-box" style="width: 60%;">
                     <input class="form-control" type="text" placeholder="Search..."/>

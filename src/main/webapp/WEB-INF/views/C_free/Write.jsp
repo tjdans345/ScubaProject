@@ -14,19 +14,19 @@
 }
 </style>
 <script type="text/javascript">
-	// 	$(document).ready(function(){
-	// 		var id = "${id}";
-	// 		if(id == "") {
-	// 			alert("로그인 후 이용해주시기 바랍니다.");
-	// 			location.href="${contextPath}/login.mem";
-	// 		} else {
-	// 		$("#wrbtn").click(function() {
-	// 			alert("호우");
-	// 			$("#wform").attr("action", "${contextPath}/writeinsert.free");
-	// 			$("#wform").submit();
-	// 		});
-	// 		}
-	// 	});
+		$(document).ready(function(){
+// 			var id = "${id}";
+// 			if(id == "") {
+// 				alert("로그인 후 이용해주시기 바랍니다.");
+// 				location.href="${contextPath}/login.mem";
+// 			} else {
+			$("#wrbtn").click(function() {
+				alert("호우");
+				$("#wform").attr("action", "${contextPath}/freeBoard//writeinsert");
+				$("#wform").submit();
+			});
+// 			}
+		});
 </script>
 </head>
 <body data-spy="scroll" data-target=".onpage-navigation"
