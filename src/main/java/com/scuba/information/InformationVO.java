@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @Component
 public class InformationVO {
-private String CountryName,CountryImage,CityName,CityExp,Season;
+private String CountryName,CountryImage,CityName,CityExp,Season,CityImage;
+private String DivingName,DivingExp,DivingRating,DivingDepthMin,DivingDepthMax;
 private int AveTemper;
-private double CityXpoint,CityYpoint;
+private double CityXpoint,CityYpoint,DivingXpoint,DivingYpoint;
 }

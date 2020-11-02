@@ -7,6 +7,72 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+window.onload=function(){
+	var CityName = '${nowCityName}';
+	$.ajax({
+		url : 'getDivingList.info',
+		type : 'POST',
+		data : {CityName:CityName},
+		success:function(data){
+		 	for(var i = 0 ; i < data.length ; i++){
+	 		var Xpoint =data[i].DivingXpoint;
+	 		var Ypoint = data[i].DivingYpoint;
+	 		var DivingName = data[i].DivingName;
+	 		var DivingRating = data[i].DivingRating;
+	 		var DivingDepthMin = data[i].DivingDepthMin;
+	 		var DivingDepthMax = data[i].DivingDepthMax;
+
+	 		var img = document.createElement("img");
+	 		img.setAttribute("src","${contextPath}/resources/assets/images/scubaFlag.png");
+			img.setAttribute("class","pointChecker");
+			img.setAttribute("onclick","location.href='${contextPath}/DivingSiteView.info?CityName=${nowCityName}&DivingName="+DivingName+"'");
+			img.setAttribute("cursor","pointer");
+			img.style.position="absolute";
+	 		img.style.width="15px";
+	 		img.style.height="15px";
+	 		img.setAttribute("title",DivingName+"\n단계 :"+DivingRating+"\n수심 : "+DivingDepthMin+"m ~ "+DivingDepthMax+"m");
+	 		img.style.left = Xpoint * $('#preView>img').width()+8 + "px";
+	 		img.style.top = Ypoint * $('#preView>img').height()-7 + "px";
+	 		document.getElementById('preView').appendChild(img);
+	 		}
+			$(window).resize(function() {
+				$('.pointChecker').remove();
+			 	for(var i = 0 ; i < data.length ; i++){
+			 		var Xpoint =data[i].DivingXpoint;
+			 		var Ypoint = data[i].DivingYpoint;
+			 		var DivingName = data[i].DivingName;
+			 		var DivingRating = data[i].DivingRating;
+			 		var DivingDepthMin = data[i].DivingDepthMin;
+			 		var DivingDepthMax = data[i].DivingDepthMax;
+
+			 		var img = document.createElement("img");
+			 		img.setAttribute("src","${contextPath}/resources/assets/images/scubaFlag.png");
+					img.setAttribute("class","pointChecker");
+					img.setAttribute("onclick","location.href='${contextPath}/DivingSiteView.info?CityName=${nowCityName}&DivingName="+DivingName+"'");
+					img.setAttribute("cursor","pointer");
+					img.style.position="absolute";
+			 		img.style.width="15px";
+			 		img.style.height="15px";
+			 		img.setAttribute("title",DivingName+"\n단계 :"+DivingRating+"\n수심 : "+DivingDepthMin+"m ~ "+DivingDepthMax+"m");
+			 		img.style.left = Xpoint * $('#preView>img').width()+8 + "px";
+			 		img.style.top = Ypoint * $('#preView>img').height()-7 + "px";
+			 		document.getElementById('preView').appendChild(img);
+			 		}
+			});
+		}
+	});
+}
+function CountryChange() {
+	var CountryName = $("#CountryNameCategory option:selected").val();
+	console.log(CountryName);
+	location.href="${contextPath}/DivingCountry.info?CountryName="+CountryName;
+}
+function CityChange() {
+	var CityName = $("#CityNameCategory option:selected").val();
+	location.href="${contextPath}/DivingCity.info?CityName="+CityName;
+}
+</script>
 </head>
 <body>
 	<jsp:include page="../inc/Top.jsp"/>
@@ -20,18 +86,33 @@
 <!--           이미지 -->
             <div class="row">
               <div class="col-sm-3 mb-sm-20" style="margin-bottom: 15px; margin-right: 2%;">
-                <select class="form-control" style="width: 100px; float: left;">
-                  <option selected="selected">Korea</option>
-                  <option>미국</option>
+                <select class="form-control" id="CountryNameCategory" onchange="CountryChange()" style="width: 100px; float: left;">
+                  <c:forEach items="${CountryList}" var="CountryName">
+                  	<c:choose>
+                  		<c:when test="${CountryName eq nowCountryName}">
+                  			<option value="${CountryName}" selected="selected">${CountryName}</option>
+                  		</c:when>
+                  		<c:otherwise>
+                  			<option value="${CountryName}">${CountryName}</option>
+                  		</c:otherwise>
+                  	</c:choose>
+                  </c:forEach>
+                 
                 </select>
-                <select class="form-control" style="width: 100px;">
-                  <option selected="selected" disabled="disabled">지역선택</option>
-                  <option>제주</option>
-                  <option>동해</option>
-                  <option>서해</option>
+                <select class="form-control" style="width: 100px;" id="CityNameCategory" onchange="CityChange()">
+                  <c:forEach items="${CityList}" var="CityName">
+                  	<c:choose>
+                  		<c:when test="${CityName eq nowCityName}">
+                  			<option value="${CityName}" selected="selected">${CityName}</option>
+                  		</c:when>
+                  		<c:otherwise>
+                  			<option value="${CityName}">${CityName}</option>
+                  		</c:otherwise>
+                  	</c:choose>
+                  </c:forEach>
                 </select>
               </div>
-              <div class="col-sm-12"><img src="${contextPath}/resources/assets/images/section-1.jpg" alt="Title of Image"/></div>
+              <div class="col-sm-12" id="preView"><img src="${contextPath}/resources/upload/information/City/${CityImage}" alt="Title of Image"/></div>
             </div>
 <!--             이미지 -->
 <!-- 			메인 설명 -->
@@ -41,21 +122,17 @@
                   <h5 class="work-details-title font-alt">Project Details</h5>
                   <p></p>
                   <ul>
-                    <li><strong>지역 명: </strong><span class="font-serif"><a href="#" target="_blank">SomeCompany</a></span>
+                    <li><strong>지역 명: </strong><span class="font-serif"><a href="#" target="_blank">${nowCityName}</a></span>
                     </li>
-                    <li><strong>평균 수온: </strong><span class="font-serif"><a href="#" target="_blank">23 November, 2015</a></span>
+                    <li><strong>평균 수온: </strong><span class="font-serif"><a href="#" target="_blank">${AveTemper} 도</a></span>
                     </li>
-                    <li><strong>다이빙 적정기간: </strong><span class="font-serif"><a href="#" target="_blank">www.example.com</a></span>
+                    <li><strong>다이빙 적정기간: </strong><span class="font-serif"><a href="#" target="_blank">${Season}</a></span>
                     </li>
                   </ul>
                 </div>
               </div>
               <div class="col-sm-6 col-md-4 col-lg-4">
-                <p>The languages only differ in their grammar, their pronunciation and their most common words. Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators.</p>
-                <p>Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary.</p>
-              </div>
-              <div class="col-sm-6 col-md-4 col-lg-4">
-                <p>The languages only differ in their grammar, their pronunciation and their most common words. Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators.</p>
+				<p>${CityExp}</p>
               </div>
             </div>
 <!--             메인 설명 -->

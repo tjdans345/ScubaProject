@@ -1,25 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@include file="../inc/Top.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+window.onload=function(){
+		var img = document.createElement("img");
+ 		img.setAttribute("src","${contextPath}/resources/assets/images/scubaFlag.png");
+		img.setAttribute("class","pointChecker");
+		img.setAttribute("cursor","pointer");
+ 		img.style.position="absolute";
+ 		img.style.width="15px";
+ 		img.style.height="15px";
+ 		img.setAttribute("title",'${DivingName}'+"\n단계 :"+'${DivingRating}'+"\n수심 : "+'${DivingDepthMin}'+"m ~ "+'${DivingDepthMax}'+"m");
+ 		img.style.left = '${DivingXpoint}' * $('#preView>img').width()+8 + "px";
+ 		img.style.top = '${DivingYpoint}' * $('#preView>img').height()-7 + "px";
+ 		document.getElementById('preView').appendChild(img);
+}
+$(window).resize(function() {
+	$('.pointChecker').remove();
+	var img = document.createElement("img");
+		img.setAttribute("src","${contextPath}/resources/assets/images/scubaFlag.png");
+		img.setAttribute("class","pointChecker");
+		img.setAttribute("cursor","pointer");
+		img.style.position="absolute";
+		img.style.width="15px";
+		img.style.height="15px";
+		img.setAttribute("title",'${DivingName}'+"\n단계 :"+'${DivingRating}'+"\n수심 : "+'${DivingDepthMin}'+"m ~ "+'${DivingDepthMax}'+"m");
+		img.style.left = '${DivingXpoint}' * $('#preView>img').width()+8 + "px";
+		img.style.top = '${DivingYpoint}' * $('#preView>img').height()-7 + "px";
+		document.getElementById('preView').appendChild(img);
+});
+</script>
 </head>
 <body>
-<jsp:include page="../inc/Top.jsp"/>
 		<section class="module">
           <div class="container">
             <div class="row">
-              <div class="col-sm-6 col-md-8 col-lg-8"><img src="../assets/images/section-1.jpg" alt="Title of Image"/></div>
+              <div class="col-sm-6 col-md-8 col-lg-8" id="preView"><img src="${contextPath}/resources/upload/information/City/${CityImage}" alt="Title of Image"/></div>
               <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="work-details">
-                  <h5 class="work-details-title font-alt">Project Details</h5>
-                  <p>The languages only differ in their grammar, their pronunciation and their most common words. Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators.</p>
+                  <h5 class="work-details-title font-alt">${CityName}</h5>
+                  <p>${DivingExp}</p>
                   <ul>
-                    <li><strong>단계: </strong><span class="font-serif"><a href="#" target="_blank">SomeCompany</a></span>
+                    <li><strong>단계: </strong><span class="font-serif"><a href="#" target="_blank">${DivingRating}</a></span>
                     </li>
-                    <li><strong>수심: </strong><span class="font-serif"><a href="#" target="_blank">23 November, 2015</a></span>
+                    <li><strong>수심: </strong><span class="font-serif"><a href="#" target="_blank">${DivingDepthMin}M ~ ${DivingDepthMax}M</a></span>
                     </li>
                   </ul>
                 </div>

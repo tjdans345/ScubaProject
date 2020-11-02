@@ -23,4 +23,50 @@
 	select * from country where CountryName = #{CountryName} limit 1
 	]]>
 	</select>
+<!-- 	도시 DB 인설트 -->
+	<insert id="enterCity" parameterType="informationVO">
+	<![CDATA[
+	insert into city values(#{CityName},#{CityImage},#{CountryName},
+	#{DivingXpoint},#{DivingYpoint},#{DivingName},#{DivingExp},#{DivingRating},
+	#{DivingDepthMin},#{DivingDepthMax})
+	]]>
+	</insert>
+<!-- 	국가카테고리 변경시 도시 리스트가져오기 -->
+	<select id="getCityList" parameterType="String" resultType="String">
+	<![CDATA[
+	select distinct CityName from city where CountryName = #{CountryName}; 
+	]]>
+	</select>
+<!-- 	도시 정보 가져오기 -->
+	<select id="getCityinfo" parameterType="String" resultType="informationVO">
+	<![CDATA[
+	select * from city where CityName = #{CityName} limit 1
+	]]>
+	</select>
+<!-- 	국가 포인트 정보 가져오기 -->
+	<select id="getCountryPointinfo" parameterType="String" resultType="hashmap">
+	<![CDATA[
+	select * from country where CountryName = #{CountryName}
+	]]>
+	</select>
+<!-- 다이빙 사이트 리스트 가져오기 -->
+	<select id="getDivinglist" parameterType="String" resultType="informationVO">
+	<![CDATA[
+	select distinct Co.CityName , Co.CountryName , Ci.CityImage , Co.CityExp , 
+	Co.aveTemper , Co.Season , Ci.DivingXpoint , Ci.DIvingYpoint , Ci.DivingName , 
+	Ci.DivingExp , Ci.DivingRating , Ci.DivingDepthMin , Ci.DIvingDepthMax
+	from Country Co join City Ci 
+	on Co.CityName = Ci.CityName where Co.CityName = #{CityName}; 
+	]]>
+	</select>
+<!-- 	국가 테이블 도시가 도시테이블 도시에 있는지 확인 -->
+	<select id="CityCheck" parameterType="String" resultType="int">
+	<![CDATA[
+	select count(*) from City where CityName = #{CityName}
+	]]>
+	</select>
+<!-- 	다이빙 사이트 뷰페이지 정보가져오기 -->
+	<select id="DivingSiteinfo" parameterType="hashmap" resultType="informationVO">
+	select * from city where CityName = #{CityName} and DivingName = #{DivingName};
+	</select>
 </mapper>

@@ -12,7 +12,6 @@ function getLocation() {
 	$('#pointChecker').remove();
 	var Xpoint = event.offsetX / $('#preView>img').width();
 	var Ypoint = event.offsetY / $('#preView>img').height();
-	
 	var img = document.createElement("img");
 	img.setAttribute("src","${contextPath}/resources/assets/images/scubaFlag.png");
 	img.setAttribute("id","pointChecker");
