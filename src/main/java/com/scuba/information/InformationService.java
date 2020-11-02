@@ -63,4 +63,20 @@ public class InformationService {
 	public InformationVO DivingSiteinfo(HashMap<String,Object> map) {
 		return informationDAO.DivingSiteinfo(map);
 	}
+	//어류등록
+	public void SendFish(InformationVO informationVO) {
+		informationDAO.SendFish(informationVO);
+	}
+	//어류리스트 가져오기
+	public List<InformationVO> getFishList(){
+		return informationDAO.getFishList();
+	}
+	//특정 어류 서식지 가져오기
+	public String getHauntingCity(String FishName) {
+		return informationDAO.getHauntingCity(FishName);
+	}
+	//어류 서식지 추가
+	public void addHaunting(HashMap<String,Object> map) {
+		informationDAO.addHaunting(map);
+	}
 }

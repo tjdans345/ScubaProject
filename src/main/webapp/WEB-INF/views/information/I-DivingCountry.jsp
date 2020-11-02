@@ -120,7 +120,7 @@ function CityChange() {
                 </select>
                 <a href="${contextPath}/EnterCountry.info">나라 등록 o</a>
                 <a href="${contextPath}/EnterCity.info">지역 등록 o</a>
-                <a href="${contextPath}/EnterCountry.info">포인트 등록 x</a>
+                <a href="${contextPath}/FishList.info">어류 리스트</a>
               </div>
               <div class="col-sm-12" id="preView">
 				<h2>카테고리를 선택해 주세요</h2>

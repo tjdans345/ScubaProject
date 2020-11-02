@@ -54,4 +54,20 @@ public class InformationDAO {
 	public InformationVO DivingSiteinfo(HashMap<String,Object> map) {
 		return sqlSession.selectOne("mapper.information.DivingSiteinfo",map);
 	}
-}
+	//어류등록
+	public void SendFish(InformationVO informationVO) {
+		sqlSession.insert("mapper.information.SendFish",informationVO);
+	}
+	//어류 리스트 가져오기
+	public List<InformationVO> getFishList(){
+		return sqlSession.selectList("mapper.information.getFishList");
+	}
+	//특정 어류 서식지 가져오기
+	public String getHauntingCity(String FishName) {
+		return sqlSession.selectOne("mapper.information.getHauntingCity",FishName);
+	}
+	//어류 서식지 추가
+	public void addHaunting(HashMap<String,Object> map) {
+		sqlSession.update("mapper.information.addHaunting",map);
+	}
+	}

@@ -220,4 +220,45 @@ public class InformationController{
 		modelAndView.setViewName("information/I-View");
 		return modelAndView;
 	}
+	//어류 리스트 페이지 이동
+	@RequestMapping(value = "FishList")
+	public ModelAndView FishList() {
+		modelAndView.addObject("FishList",informationService.getFishList());
+		modelAndView.setViewName("information/M-FishList");
+		return modelAndView;
+	}
+	//어류 등록 페이지 이동
+	@RequestMapping(value = "EnterFish")
+	public ModelAndView EnterFish() {
+		modelAndView.setViewName("information/M-FishEnrollment");
+		return modelAndView;
+	}
+	//어류 DB 등록
+	@RequestMapping(value = "SendFish",method = RequestMethod.POST)
+	public ModelAndView SendFish(MultipartHttpServletRequest multirequest,
+								HttpSession session) throws Exception {
+		InformationVO informationVO = new InformationVO();
+		informationVO.setFishName(multirequest.getParameter("FishName"));
+		informationVO.setFishExp(multirequest.getParameter("FishExp"));
+		informationVO.setFishImage(multirequest.getFile("FishImage").getOriginalFilename());
+		informationVO.setHauntingCity(multirequest.getParameter("HauntingCity"));
+		informationService.SendFish(informationVO);
+		MultipartFile file = multirequest.getFile("FishImage");
+		String url = session.getServletContext().getRealPath("/resources/upload/information/Fish/");
+		informationService.FileUpload(file, url);
+		modelAndView.setViewName("redirect:/EnterFish.info");
+		return modelAndView;
+	}
+	//어류리스트 지역추가
+	@ResponseBody
+	@RequestMapping(value = "addHauntingCity", method = RequestMethod.POST)
+	public void addHauntingCity(String CityName,String FishName) {
+		String HauntingCity = informationService.getHauntingCity(FishName);
+		HauntingCity += " "+CityName;
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("FishName",FishName);
+		map.put("HauntingCity", HauntingCity);
+		informationService.addHaunting(map);
+		
+	}
 }

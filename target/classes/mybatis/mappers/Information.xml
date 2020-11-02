@@ -3,7 +3,12 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.information" >
-	
+	<resultMap type="informationVO" id="getfishlist">
+		<result column="FishName" property="FishName"/>
+		<result column="FishExp" property="FishExp"/>
+		<result column="FishImage" property="FishImage"/>
+		<result column="HauntingCity" property="HauntingCity"/>
+	</resultMap>
 <!-- 	국가 DB 인설트 -->
 	<insert id="enterCountry" parameterType="informationVO">
 	<![CDATA[
@@ -67,6 +72,32 @@
 	</select>
 <!-- 	다이빙 사이트 뷰페이지 정보가져오기 -->
 	<select id="DivingSiteinfo" parameterType="hashmap" resultType="informationVO">
+	<![CDATA[
 	select * from city where CityName = #{CityName} and DivingName = #{DivingName};
+	]]>
 	</select>
+<!-- 	어류등록  -->
+	<insert id="SendFish" parameterType="informationVO">
+	<![CDATA[
+	insert into fish values(#{FishName},#{FishExp},#{FishImage},#{HauntingCity})
+	]]>
+	</insert>
+<!-- 	어류 리스트 가져오기 -->
+	<select id="getFishList" resultMap="getfishlist">
+	<![CDATA[
+	select * from Fish
+	]]>
+	</select>
+<!-- 	특정 어류 출몰지역 가져오기 -->
+	<select id="getHauntingCity" parameterType="String" resultType="String">
+	<![CDATA[
+	select HauntingCity from Fish where FishName = #{FishName}
+	]]>
+	</select>
+<!-- 	서식지 추가 -->
+	<update id="addHaunting" parameterType="hashmap">
+	<![CDATA[
+	update fish set HauntingCity = #{HauntingCity} where FishName = #{FishName}
+	]]>
+	</update>
 </mapper>
