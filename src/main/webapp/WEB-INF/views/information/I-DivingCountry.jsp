@@ -9,6 +9,7 @@
 <script type="text/javascript">
 function CountryChange() {
 	var CountryName = $("#CountryNameCategory option:selected").val();
+	//City카테고리 변경
 	$.ajax({
 		url:'getCityList.info',
 		type:'POST',
@@ -25,6 +26,26 @@ function CountryChange() {
 			$('#CountryNameup').append(tag);
 		}
 	});
+	//국가 선택시 도시 이미지 바꿔주기
+	$.ajax({
+		url : 'antherCityArea.info',
+		type : 'POST',
+		data : {CountryName:CountryName},
+		success : function(data) {
+			$('#antherCityArea').html("");
+			for(var i = 0 ; i < data.length ; i++){
+				var html = '<div class="col-sm-6 col-md-4 col-lg-4">';
+				html += '<div class="post">';
+				html += '<div class="post-thumbnail"><a href="${contextPath}/DivingCity.info?CityName='+data[i].CityName+'"><img src="${contextPath}/resources/upload/information/City/'+data[i].CityImage+'" alt="Blog-post Thumbnail"/></a></div>';
+				html += '<div class="post-header font-alt">';
+				html += '<h2 class="post-title"><a href="${contextPath}/DivingCity.info?CityName='+data[i].CityName+'">'+data[i].CityName+'</a></h2>';
+				html += '</div></div></div>';
+				$('#antherCityArea').append(html);
+			}
+			
+		}
+	});
+	//나라 이미지 변경시 도시 위치 체크
 	$.ajax({
 		url:'getCountryPointinfo.info',
 		type:'POST',
@@ -36,7 +57,6 @@ function CountryChange() {
 			document.querySelector("div#preView").appendChild(img);
 			$('#CountryName').empty();
 			$('#CountryName').append(data[1].CountryName);
-			console.log(data)
 			setTimeout(function () {
 				var widthsize = $('#preView>img').width();
 				var heightsize = $('#preView>img').height();
@@ -57,7 +77,7 @@ function CountryChange() {
 					document.getElementById('preView').appendChild(img);
 				}
 			},100);
-			
+			//사이즈 조절시 도시 이미지 변경
 			$(window).resize(function() {
 			$('.pointChecker').remove();
 			var widthsize = $('#preView>img').width();
@@ -83,7 +103,6 @@ function CountryChange() {
 }
 function CityChange() {
 	var CityName = $("#CityNameCategory option:selected").val();
-	console.log(CityName);
 	location.href="${contextPath}/DivingCity.info?CityName="+CityName;
 }
 </script>
@@ -128,31 +147,7 @@ function CityChange() {
             </div>
 <!--             이미지 -->
 <!-- 추천지역 -->
-            <div class="row multi-columns-row post-columns" style="margin-top: 25px;">
-              <div class="col-sm-6 col-md-4 col-lg-4">
-                <div class="post">
-                  <div class="post-thumbnail"><a href="#"><img src="${contextPath}/resources/assets/images/post-1.jpg" alt="Blog-post Thumbnail"/></a></div>
-                  <div class="post-header font-alt">
-                    <h2 class="post-title"><a href="#">지역 1</a></h2>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4 col-lg-4">
-                <div class="post">
-                  <div class="post-thumbnail"><a href="#"><img src="${contextPath}/resources/assets/images/post-2.jpg" alt="Blog-post Thumbnail"/></a></div>
-                  <div class="post-header font-alt">
-                    <h2 class="post-title"><a href="#">지역 2</a></h2>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-4 col-lg-4">
-                <div class="post">
-                  <div class="post-thumbnail"><a href="#"><img src="${contextPath}/resources/assets/images/post-3.jpg" alt="Blog-post Thumbnail"/></a></div>
-                  <div class="post-header font-alt">
-                    <h2 class="post-title"><a href="#">지역 3</a></h2>
-                  </div>
-                </div>
-              </div>
+            <div class="row multi-columns-row post-columns" id="antherCityArea" style="margin-top: 25px;">
             </div>
 <!-- 추천지역 -->
 <!-- 			메인 설명 -->

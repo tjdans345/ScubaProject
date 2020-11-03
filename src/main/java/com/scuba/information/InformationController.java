@@ -179,6 +179,7 @@ public class InformationController{
 		modelAndView.addObject("CountryList",informationService.getCountryName());
 		modelAndView.addObject("nowCountryName",list.get(0).getCountryName());
 		modelAndView.addObject("CityList", informationService.getCityList(list.get(0).getCountryName()));
+		modelAndView.addObject("FishList",informationService.getFishinCity(CityName));
 		modelAndView.setViewName("information/I-DivingInfo");
 		return modelAndView;
 	}
@@ -254,11 +255,21 @@ public class InformationController{
 	@RequestMapping(value = "addHauntingCity", method = RequestMethod.POST)
 	public void addHauntingCity(String CityName,String FishName) {
 		String HauntingCity = informationService.getHauntingCity(FishName);
-		HauntingCity += " "+CityName;
+		if(!HauntingCity.contains(CityName)) HauntingCity += " "+CityName;
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		map.put("FishName",FishName);
 		map.put("HauntingCity", HauntingCity);
 		informationService.addHaunting(map);
-		
+	}
+	//국가명에 따른  도시 이미지 가져오기
+	@ResponseBody
+	@RequestMapping(value = "antherCityArea", method = RequestMethod.POST)
+	public JSONArray antherCityArea(String CountryName) {
+		List<HashMap<String,Object>> list = informationService.antherCityArea(CountryName);
+		JSONArray jsonArray = new JSONArray();
+		for(int i = 0 ; i < list.size() ; i++) {
+			jsonArray.add(list.get(i));
+		}
+		return jsonArray;
 	}
 }

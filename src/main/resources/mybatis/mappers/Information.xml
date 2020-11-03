@@ -100,4 +100,17 @@
 	update fish set HauntingCity = #{HauntingCity} where FishName = #{FishName}
 	]]>
 	</update>
+<!-- 	국가페이지 도시 이미지 뛰워주기 -->
+	<select id="antherCityArea" parameterType="String" resultType="hashmap">
+	<![CDATA[
+	select distinct CityName ,CityImage from City 
+	where countryName = #{CountryName} limit 0,3
+	]]>
+	</select>
+<!-- 	도시페이지 어류 가져오기 -->
+	<select id="getFishinCity" parameterType="String" resultType="hashmap">
+	<![CDATA[
+	select * from fish where HauntingCity like #{CityName};
+	]]>
+	</select>
 </mapper>

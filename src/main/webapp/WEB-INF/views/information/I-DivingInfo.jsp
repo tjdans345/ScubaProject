@@ -141,48 +141,15 @@ function CityChange() {
           <div class="container">
             <div class="row">
               <div class="owl-carousel text-center" data-items="5" data-pagination="false" data-navigation="false">
-                <div class="owl-item">
-                  <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-1.jpg" alt="Leather belt"/></a>
-                      <h4 class="shop-item-title font-alt"><a href="#">어류 1</a></h4>
-                    </div>
-                  </div>
-                </div>
-                <div class="owl-item">
-                  <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-3.jpg" alt="Derby shoes"/></a>
-                      <h4 class="shop-item-title font-alt"><a href="#">어류2</a></h4>
-                    </div>
-                  </div>
-                </div>
-                <div class="owl-item">
-                  <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-2.jpg" alt="Leather belt"/></a>
-                      <h4 class="shop-item-title font-alt"><a href="#">어류3</a></h4>
-                    </div>
-                  </div>
-                </div>
-                <div class="owl-item">
-                  <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-4.jpg" alt="Leather belt"/></a>
-                      <h4 class="shop-item-title font-alt"><a href="#">어류4</a></h4>
-                    </div>
-                  </div>
-                </div>
-                <div class="owl-item">
-                  <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-5.jpg" alt="Chelsea boots"/></a>
-                      <h4 class="shop-item-title font-alt"><a href="#">어류5</a></h4>
-                    </div>
-                  </div>
-                </div>
-                <div class="owl-item">
-                  <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-6.jpg" alt="Leather belt"/></a>
-                      <h4 class="shop-item-title font-alt"><a href="#">어류6</a></h4>
-                    </div>
-                  </div>
-                </div>
+                <c:forEach items="${FishList}" var="Fish">
+	                <div class="owl-item">
+	                  <div class="col-sm-12" title="${Fish.FishExp}">
+	                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/upload/information/Fish/${Fish.FishImage}"/></a>
+	                      <h4 class="shop-item-title font-alt"><a href="#">${Fish.FishName}</a></h4>
+	                    </div>
+	                  </div>
+	                </div>
+                </c:forEach>
               </div>
             </div>
           </div>

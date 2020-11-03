@@ -70,4 +70,12 @@ public class InformationDAO {
 	public void addHaunting(HashMap<String,Object> map) {
 		sqlSession.update("mapper.information.addHaunting",map);
 	}
+	//국가페이지 도시 이미지 띄어주기
+	public List<HashMap<String,Object>> antherCityArea(String CountryName){
+		return sqlSession.selectList("mapper.information.antherCityArea",CountryName);
 	}
+	//도시페이지 어류 가져오기
+	public List<HashMap<String,Object>> getFishinCity(String CityName){
+		return sqlSession.selectList("mapper.information.getFishinCity",CityName);
+	}
+}

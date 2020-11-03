@@ -79,4 +79,12 @@ public class InformationService {
 	public void addHaunting(HashMap<String,Object> map) {
 		informationDAO.addHaunting(map);
 	}
+	//국가페이지 도시 이미지 띄어주기
+	public List<HashMap<String,Object>> antherCityArea(String CountryName){
+		return informationDAO.antherCityArea(CountryName);
+	}
+	//도시페이지 어류 가져오기
+	public List<HashMap<String,Object>> getFishinCity(String CityName){
+		return informationDAO.getFishinCity("%"+CityName+"%");
+	}
 }
