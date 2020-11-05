@@ -21,8 +21,10 @@
 // 				location.href="${contextPath}/login.mem";
 // 			} else {
 			$("#wrbtn").click(function() {
-				alert("호우");
-				$("#wform").attr("action", "${contextPath}/freeBoard//writeinsert");
+				var test = CKEDITOR.instances.content.getData();
+				
+				
+				$("#wform").attr("action", "${contextPath}/freeBoard/writeinsert");
 				$("#wform").submit();
 			});
 // 			}
@@ -54,7 +56,6 @@
 							<div style="float: right;">
 								<button id="wrbtn" class="btn btn-border-d btn-round"
 									type="button">글쓰기</button>
-								<%=application.getRealPath("/") %>
 								<button class="btn btn-border-d btn-round" type="button">돌아가기</button>
 							</div>
 						</form>
@@ -68,8 +69,16 @@
 		CKEDITOR.replace('content', {
 			height : 500,
 			width : 750,
-			filebrowserUploadUrl: "${contextPath}/fileUpload/imgupload"
+			filebrowserUploadUrl: "${contextPath}/Common/imgupload",
+			enterMode:'2'
 		});
+// 		function updateHtmls(){
+// 			var test = CKEDITOR.instances.content.getData();
+// 			alert(test);
+// 			}
+// 		CKEDITOR.instances["content"].on("instanceReady", function(){
+// 			this.document.on("keyup", updateHtmls);
+// 			});
 	</script>
 </body>
 </html>

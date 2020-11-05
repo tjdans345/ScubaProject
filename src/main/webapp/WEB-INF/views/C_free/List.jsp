@@ -3,8 +3,12 @@
 <%@ include file="../inc/Top.jsp" %>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
+<%
+	request.getSession().setAttribute("category", "free");
+%>
   <head>
   	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  	<link href="${contextPath}/ckeditor/contents.css" rel="stylesheet">
     <title>Titan | Multipurpose HTML5 Template</title>
     
     <script type="text/javascript">
@@ -12,7 +16,6 @@
     	$("#writebtn").click(function() {
 			location.href="${contextPath}/freeBoard/writeboard";
 		});
-    	
 	});
     </script>
   </head>
