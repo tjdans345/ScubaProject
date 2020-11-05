@@ -19,19 +19,19 @@ public class FreeBoardService {
 	@Autowired
 	private FreeBoardDAO freeboardDAO;
 	
-	
+	//에디터 글 등록
 	public String write(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
+		//`값 얻어오기
+		request.getSession().setAttribute("id", "test3");
 		String writeResult = "";
-		Common common = new Common();
+		//이미지 사용 여부
 		int imgexist = 0;
-		//커뮤니티 이름설정
-		//커뮤니티 카테고리
+		Common common = new Common();
+		//커뮤니티 이름설정 카테고리
 		String category = (String) request.getSession().getAttribute("category");
-		System.out.println("에디터 내용"+freeboardVO.getFreecontent());
+//		System.out.println("에디터 내용"+freeboardVO.getFreecontent());
 		//컨텐트 내용 저장후 정규식을 이용하여 src 경로만 추출
 		String content = freeboardVO.getFreecontent();
-		
 		//src경로 추출 정규식
 		Pattern pattern = Pattern.compile("<*src=[\\\\\\\"']?([^>\\\\\\\"']+)[\\\\\\\"']?[^>]*>");
 		Matcher matcher = pattern.matcher(content);
@@ -50,13 +50,14 @@ public class FreeBoardService {
 			imglist.add(matcher.group(1));
 			//이미지명만 따로 추출
 			realimglist.add(imglist.get(i).substring(imglist.get(i).lastIndexOf("/")+1));
-			System.out.println("imgList : "+ i + " : " + imglist.get(i));
-			System.out.println("realimgList !!!: "+ i + " : " + realimglist.get(i));
+//			System.out.println("imgList : "+ i + " : " + imglist.get(i));
+//			System.out.println("realimgList !!!: "+ i + " : " + realimglist.get(i));
 			i++;
 			imgexist = 1;
 		}
-		//DB 인서트 구문
-		/**/
+		//DB 인설트 구문
+		freeboardDAO.write(freeboardVO);
+		
 		if(imgexist == 1) {
 			//글 등록 성공시 임시폴더 파일 서버폴더로 이동 후 임시폴더 삭제 *서버폴더는 카테고리/글번호로 한다
 			int result = common.imguploadServer(request, response, realimglist, category);
@@ -65,11 +66,12 @@ public class FreeBoardService {
 				String beforeContent = freeboardVO.getFreecontent();
 				String changePath = beforeContent.replace("Temporary", "free");
 				String afterContent = changePath.replace("test3", "8");
-				System.out.println("비포어 컨텐트 : "+beforeContent);
-				System.out.println("에프터 컨텐트 : "+afterContent);
+//				System.out.println("비포어 컨텐트 : "+beforeContent);
+//				System.out.println("에프터 컨텐트 : "+afterContent);
 				writeResult = afterContent;
 			} else {
 				System.out.println("프리보드 컨트롤러쪽임 이동 실패");
+				writeResult = "이미지 등록 실패";
 			}
 		}
 		
