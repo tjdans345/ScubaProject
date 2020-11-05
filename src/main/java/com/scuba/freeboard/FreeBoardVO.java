@@ -1,6 +1,5 @@
 package com.scuba.freeboard;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
@@ -18,6 +17,6 @@ public class FreeBoardVO {
 	private int likecount;
 	private Date writedate;
 	private String title;
-	private String freecontent;
+	private String content;
 	private String communityname;
 }

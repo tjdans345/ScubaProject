@@ -25,19 +25,20 @@ import org.xml.sax.SAXException;
 
 import com.scuba.common.Common;
 
-
 @Controller
 @RequestMapping("/freeBoard/*")
 public class FreeBoardController {
 
 	@Autowired
 	FreeBoardService freeboardService;
-	
+
 	private ModelAndView mav = new ModelAndView();
 
 	// 자유게시판 이동
 	@RequestMapping(value = "freeBoardList")
 	public ModelAndView freeboard() {
+		// 자유게시판 전체 글 조회
+		mav.addObject("freeBoardList", freeboardService.allBoardList());
 		mav.setViewName("C_free/List");
 		return mav;
 	}
@@ -48,20 +49,28 @@ public class FreeBoardController {
 		mav.setViewName("C_free/Write");
 		return mav;
 	}
-	
+
 	// 글 등록
 	@RequestMapping(value = "writeinsert", method = RequestMethod.POST)
-	public ModelAndView write(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		//Service 글 등록
+	public ModelAndView write(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		// Service 글 등록
 		mav.addObject("content", freeboardService.write(freeboardVO, request, response));
-		mav.setViewName("C_free/List");
+		mav.setViewName("redirect:/freeBoard/TestForm");
 		return mav;
 	}
-	
+
+	// TestForm
+	@RequestMapping(value = "TestForm")
+	public ModelAndView Test() {
+		mav.setViewName("C_free/tempTest");
+		return mav;
+	}
+
 	// 글쓰기 취소
-		@RequestMapping(value = "writecancle")
-		public ModelAndView writecancle() {
-			mav.setViewName("C_free/List");
-			return mav;
-		}
+	@RequestMapping(value = "writecancle")
+	public ModelAndView writecancle() {
+		mav.setViewName("redirect:/freeBoard/freeBoardList");
+		return mav;
+	}
 }

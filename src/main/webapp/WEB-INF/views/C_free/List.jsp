@@ -10,7 +10,6 @@
   	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   	<link href="${contextPath}/ckeditor/contents.css" rel="stylesheet">
     <title>Titan | Multipurpose HTML5 Template</title>
-    
     <script type="text/javascript">
     $(document).ready(function() {
     	$("#writebtn").click(function() {
@@ -26,7 +25,6 @@
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
                 <h1 class="module-title font-alt" style="margin-bottom: 5%">자유 게시판</h1>
-                ${content}
                 <form role="form" style="text-align:-webkit-center;">
                   <div class="search-box" style="width: 60%;">
                     <input class="form-control" type="text" placeholder="Search..."/>
@@ -56,38 +54,25 @@
                       <th width="10%">조회</th>
                       <th width="10%">좋아요</th>
                     </tr>
+                 <c:forEach var="list" items="${freeBoardList}">
+                 	<fmt:formatDate var="writeDate" pattern="yyyy-MM-dd" value="${list.writedate}"/>
                     <tr>
-                      <td class="hidden-xs">1</td>
+                      <td class="hidden-xs">${list.num}</td>
                       <td>
-                        <h5 class="product-title font-alt">Accessories Pack</h5>
+                        <h5 class="product-title font-alt">${list.title}</h5>
                       </td>
                       <td class="hidden-xs">
-                        <h5 class="product-title font-alt">나</h5>
+                        <h5 class="product-title font-alt">${list.nickname}</h5>
                       </td>
                       <td class="hidden-xs">
-                        <h5 class="product-title font-alt">1994/02/02</h5>
+                        <h5 class="product-title font-alt">${writeDate}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">500</h5>
+                        <h5 class="product-title font-alt">${list.viewcount}</h5>
                       </td>
-                      <td class="pr-remove">30</td>
+                      <td class="pr-remove">${list.likecount}</td>
                     </tr>
-                    <tr>
-                      <td class="hidden-xs">2</td>
-                      <td>
-                        <h5 class="product-title font-alt">Men’s Casual Pack</h5>
-                      </td>
-                      <td class="hidden-xs">
-                        <h5 class="product-title font-alt">너</h5>
-                      </td>
-                      <td class="hidden-xs">
-                        <h5 class="product-title font-alt">1994/02/02</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">400</h5>
-                      </td>
-                      <td class="pr-remove">10</td>
-                    </tr>
+                  </c:forEach>  
                   </tbody>
                 </table>
               </div>

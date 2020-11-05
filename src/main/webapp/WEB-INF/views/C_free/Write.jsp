@@ -42,6 +42,7 @@
 						<hr class="divider-w mt-10 mb-20">
 						<form id="wform" class="form" role="form" method="post" action="">
 							<div class="form-group">
+								<input type="hidden" name="communityname" value="${category}">
 								<h5>
 									<b>제목</b>
 								</h5>
@@ -49,7 +50,7 @@
 									placeholder="제목을 입력하세요(메인 제목)" />
 							</div>
 							<div class="form-group">
-								<textarea class="form-control" rows="10" name="freecontent"
+								<textarea class="form-control" rows="10" name="content"
 									id="content"
 									style="width: 100%; min-width: 260px; height: 30em;"></textarea>
 							</div>
