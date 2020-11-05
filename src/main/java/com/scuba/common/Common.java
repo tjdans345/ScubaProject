@@ -74,14 +74,12 @@ public class Common {
 	}
 	
 	//글 작성 완료시 임시폴더 -> 서버폴더로 파일 이동 (실제 에디터에 삽입되어진 파일(이미지만 실제 서버 폴더로 전송))
-	public int imguploadServer(HttpServletRequest request, HttpServletResponse  response, ArrayList<String> realimglist) {
+	public int imguploadServer(HttpServletRequest request, HttpServletResponse  response, ArrayList<String> realimglist, String category) {
 		//result : 파일 이동 및 임시폴더 삭제완료시 반환 값 , dfm : 파일이동 유무 확인, dfr : 디렉토리 파일 삭제 유무 확인
 		//result = 0:실패 / 1:성공
 		int result = 0 , dfr = 0, dfm =0;
 		//세션영역에서 유저아이디 얻어옴 (for 임시폴더 path설정)
 		String id = (String)request.getSession().getAttribute("id");
-		//커뮤니티 카테고리
-		String category = (String) request.getSession().getAttribute("category");
 		//임시 글번호 추후 DB 글번호
 		String conNum = "8";
 		//임시파일 경로
