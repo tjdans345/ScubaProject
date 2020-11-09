@@ -26,6 +26,13 @@ function addCity(fishName) {
 		}
 	}
 }
+$(document).ready(function() {
+	$('#setCity').on('keyup',function() {
+		if($('#setCity').val()==""){
+			window.location.reload();
+		}
+	});
+});
 </script>
 </head>
 <body>

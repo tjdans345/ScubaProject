@@ -63,7 +63,7 @@ public class MemberController {
 		String msg ="";
 		if(1 == memberService.idCheck(memberVO.getId())) {
 			if(pwdchange(memberVO.getPwd()).equals(memberService.getPwd(memberVO.getId()))) {
-				request.getSession().setAttribute("id",memberVO.getId());
+				request.getSession().setAttribute("user_id",memberVO.getId());
 				modelAndView.setViewName("redirect:/index.scu");
 			}else {
 				msg = "비밀번호가 틀렸습니다 .";

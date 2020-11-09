@@ -48,7 +48,7 @@
     <script src="${contextPath}/resources/assets/lib/imagesloaded/imagesloaded.pkgd.js"></script>
     <script src="${contextPath}/resources/assets/lib/flexslider/jquery.flexslider.js"></script>
     <script src="${contextPath}/resources/assets/lib/owl.carousel/dist/owl.carousel.min.js"></script>
-    <script src="${contextPath}/resources/assets/lib/smoothscroll.js"></script>
+<%--     <script src="${contextPath}/resources/assets/lib/smoothscroll.js"></script> --%>
     <script src="${contextPath}/resources/assets/lib/magnific-popup/dist/jquery.magnific-popup.js"></script>
     <script src="${contextPath}/resources/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js"></script>
     <script src="${contextPath}/resources/assets/js/plugins.js"></script>
@@ -67,18 +67,13 @@
       <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="background-color: #e0efff;">
         <div class="container">
           <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="index.html" style="color: black;">Titan</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="${contextPath}/index.scu" style="color: black;">Titan</a>
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right topMenu">
-              <li ><a href="R-ResortList.jsp" style="display: inline-block;">샾 소개</a>
+              <li><a href="R-ResortList.jsp" style="display: inline-block;">샾 소개</a>
               </li>
-                <li class="dropdown"><a class="dropdown-toggle" href="${contextPath}/DivingCountry.info" data-toggle="dropdown">정보소개</a>
-                <ul class="dropdown-menu" style="background-color: #c4dffb;">
-                  <li><a href="index_mp_fullscreen_video_background.html">지도 사진</a></li>
-                  <li><a href="index_op_fullscreen_gradient_overlay.html">포인트 리스트</a></li>
-                  <li><a href="index_agency.html">물고기 리스트</a></li>
-                </ul>
+              <li><a href="${contextPath}/DivingCountry.info">다이빙지도</a>
               </li>
               <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">커뮤니티</a>
                 <ul class="dropdown-menu" style="background-color: #c4dffb;">
@@ -95,12 +90,12 @@
                 <ul class="dropdown-menu" style="background-color: #c4dffb;">
                   <li><a href="index_mp_fullscreen_video_background.html">공지사항</a></li>
                   <li><a href="index_op_fullscreen_gradient_overlay.html">이벤트</a></li>
-                  <li><a href="index_op_fullscreen_gradient_overlay.html">이용안내</a></li>
+                  <li><a href="${contextPath}/moveServiceCenter.ser">이용안내</a></li>
                 </ul>
                </li>
               <li>
 				<c:choose>
-					<c:when test="${id == null}">
+					<c:when test="${user_id == null}">
 					    <a href="${contextPath}/login.mem" style="display: inline-block;">로그인</a>
 					</c:when>
 					<c:otherwise>

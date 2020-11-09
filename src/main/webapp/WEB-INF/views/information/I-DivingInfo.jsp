@@ -65,7 +65,6 @@ window.onload=function(){
 }
 function CountryChange() {
 	var CountryName = $("#CountryNameCategory option:selected").val();
-	console.log(CountryName);
 	location.href="${contextPath}/DivingCountry.info?CountryName="+CountryName;
 }
 function CityChange() {
