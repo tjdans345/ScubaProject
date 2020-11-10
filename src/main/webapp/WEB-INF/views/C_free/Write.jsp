@@ -122,17 +122,28 @@
 		}
 	});
 	
-	CKEDITOR.instances["content"].on("instanceReady", function(){
-			this.document.on("keyup", function() {
-				var content = CKEDITOR.instances.content.getData();
-				var length = content.length;
-				console.log(content); 
-				console.log(length); 
-				if(length > 3000) {
-					alert("3000글자 이내로 작성해주세요.");
-				}
-			});
-			});
+// 	CKEDITOR.instances["content"].on("instanceReady", function(){
+// 			this.document.on("keyup", function() {
+// 				var content = CKEDITOR.instances.content.getData();
+// 				var length = content.length;
+// 				console.log(content); 
+// 				console.log(length); 
+// 				if(length > 3000) {
+// 					alert("3000글자 이내로 작성해주세요.");
+// 				}
+// 			});
+// 			});
+	
+	//글자 수 초과 감지
+	CKEDITOR.instances.content.on('key', function() {
+		console.log(1+1);
+		var content = this.getData();
+		var length = content.length;
+		if(length > 3000) {
+		alert("3000글자 이내로 작성해 주세요");
+	    this.setData(content.slice(0, 2999));
+		}
+	});
 	
 	</script>
 </body>
