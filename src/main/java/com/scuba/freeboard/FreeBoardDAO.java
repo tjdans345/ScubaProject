@@ -1,5 +1,6 @@
 package com.scuba.freeboard;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -22,10 +23,32 @@ public class FreeBoardDAO {
 
 		return insertResult;
 	}
-
-	// 최신 게시글 +1 번호 조회
-	public int getMaxNextNum() {
-		return sqlsession.selectOne("mapper.Freeboard.getMaxNextNum");
+	
+	//이미지 경로 변경
+	public int contentChange(HashMap map) {
+		return sqlsession.update("mapper.Freeboard.contentChange", map);
 	}
+	
+	// 최신 게시글 +1 번호 조회
+	public int getMaxNum() {
+		return sqlsession.selectOne("mapper.Freeboard.getMaxNum");
+	}
+
+	//글 상세보기
+	public FreeBoardVO viewList(int contentNum) {
+		return sqlsession.selectOne("mapper.Freeboard.viewList", contentNum);
+	}
+	
+	//게시글 삭제
+	public int condelete(int contentNum) {
+		return sqlsession.delete("mapper.Freeboard.condelete", contentNum);
+	}
+
+	public String idCheck(int contentNum) {
+		return sqlsession.selectOne("mapper.Freeboard.idCheck", contentNum);
+	}
+
+	
+
 
 }

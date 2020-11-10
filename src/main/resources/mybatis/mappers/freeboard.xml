@@ -13,11 +13,11 @@
 		<result property="content" column="content" />
 		<result property="communityname" column="communityname" />
 	</resultMap>
-	
+
 	<!-- 전체 게시글 조회 -->
 	<select id="allBoardList" resultMap="FreeBoardResult">
 	<![CDATA[
-	select * from freeboard;
+	select * from freeboard order by num desc;
 	]]>
 	</select>
 	<!-- 게시글 작성 -->
@@ -26,16 +26,41 @@
 	INSERT INTO freeboard (nickname, title, content, communityname) values (#{nickname}, #{title}, #{content}, #{communityname})
 	]]>
 	</insert>
-	<!-- 최대 게시글 다음 번호 조회 -->
-	<select id="getMaxNextNum" resultType="_int">
+	
+	<!-- 임시폴더에서 서버폴더 이동 후 파일 경로 변경 -->
+	<update id="contentChange" parameterType="hashmap">
 	<![CDATA[
-	select max(num)+1 from freeboard;
+	update freeboard set content = #{afterContent} where num = ${contentNum};
+	]]>
+	</update>
+	
+	<!-- 최대 게시글 다음 번호 조회 -->
+	<select id="getMaxNum" resultType="_int">
+	<![CDATA[
+	select max(num) from freeboard;
 	]]>
 	</select>
+	
+	<!-- 게시글 상세보기 -->
+	<select id="viewList" parameterType="_int" resultType="freeboardVO">
+	<![CDATA[
+	select * from freeboard where num = #{contentNum};
+	]]>
+	</select>
+	
+	<!-- 게시글 삭제시 닉네임 체크 -->
+	<select id="idCheck" parameterType="_int" resultType="String">
+	<![CDATA[
+	select nickname from freeboard where num = #{contentNum};
+	]]>
+	</select>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="condelete" parameterType="_int">
+	<![CDATA[
+	delete from freeboard where num = #{contentNum};
+	]]>
+	</delete>
 
-
-
-
-
-
+	
 </mapper>

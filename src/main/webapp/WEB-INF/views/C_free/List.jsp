@@ -12,13 +12,22 @@
     <title>Titan | Multipurpose HTML5 Template</title>
     <script type="text/javascript">
     $(document).ready(function() {
+    	
     	$("#writebtn").click(function() {
 			location.href="${contextPath}/freeBoard/writeboard";
 		});
+    	
+    	//상세글 보기위해 글 번호 전달
+    	$(".title_btn").click(function() {
+			var num = $(this).data("num");
+			location.href="${contextPath}/freeBoard/freeBoardView?num="+num;
+		});
+    	
+    	
 	});
     </script>
   </head>
-  <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
+  <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60" style="margin: 0px;">
       <div class="main">
         <section class="module">
           <div class="container">
@@ -59,7 +68,7 @@
                     <tr>
                       <td class="hidden-xs">${list.num}</td>
                       <td>
-                        <h5 class="product-title font-alt">${list.title}</h5>
+                        <h5 class="product-title font-alt"><a class="title_btn" data-num="${list.num}">${list.title}</a></h5>
                       </td>
                       <td class="hidden-xs">
                         <h5 class="product-title font-alt">${list.nickname}</h5>
