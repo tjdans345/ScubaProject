@@ -136,7 +136,6 @@
 	
 	//글자 수 초과 감지
 	CKEDITOR.instances.content.on('key', function() {
-		console.log(1+1);
 		var content = this.getData();
 		var length = content.length;
 		if(length > 3000) {

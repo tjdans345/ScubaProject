@@ -56,12 +56,12 @@ public class Common {
 		String ext = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
 		//파일 확자자명 체크
 		if(!(".gif".equalsIgnoreCase(ext) || ".jpg".equalsIgnoreCase(ext) || ".png".equalsIgnoreCase(ext))) {
-			printWriter.println 	("<script> alert('파일 형식을 확인해주세요  gif, jpg, png만 가능합니다!!!'); CKEDITOR.dialog.getCurrent().hide(); </script>");
+			printWriter.println("<script> alert('파일 형식을 확인해주세요  gif, jpg, png만 가능합니다!!!'); </script>");
 			printWriter.flush();
 		}else { 
 			//파일 크기 제한 (xml 설정외에도 코드로 제한해놨음)
 			if(upload.getSize() > 5*1024*1024) {
-				printWriter.println 	("<script> alert('업로드 파일 크기 초과입니다. \\\\n \\\\n 5MB 이하의 파일만 업로드 가능합니다'); </script>");
+				printWriter.println("<script> alert('업로드 파일 크기 초과입니다. \\\\n \\\\n 5MB 이하의 파일만 업로드 가능합니다'); </script>");
 				printWriter.flush();
 			}else {
 				//정해진 파일 형식으로 올렸을 때
@@ -74,7 +74,7 @@ public class Common {
 				// 유저 아이디로로 임시폴더를 만들어줌
 				File makeFolder = new File(uploadPath);
 				if (!makeFolder.exists()) {
-					makeFolder.mkdir();
+					makeFolder.mkdirs();
 				}
 				// 해당경로에 파일을 업로드함
 				File file = new File(uploadPath, fileSaveName);
@@ -84,8 +84,9 @@ public class Common {
 				String callback = request.getParameter("CKEditorFuncNum");
 				// 서버 => 클라이언트로 텍스트 전송(자바스크립트 실행)
 				String fileUrl = request.getContextPath() + "/resources/images/Temporary/" + id + "/" + fileSaveName;
-				printWriter.println("<script>window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + fileUrl
-						+ "','이미지가 업로드되었습니다.')" + "</script>");
+//				printWriter.println("<script>window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + fileUrl
+//						+ "','이미지가 업로드되었습니다.')" + "</script>");
+				printWriter.println("{\"filename\" : \""+fileSaveName+"\", \"uploaded\" : 1, \"url\":\""+fileUrl+"\"}");
 				printWriter.flush();
 			}
 		}
@@ -108,7 +109,7 @@ public class Common {
 		File serverFolder = new File(serverUploadPath);
 		// 글번호로 서버 저장 폴더 생성
 		if (!serverFolder.exists()) {
-			serverFolder.mkdir();
+			serverFolder.mkdirs();
 		}
 		// 파일 이동 (임시폴더 -> 서버 저장 폴더)
 		for (int i = 0; i < realimglist.size(); i++) {
