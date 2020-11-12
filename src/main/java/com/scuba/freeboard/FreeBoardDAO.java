@@ -43,9 +43,21 @@ public class FreeBoardDAO {
 	public int condelete(int contentNum) {
 		return sqlsession.delete("mapper.Freeboard.condelete", contentNum);
 	}
-
+	
+	//게시글 삭제 시 닉네임 일치여부 체크
 	public String idCheck(int contentNum) {
 		return sqlsession.selectOne("mapper.Freeboard.idCheck", contentNum);
+	}
+	
+	//게시글 수정페이지 이동
+	public FreeBoardVO ModifyList(int contentNum) {
+		return sqlsession.selectOne("mapper.Freeboard.ModifyList", contentNum);
+	}
+	
+	//게시글 수정
+	public int Modify(FreeBoardVO freeBoardVO) {
+		return sqlsession.update("mapper.Freeboard.Modify", freeBoardVO);
+		
 	}
 
 	

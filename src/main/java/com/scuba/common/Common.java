@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,12 +58,20 @@ public class Common {
 		String ext = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
 		//파일 확자자명 체크
 		if(!(".gif".equalsIgnoreCase(ext) || ".jpg".equalsIgnoreCase(ext) || ".png".equalsIgnoreCase(ext))) {
-			printWriter.println("<script> alert('파일 형식을 확인해주세요  gif, jpg, png만 가능합니다!!!'); </script>");
+			printWriter.println("{\"uploaded\": 0,"
+					+ "\"error\": { "
+					+ "\"message\": \"파일형식을 확인해주세요 .gif, .jpg, .png 형식만 가능합니다.\""
+					+ "}"
+					+ 	"}");
 			printWriter.flush();
-		}else { 
+		}else {
 			//파일 크기 제한 (xml 설정외에도 코드로 제한해놨음)
 			if(upload.getSize() > 5*1024*1024) {
-				printWriter.println("<script> alert('업로드 파일 크기 초과입니다. \\\\n \\\\n 5MB 이하의 파일만 업로드 가능합니다'); </script>");
+				printWriter.println("{\"uploaded\": 0,"
+						+ "\"error\": { "
+						+ "\"message\": \"파일형식을 확인해주세요 .gif, .jpg, .png 형식만 가능합니다.\""
+						+ "}"
+						+ 	"}");
 				printWriter.flush();
 			}else {
 				//정해진 파일 형식으로 올렸을 때
@@ -126,7 +136,7 @@ public class Common {
 		}
 		// 삭제 디렉토리,파일 경로
 		File deleteDir = new File(tempPath);
-		if (dfm == realimglist.size()) {
+		if (dfm == realimglist.size()) { //글 내용에 있는 이미지들 다 이동했는지 체크
 			// 임시 디렉토리 파일 전부 삭제
 			File[] tempfiles = deleteDir.listFiles();
 			if (tempfiles.length == 0) {
@@ -135,6 +145,7 @@ public class Common {
 				// 삭제 for문
 				for (File tempfile : tempfiles) {
 					tempfile.delete();
+					//파일이 존재 하지 않으면
 					if (!tempfile.isFile()) {
 						dfr = 1;
 					} else {
@@ -158,11 +169,132 @@ public class Common {
 		return result;
 	}
 	
+	//이미지 업로드(에디터 글 수정 시)
+	@RequestMapping(value = "imguploadModify")
+	public void imguploadModify(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile upload, String num)
+					throws Exception {
+				response.setCharacterEncoding("utf-8");
+				response.setContentType("text/html; charset=utf-8");
+				PrintWriter printWriter = response.getWriter();
+				String contentNum = num;
+				System.out.println("contentNum : " + contentNum);
+				// test용
+				request.getSession().setAttribute("user_id", "test3");
+				String category = "free";
+				String serverFolderName = contentNum;
+				// 이미지 이름 얻어오기(실제이름)
+				String fileOriginalName = upload.getOriginalFilename();
+				System.out.println("file Origin Name : " + fileOriginalName);
+				// 파일 확장자 얻기
+				String ext = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+				System.out.println("ext : " + ext);
+				//파일 확자자명 체크
+				if(!(".gif".equalsIgnoreCase(ext) || ".jpg".equalsIgnoreCase(ext) || ".png".equalsIgnoreCase(ext))) {
+					printWriter.println("{\"uploaded\": 0,"
+							+ "\"error\": { "
+							+ "\"message\": \"파일형식을 확인해주세요 .gif, .jpg, .png 형식만 가능합니다.\""
+							+ "}"
+							+ 	"}");
+					printWriter.flush();
+				}else { 
+					//파일 크기 제한 (xml 설정외에도 코드로 제한해놨음)
+					if(upload.getSize() > 5*1024*1024) {
+						printWriter.println("{\"uploaded\": 0,"
+								+ "\"error\": { "
+								+ "\"message\": \"업로드 용량 초과입니다 5MB 이내의 파일만 업로드 가능합니다.\""
+								+ "}"
+								+ 	"}");
+						printWriter.flush();
+					}else {
+						//정해진 파일 형식으로 올렸을 때
+						// 이미지 이름 UUID사용 후 수정
+						UUID uuid = UUID.randomUUID();
+						// 업로드 될 파일 이름
+						String fileSaveName = uuid.toString() + ext;
+						System.out.println("fileSaveName : " + fileSaveName);
+						// 서버파일업로드 경로(실제 저장 폴더)
+						String serverUploadPath = request.getSession().getServletContext().getRealPath("/resources/images/" + category + "/" + serverFolderName);
+						// 서버파일업로드 경로(폴더가 없을시 만들어줌)
+						File makeFolder = new File(serverUploadPath);
+						if (!makeFolder.exists()) {
+							makeFolder.mkdirs();
+						}
+						// 해당경로에 파일을 업로드함
+						File file = new File(serverUploadPath, fileSaveName);
+						upload.transferTo(file);
+						// 서버 업로드
+						// 서버 => 클라이언트로 텍스트 전송(자바스크립트 실행)
+						String fileUrl = request.getContextPath() + "/resources/images/" + category + "/" + serverFolderName + "/" + fileSaveName;
+						System.out.println("fileUrl : " + fileUrl);
+						printWriter.println("{\"filename\" : \""+fileSaveName+"\", \"uploaded\" : 1, \"url\":\""+fileUrl+"\"}");
+						printWriter.flush();
+					}
+				}
+			}
+			
+		//글 수정 완료 시
+		public int imguploadModifyServer(HttpServletRequest request, HttpServletResponse response, ArrayList<String> realimglist,String category, String folderNum){
+					// result : 파일 이동 및 임시폴더 삭제완료시 반환 값 , dfm : 파일이동 유무 확인, dfr : 디렉토리 파일 삭제 유무 확인
+					// result = 0:실패 / 1:성공
+					int result = 0, dfr = 0, dfm = 0;
+					System.out.println("와쓰");
+					// 세션영역에서 유저아이디 얻어옴 (for 임시폴더 path설정)
+					String id = (String) request.getSession().getAttribute("user_id");
+					// DB글 번호 (서버에 저장 될 폴더이름)
+					String serverFolderName = folderNum;
+					// 임시파일 경로
+					String tempPath = request.getSession().getServletContext().getRealPath("/resources/images/Temporary/" + id);
+					// 서버파일업로드 경로(실제 저장 폴더)
+					String serverUploadPath = request.getSession().getServletContext().getRealPath("/resources/images/" + category + "/" + serverFolderName);
+					// 파일 업로드 폴더명
+					File serverFolder = new File(serverUploadPath);
+					// 글번호로 서버 저장 폴더 생성
+					if (!serverFolder.exists()) {
+						serverFolder.mkdirs();
+					}
+					// 삭제 디렉토리 및 파일 경로
+					File deleteDir = new File(serverUploadPath);
+						// 임시 디렉토리 파일 전부 삭제
+						ArrayList<String> unuseimglist = new ArrayList();
+						String[] tempfiles = deleteDir.list();
+						
+						//사용하지 않는 이미지 추려내는 메소드
+						for(int k=0; k<realimglist.size(); k++) {
+							for(int g=0; g<tempfiles.length; g++) {
+								if(!tempfiles[g].equals(realimglist.get(k))) {
+									unuseimglist.add(tempfiles[g]);
+									System.out.println("최가람" + g);
+								} 
+							}
+						}
+						if(unuseimglist.size() != 0) {
+							String filePath = serverUploadPath;
+							// 사용하지않는 파일(이미지)삭제 for문
+							for (int i2 =0; i2<unuseimglist.size(); i2++) {
+								File deleteFile = new File(filePath+"/"+unuseimglist.get(i2));
+								if(deleteFile.exists()) {
+									deleteFile.delete();
+									result = 1;
+								} else {
+									if(deleteDir.delete()) {
+										System.out.println("디렉토리 삭제 완료");
+										result = 1;
+									}else {
+										System.out.println("디렉토리 삭제 실패");
+										result = 0;
+									}
+									
+								}
+							}
+						}
+					return result;
+				}		
+	
 	//글 삭제시 해당 파일 저장 폴더 삭제
 	public int DirDelete(HttpServletRequest request, HttpServletResponse response, String category, String folderNum) {
-		//폴더 삭제 결과
+		//폴더 삭제 결과 0:실패 / 1: 성공
 		int fileDeleteResult = 0;
-		//폴더 삭제 결과
+		//폴더 삭제 결과 0:실패 / 1: 성공 / 2: 폴더 없음
 		int dirDeleteResult = 0;
 		// DB글 번호 (서버 폴더이름)
 		String serverFolderName = folderNum;
@@ -173,13 +305,13 @@ public class Common {
 		File[] tempfiles = deleteDir.listFiles();
 		// 삭제 for문
 		File serverFolder = new File(serverUploadPath);
-		// 폴더가 있으면
+		// 폴더가 있으면 파일삭제
 		if (serverFolder.exists()) {
 			for (File tempfile : tempfiles) {
 				tempfile.delete();
-				if (!tempfile.isFile()) {
+				if (!tempfile.isFile()) { //파일이 존재 하지 않을 시
 					fileDeleteResult = 1;
-				} else {
+				} else { //파일이 존재 하면 (삭제 되지 않았을 경우)
 					fileDeleteResult = 0;
 				}
 			}
@@ -196,11 +328,16 @@ public class Common {
 						dirDeleteResult = 0;
 					}
 				}
+			} else {
+				// 디렉토리 삭제 실패
+				dirDeleteResult = 0;
 			}
-		} else {
+		} else { //폴더가 없으면 2 리턴
 			dirDeleteResult = 2;
 		}
 		return dirDeleteResult;
 	}
+	
+		
 
 }

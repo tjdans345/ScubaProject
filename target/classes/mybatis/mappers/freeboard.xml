@@ -61,6 +61,20 @@
 	delete from freeboard where num = #{contentNum};
 	]]>
 	</delete>
+	
+	<!-- 게시글 상세보기 -->
+	<select id="ModifyList" parameterType="_int" resultType="freeboardVO">
+	<![CDATA[
+	select * from freeboard where num = #{contentNum};
+	]]>
+	</select>
+	
+	<!-- 게시글 수정 -->
+	<update id="Modify" parameterType="freeboardVO">
+	<![CDATA[
+	update freeboard set title = #{title}, content = #{content} where num = #{num};
+	]]>
+	</update>
 
 	
 </mapper>

@@ -73,6 +73,14 @@ public class FreeBoardController {
 		mav.setViewName("C_free/View");
 		return mav;
 	}
+	
+	// 글 수정 페이지 이동
+	@RequestMapping(value = "freeboarModify")
+	public ModelAndView freeboarModify(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response) {
+		mav.addObject("modifyList", freeboardService.ModifyList(freeboardVO.getNum()));
+		mav.setViewName("C_free/Modify");
+		return mav;
+		}
 
 	// 글 등록
 	@RequestMapping(value = "writeinsert", method = RequestMethod.POST)
@@ -81,16 +89,43 @@ public class FreeBoardController {
 		// Service 글 등록
 		HashMap resultMap = freeboardService.write(freeboardVO, request, response);
 		int writeResult = (Integer) resultMap.get("writeResult");
-		// 글 등록 성공시 1:이미지o 2:이미지x
+		// 글 등록 성공시 (1:이미지o 2:이미지x)
 		if (writeResult == 1 || writeResult == 2) {
 			// 게시글 번호
 			mav.addObject("num", resultMap.get("contentNum"));
 			mav.setViewName("redirect:/freeBoard/freeBoardView");
 		} else { // 글 등록 실패시
-			mav.setViewName("redirect:/freeBoard/freeBoardList");
+			String notice = "글 등록 실패";
+			common.noticeMethod(request, response, notice);
+			mav.setViewName("member/Login");
 		}
 		return mav;
 	}
+	
+	// 글 수정 등록
+	@RequestMapping(value = "Modifyinsert", method = RequestMethod.POST)
+	public ModelAndView Modifyinsert(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
+				throws Exception {
+			
+			System.out.println("타이틀 : "+freeboardVO.getTitle());
+			System.out.println("컨텐트 : "+freeboardVO.getContent());
+			System.out.println("커뮤니티 네임 : "+freeboardVO.getCommunityname());
+			System.out.println("글 번호 : " + freeboardVO.getNum());
+			// Service 글 수정
+			HashMap resultMap = freeboardService.Modify(freeboardVO, request, response);
+			// 글 수정 결과 리턴값 
+			int modifyResult = (Integer)resultMap.get("modifyResult");
+			// 글 수정 성공시 (1:이미지o 2:이미지x)
+			if(modifyResult == 1 || modifyResult == 2) {
+				mav.addObject("num", resultMap.get("contentNum"));
+				mav.setViewName("redirect:/freeBoard/freeBoardView");
+			} else {
+				String notice = "글 수정 실패";
+				common.noticeMethod(request, response, notice);
+				mav.setViewName("member/Login");
+			}
+			return mav;
+		}
 
 	// 글 삭제
 	@RequestMapping(value = "freeBoardDelete")

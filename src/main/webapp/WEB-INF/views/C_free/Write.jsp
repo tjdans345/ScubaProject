@@ -43,6 +43,11 @@
 					$("#wform").submit();
 				}
 			});
+			
+			//돌아가기 버튼
+	    	$(".back_btn").click(function() {
+	    		location.href="${contextPath}/freeBoard/freeBoardList";
+			});
 // 			}
 		});
 </script>
@@ -72,7 +77,7 @@
 							<div style="float: right;">
 								<button id="wrbtn" class="btn btn-border-d btn-round"
 									type="button">글쓰기</button>
-								<button class="btn btn-border-d btn-round" type="button">돌아가기</button>
+								<button class="btn btn-border-d btn-round back_btn" type="button">돌아가기</button>
 							</div>
 						</form>
 					</div>
@@ -101,38 +106,25 @@
 			filebrowserUploadUrl: "${contextPath}/Common/imgupload",
 			enterMode:'2'
 		});
-// 		function updateHtmls(){
-// 			var test = CKEDITOR.instances.content.getData();
-// 			alert(test);
-// 			}
-// 		CKEDITOR.instances["content"].on("instanceReady", function(){
-// 			this.document.on("keyup", updateHtmls);
-// 			});
-	
+		
 	//제목 글자 수, 내용 글자 수 정규식
 	$("#title").on('blur',function(){
 		if($("#title").val() != "") {
 			var title = $("#title").val();
-			var pattern = /^\S{1,50}$/; 
-			if(!title.match(pattern)) {
-				alert("공백이 아닌 문자를 1~50자 사이로 입력해주세요.");
-				$("#title").val("");
-				$("#title").focus();
+			var titletrim = title.trim();
+			var pattern = /^.{1,50}$/; 
+			if(!title.trim() == "") {
+				if(!title.match(pattern)) {
+					alert("제목을 1~50자 사이로 입력해주세요.");
+					$("#title").val("");
+					$("#title").focus();
+				}
+			}else {
+				alert("공백이 아닌 제목을 1~50자 사이로 입력해주세요.");
 			}
+			
 		}
 	});
-	
-// 	CKEDITOR.instances["content"].on("instanceReady", function(){
-// 			this.document.on("keyup", function() {
-// 				var content = CKEDITOR.instances.content.getData();
-// 				var length = content.length;
-// 				console.log(content); 
-// 				console.log(length); 
-// 				if(length > 3000) {
-// 					alert("3000글자 이내로 작성해주세요.");
-// 				}
-// 			});
-// 			});
 	
 	//글자 수 초과 감지
 	CKEDITOR.instances.content.on('key', function() {
