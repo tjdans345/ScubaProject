@@ -8,6 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,7 +16,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MemberController {
@@ -51,7 +55,7 @@ public class MemberController {
 								HttpServletRequest request) throws Exception {
 		memberVO.setPwd(pwdchange(memberVO.getPwd()));
 		memberService.joinMember(memberVO);
-		request.getSession().setAttribute("id",memberVO.getId());
+		request.getSession().setAttribute("user_id",memberVO.getId());
 		modelAndView.setViewName("redirect:/index.scu");
 		return modelAndView;
 	}
@@ -178,6 +182,45 @@ public class MemberController {
 		request.getSession().setAttribute("id",memberVO.getId());
 		modelAndView.setViewName("redirect:/index.scu");
 		return modelAndView;
+	}
+	//회원정보 페이지 이동
+	@RequestMapping(value = "MoveuserUpdate")
+	public ModelAndView MoveuserUpdate(HttpServletRequest request) {
+		modelAndView.addObject("userinfo",memberService.getuserinfo((String)request.getSession().getAttribute("user_id")));
+		modelAndView.setViewName("member/UserUpdate");
+		return modelAndView;
+		}
+	//로그아웃
+	@RequestMapping(value = "logout")
+	public ModelAndView logout(HttpServletRequest request) {
+		request.getSession().removeAttribute("user_id");
+		modelAndView.setViewName("redirect:/index.scu");
+		return modelAndView;
+	}
+	//회원정보 수정
+	@RequestMapping(value = "memberChange" , method = RequestMethod.POST)
+	public ModelAndView memberChange(MultipartHttpServletRequest multipartHttpServletRequest,
+									HttpSession session) throws Exception{
+		memberService.memberChange(multipartHttpServletRequest , session);
+		modelAndView.setViewName("redirect:/index.scu");
+		return modelAndView;
+	}
+	//비밀번호 확인
+	@ResponseBody
+	@RequestMapping(value = "pwdcheck" , method = RequestMethod.POST)
+	public int pwdcheck(MemberVO memberVO) throws Exception {
+		int check = 0 ;
+		String pwd = memberService.getPwd(memberVO.getId());
+		if(!pwd.equals(pwdchange(memberVO.getPwd()))){
+			check = 1;
+		}
+		return check;
+	}
+	//유저 정보 수정시 닉네임 체크
+	@ResponseBody
+	@RequestMapping(value = "userUpdatenicknameCheck" , method = RequestMethod.POST)
+	public int userUpdatenicknameCheck(String nickname,String id) {
+		return memberService.userUpdatenicknameCheck(nickname, id);
 	}
 //메일 보내기
 	public void sendMail(String email , String title , String content) throws Exception{

@@ -105,4 +105,16 @@
 		select * from inquiry where answerstatus = #{answerstatus} order by Num desc
 		]]>
 	</select>
+<!-- 	1대1문의 글번호로 정보 가져오기 -->
+	<select id="getinquiryinfo" parameterType="int" resultType="serviceCenterVO">
+		<![CDATA[
+		select * from inquiry where Num = #{Num}
+		]]>
+	</select>
+<!-- 	1대1문의 수정하기 -->
+	<update id="ModInquiry" parameterType="serviceCenterVO">
+		<![CDATA[
+		UPDATE inquiry SET answer = #{answer}, answerstatus = 1 WHERE Num = #{Num}
+		]]>
+	</update>
 </mapper>

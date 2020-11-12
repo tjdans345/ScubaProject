@@ -93,16 +93,22 @@
                   <li><a href="${contextPath}/moveServiceCenter.ser">이용안내</a></li>
                 </ul>
                </li>
-              <li>
 				<c:choose>
 					<c:when test="${user_id == null}">
+						<li>
 					    <a href="${contextPath}/login.mem" style="display: inline-block;">로그인</a>
+						</li>
 					</c:when>
 					<c:otherwise>
-					    <a href="${contextPath}/login.mem" style="display: inline-block;">로그인 중</a>
+					<li class="dropdown" >
+					    <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="display: inline-block;">마이페이지</a>
+							<ul class="dropdown-menu" style="background-color: #c4dffb;">
+			                  <li><a href="${contextPath}/MoveuserUpdate.mem">회원정보 수정</a></li>
+			                  <li><a href="${contextPath}/logout.mem">로그아웃</a></li>
+			                </ul>
+			        </li>
 					</c:otherwise>
 				</c:choose>
-              </li>
             </ul>
           </div>
         </div>

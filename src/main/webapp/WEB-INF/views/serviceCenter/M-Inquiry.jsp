@@ -17,7 +17,7 @@ window.onload = function() {
 			var html ="";
 			for (var i = 0; i < data.length; i++) {
 			html += "<tr><td>"+data[i].id+"</td>";
-			html += "<td>"+data[i].title+"</td>";
+			html += "<td><a href='${contextPath}/MoveModInquiry.ser?Num="+data[i].Num+"'>"+data[i].title+"</a></td>";
 			html += "<td>"+data[i].contents+"</td>";
 			html += "<td>"+data[i].writedate+"</td>";
 			if(data[i].answerstatus==0){
@@ -41,7 +41,7 @@ function statusChange() {
 			var html ="";
 			for (var i = 0; i < data.length; i++) {
 			html += "<tr><td>"+data[i].id+"</td>";
-			html += "<td>"+data[i].title+"</td>";
+			html += "<td><a href='${contextPath}/MoveModInquiry.ser?Num="+data[i].Num+"'>"+data[i].title+"</a></td>";
 			html += "<td>"+data[i].contents+"</td>";
 			html += "<td>"+data[i].writedate+"</td>";
 			if(data[i].answerstatus==0){

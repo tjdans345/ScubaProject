@@ -69,4 +69,12 @@ public class ServiceCenterDAO {
 	public List<ServiceCenterVO> getAllinquiryList(int answerstatus){
 		return sqlSession.selectList("mapper.Service.getAllinquiryList", answerstatus);
 	}
+	//1대1문의 글번호로 정보 가져오기
+	public ServiceCenterVO getinquiryinfo(int Num) {
+		return sqlSession.selectOne("mapper.Service.getinquiryinfo",Num);
+	}
+	//1대1문의 수정하기
+	public void ModInquiry(ServiceCenterVO serviceCenterVO) {
+		sqlSession.update("mapper.Service.ModInquiry",serviceCenterVO);
+	}
 }

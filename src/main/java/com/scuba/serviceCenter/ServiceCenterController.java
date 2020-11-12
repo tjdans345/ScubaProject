@@ -117,7 +117,7 @@ public class ServiceCenterController {
 		JSONArray jsonArray = serviceCenterService.getinquirylist(id);
 		return jsonArray;
 	}
-	//질문 리스트 이동
+	//1대1문의 리스트 이동
 	@RequestMapping(value = "MoveInquiryList", method = RequestMethod.GET)
 	public ModelAndView MoveInquiryList() {
 		modelAndView.setViewName("serviceCenter/M-Inquiry");
@@ -128,5 +128,19 @@ public class ServiceCenterController {
 	@RequestMapping(value = "getAllinquiryList" , method = RequestMethod.POST)
 	public JSONArray getAllinquiryList(int answerstatus) {
 		return serviceCenterService.getAllinquiryList(answerstatus);
+	}
+	//1대1문의 정보 수정 이동
+	@RequestMapping(value = "MoveModInquiry", method = RequestMethod.GET)
+	public ModelAndView MoveModInquiry(int Num) {
+		modelAndView.addObject("info",serviceCenterService.getinquiryinfo(Num));
+		modelAndView.setViewName("serviceCenter/M-ModInquiry");
+		return modelAndView;
+	}
+	//1대1문의 정보 수정하기
+	@RequestMapping(value = "ModInquiry" , method = RequestMethod.POST)
+	public ModelAndView ModInquiry(ServiceCenterVO serviceCenterVO) {
+		serviceCenterService.ModInquiry(serviceCenterVO);
+		modelAndView.setViewName("redirect:/MoveInquiryList.ser");
+		return modelAndView;
 	}
 }

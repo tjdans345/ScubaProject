@@ -92,4 +92,12 @@ public class ServiceCenterService {
 		}
 		return jsonArray;
 	}
+	//1대1문의 글번호로 정보 가져오기
+	public ServiceCenterVO getinquiryinfo(int Num) {
+		return serviceCenterDAO.getinquiryinfo(Num);
+	}
+	//1대1문의 수정하기
+	public void ModInquiry(ServiceCenterVO serviceCenterVO) {
+		serviceCenterDAO.ModInquiry(serviceCenterVO);
+	}
 }
