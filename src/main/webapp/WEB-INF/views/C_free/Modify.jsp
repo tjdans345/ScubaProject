@@ -36,9 +36,9 @@
 				$("#mform").submit();
 			   }
 			});
-		//돌아가기 버튼
+		//돌아가기(수정 취소)버튼
     	$(".back_btn").click(function() {
-    		location.href="${contextPath}/freeBoard/freeBoardList";
+    		location.href="${contextPath}/freeBoard/modiFyCancle?num="+${modifyList.num};
 			});
 	});
 	</script>
@@ -57,14 +57,11 @@
                   	<h5><b>번호</b></h5>
                     <input class="form-control input-lg" name="num" type="text" value="${modifyList.num}" readonly="readonly"/>
                      <input class="form-control input-lg" type="hidden" value="1" readonly="readonly"/>
-                  </div>
-                  <div class="form-group" style="float: left; margin-right: 5%; width: 30%;">
-                  	<h5><b>작성자</b></h5>
-                    <input class="form-control input-lg" type="text" value="너" readonly="readonly"/>
-                  </div>                  
+                  </div>                
                   <div class="form-group" style="float: left; width: 30%;">
                   	<h5><b>작성날짜</b></h5>
-                    <input class="form-control input-lg" type="text" value="1994/02/02" readonly="readonly"/>
+                  	<fmt:formatDate var="writeDate" pattern="yyyy-MM-dd" value="${viewList.writedate}"/>
+                    <input class="form-control input-lg" type="text" value="${writeDate}" readonly="readonly"/>
                   </div>
                   <div class="form-group" style="clear: both;">
                   	<h5><b>제목</b></h5>

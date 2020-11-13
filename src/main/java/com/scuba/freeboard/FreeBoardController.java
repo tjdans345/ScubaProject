@@ -41,6 +41,8 @@ public class FreeBoardController {
 
 	private ModelAndView mav = new ModelAndView();
 	Common common = new Common();
+	FreeBoardVO freeboardCheckVO = new FreeBoardVO();
+	
 	// 자유게시판 이동 , 자유게시판 전체 리스트 조회
 	@RequestMapping(value = "freeBoardList")
 	public ModelAndView freeBoardList() {
@@ -77,6 +79,8 @@ public class FreeBoardController {
 	// 글 수정 페이지 이동
 	@RequestMapping(value = "freeboarModify")
 	public ModelAndView freeboarModify(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response) {
+//		System.out.println(freeboardVO.getNum());
+		freeboardCheckVO.setNum(freeboardVO.getNum());
 		mav.addObject("modifyList", freeboardService.ModifyList(freeboardVO.getNum()));
 		mav.setViewName("C_free/Modify");
 		return mav;
@@ -106,21 +110,26 @@ public class FreeBoardController {
 	@RequestMapping(value = "Modifyinsert", method = RequestMethod.POST)
 	public ModelAndView Modifyinsert(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
 				throws Exception {
+			int originalNum = freeboardCheckVO.getNum();
+			int nowNum = freeboardVO.getNum(); 
 			
-			System.out.println("타이틀 : "+freeboardVO.getTitle());
-			System.out.println("컨텐트 : "+freeboardVO.getContent());
-			System.out.println("커뮤니티 네임 : "+freeboardVO.getCommunityname());
-			System.out.println("글 번호 : " + freeboardVO.getNum());
-			// Service 글 수정
-			HashMap resultMap = freeboardService.Modify(freeboardVO, request, response);
-			// 글 수정 결과 리턴값 
-			int modifyResult = (Integer)resultMap.get("modifyResult");
-			// 글 수정 성공시 (1:이미지o 2:이미지x)
-			if(modifyResult == 1 || modifyResult == 2) {
-				mav.addObject("num", resultMap.get("contentNum"));
-				mav.setViewName("redirect:/freeBoard/freeBoardView");
-			} else {
-				String notice = "글 수정 실패";
+			//뷰페이지 악의적인 조작 검증
+			if(originalNum == nowNum) {
+				// Service 글 수정
+				HashMap resultMap = freeboardService.Modify(freeboardVO, request, response);
+				// 글 수정 결과 리턴값 
+				int modifyResult = (Integer)resultMap.get("modifyResult");
+				// 글 수정 성공시 (1:이미지o 2:이미지x)
+				if(modifyResult == 1 || modifyResult == 2) {
+					mav.addObject("num", resultMap.get("contentNum"));
+					mav.setViewName("redirect:/freeBoard/freeBoardView");
+				} else {
+					String notice = "글 수정 실패";
+					common.noticeMethod(request, response, notice);
+					mav.setViewName("member/Login");
+				}
+			} else { // 사용자의 악의적인 조작이 있을 시
+				String notice = "경고 : 잘못된 데이터 요청 (악의적인 데이터 수정)";
 				common.noticeMethod(request, response, notice);
 				mav.setViewName("member/Login");
 			}
@@ -153,6 +162,17 @@ public class FreeBoardController {
 	// 글쓰기 취소
 	@RequestMapping(value = "writeCancle")
 	public ModelAndView writeCancle() {
+		mav.setViewName("redirect:/freeBoard/freeBoardList");
+		return mav;
+	}
+	
+	// 글수정 취소
+	@RequestMapping(value = "modiFyCancle")
+	public ModelAndView modiFyCancle(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response) {
+		//글 수정 취소 시 필요한 vo객체 들고옴
+		freeboardVO = freeboardService.ModifyList(freeboardVO.getNum());
+		//글 수정 취소 서비스
+		freeboardService.modiFyCancle(freeboardVO, request, response);
 		mav.setViewName("redirect:/freeBoard/freeBoardList");
 		return mav;
 	}

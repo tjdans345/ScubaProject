@@ -1,16 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="../inc/Top.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".wrt_btn").click(function() {
+				location.href="${contextPath}/underWaterBoard/underWaterBoardWrite";
+			});
+		});
+	
+		
+		
+	</script>
 </head>
 <body>
-	<!-- 헤더 -->
-	<jsp:include page="../inc/Top.jsp" />
-	<!-- 헤더 -->
-
 	<!-- 게시판 이미지 글 출력 -->
 	<section class="module">
 		<div class="container">
@@ -30,12 +38,12 @@
                   <option>좋아요순</option>
                   <option>조회순</option>
                 </select>
-              <button class="btn btn-border-d btn-round" style="float: right;">글쓰기</button>
+              <button class="btn btn-border-d btn-round wrt_btn" style="float: right;">글쓰기</button>
                 </div>
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="post">
 							<div class="post-thumbnail">
-								<a href="#"><img src="../assets/images/post-1.jpg"
+								<a href="#"><img src="${contextPath}/resources/assets/images/post-1.jpg"
 									alt="Blog-post Thumbnail" /></a>
 							</div>
 							<div class="post-header font-alt">
@@ -56,7 +64,7 @@
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="post">
 							<div class="post-thumbnail">
-								<a href="#"><img src="../assets/images/post-2.jpg"
+								<a href="#"><img src="${contextPath}/resources/assets/images/post-2.jpg"
 									alt="Blog-post Thumbnail" /></a>
 							</div>
 							<div class="post-header font-alt">
@@ -78,7 +86,7 @@
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="post">
 							<div class="post-thumbnail">
-								<a href="#"><img src="../assets/images/post-3.jpg"
+								<a href="#"><img src="${contextPath}/resources/assets/images/post-3.jpg"
 									alt="Blog-post Thumbnail" /></a>
 							</div>
 							<div class="post-header font-alt">
@@ -100,7 +108,7 @@
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="post">
 							<div class="post-thumbnail">
-								<a href="#"><img src="../assets/images/post-4.jpg"
+								<a href="#"><img src="${contextPath}/resources/assets/images/post-4.jpg"
 									alt="Blog-post Thumbnail" /></a>
 							</div>
 							<div class="post-header font-alt">
@@ -122,7 +130,7 @@
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="post">
 							<div class="post-thumbnail">
-								<a href="#"><img src="../assets/images/post-5.jpg"
+								<a href="#"><img src="${contextPath}/resources/assets/images/post-5.jpg"
 									alt="Blog-post Thumbnail" /></a>
 							</div>
 							<div class="post-header font-alt">
@@ -144,7 +152,7 @@
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="post">
 							<div class="post-thumbnail">
-								<a href="#"><img src="../assets/images/post-6.jpg"
+								<a href="#"><img src="${contextPath}/resources/assets/images/post-6.jpg"
 									alt="Blog-post Thumbnail" /></a>
 							</div>
 							<div class="post-header font-alt">
@@ -166,7 +174,7 @@
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="post">
 							<div class="post-thumbnail">
-								<a href="#"><img src="../assets/images/post-5.jpg"
+								<a href="#"><img src="${contextPath}/resources/assets/images/post-5.jpg"
 									alt="Blog-post Thumbnail" /></a>
 							</div>
 							<div class="post-header font-alt">
@@ -188,7 +196,7 @@
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="post">
 							<div class="post-thumbnail">
-								<a href="#"><img src="../assets/images/post-5.jpg"
+								<a href="#"><img src="${contextPath}/resources/assets/images/post-5.jpg"
 									alt="Blog-post Thumbnail" /></a>
 							</div>
 							<div class="post-header font-alt">
@@ -210,7 +218,7 @@
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="post">
 							<div class="post-thumbnail">
-								<a href="#"><img src="../assets/images/post-5.jpg"
+								<a href="#"><img src="${contextPath}/resources/assets/images/post-5.jpg"
 									alt="Blog-post Thumbnail" /></a>
 							</div>
 							<div class="post-header font-alt">
@@ -249,7 +257,7 @@
 						<ul class="widget-posts">
 							<li class="clearfix">
 								<div class="widget-posts-image">
-									<a href="#"><img src="../assets/images/rp-3.jpg"
+									<a href="#"><img src="${contextPath}/resources/assets/images/rp-3.jpg"
 										alt="Post Thumbnail" /></a>
 								</div>
 								<div class="widget-posts-body">
@@ -261,7 +269,7 @@
 							</li>
 							<li class="clearfix">
 								<div class="widget-posts-image">
-									<a href="#"><img src="../assets/images/rp-4.jpg"
+									<a href="#"><img src="${contextPath}/resources/assets/images/rp-4.jpg"
 										alt="Post Thumbnail" /></a>
 								</div>
 								<div class="widget-posts-body">

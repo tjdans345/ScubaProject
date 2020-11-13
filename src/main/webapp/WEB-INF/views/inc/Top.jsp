@@ -87,7 +87,7 @@
                   <li><a href="index_mp_fullscreen_video_background.html">구인 구직</a></li>
                   <li><a href="index_op_fullscreen_gradient_overlay.html">동료 모집</a></li>
                   <li><a href="index_agency.html">후기 게시판</a></li>
-                  <li><a href="index_portfolio.html">수중 사진</a></li>
+                  <li><a href="${contextPath}/underWaterBoard/underWaterBoardList">수중 사진</a></li>
                   <li><a href="index_restaurant.html">중고 장터</a></li>
                 </ul>
               </li>

@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,7 +71,7 @@ public class Common {
 			if(upload.getSize() > 5*1024*1024) {
 				printWriter.println("{\"uploaded\": 0,"
 						+ "\"error\": { "
-						+ "\"message\": \"파일형식을 확인해주세요 .gif, .jpg, .png 형식만 가능합니다.\""
+						+ "\"message\": \"파일크기를 확인해주세요 최대 5MB까지 업로드 가능합니다.\""
 						+ "}"
 						+ 	"}");
 				printWriter.flush();
@@ -254,41 +256,36 @@ public class Common {
 					}
 					// 삭제 디렉토리 및 파일 경로
 					File deleteDir = new File(serverUploadPath);
-						// 임시 디렉토리 파일 전부 삭제
-						ArrayList<String> unuseimglist = new ArrayList();
+						//서버 폴더에 들어있는 전체 이미지 리스트
 						String[] tempfiles = deleteDir.list();
 						
-						//사용하지 않는 이미지 추려내는 메소드
-						for(int k=0; k<realimglist.size(); k++) {
-							for(int g=0; g<tempfiles.length; g++) {
-								if(!tempfiles[g].equals(realimglist.get(k))) {
-									unuseimglist.add(tempfiles[g]);
-									System.out.println("최가람" + g);
-								} 
-							}
-						}
-						if(unuseimglist.size() != 0) {
+						//저장폴더에 있는 모든파일 List형식으로 변경
+						List<String> unUselist = new ArrayList<String>();
+						unUselist.addAll(Arrays.asList(tempfiles));
+						
+						System.out.println("테스트 리스트 1:   " + unUselist);
+						//중복된 값 다 제거 
+						unUselist.removeAll(realimglist);
+						System.out.println("테스트 리스트 2:   " + unUselist);
+						
+						//사용하지 않는 이미지가 없다면
+						if(unUselist.size() ==0 ) {
+							System.out.println("zzz");
+							result = 1;
+						} else{
 							String filePath = serverUploadPath;
 							// 사용하지않는 파일(이미지)삭제 for문
-							for (int i2 =0; i2<unuseimglist.size(); i2++) {
-								File deleteFile = new File(filePath+"/"+unuseimglist.get(i2));
+							for (int i2 =0; i2<unUselist.size(); i2++) {
+								File deleteFile = new File(filePath+"/"+unUselist.get(i2));
+								//삭제 할 파일 있는지 체크 후 삭제
 								if(deleteFile.exists()) {
 									deleteFile.delete();
 									result = 1;
-								} else {
-									if(deleteDir.delete()) {
-										System.out.println("디렉토리 삭제 완료");
-										result = 1;
-									}else {
-										System.out.println("디렉토리 삭제 실패");
-										result = 0;
-									}
-									
 								}
 							}
 						}
 					return result;
-				}		
+				}
 	
 	//글 삭제시 해당 파일 저장 폴더 삭제
 	public int DirDelete(HttpServletRequest request, HttpServletResponse response, String category, String folderNum) {
@@ -307,14 +304,23 @@ public class Common {
 		File serverFolder = new File(serverUploadPath);
 		// 폴더가 있으면 파일삭제
 		if (serverFolder.exists()) {
-			for (File tempfile : tempfiles) {
-				tempfile.delete();
-				if (!tempfile.isFile()) { //파일이 존재 하지 않을 시
-					fileDeleteResult = 1;
-				} else { //파일이 존재 하면 (삭제 되지 않았을 경우)
-					fileDeleteResult = 0;
+			//삭제할 파일이 존재 한다면
+			if(tempfiles.length != 0) {
+				for (File tempfile : tempfiles) {
+					tempfile.delete();
+					if (!tempfile.isFile()) { //파일이 존재 하지 않을 시
+						fileDeleteResult = 1;
+						System.out.println("파일없다요");
+					} else { //파일이 존재 하면 (삭제 되지 않았을 경우)
+						System.out.println("파일있다요");
+						fileDeleteResult = 0;
+					}
 				}
+			} else {//삭제할 파일이 없다면 -> 디렉토리 삭제
+				fileDeleteResult = 1;
+				System.out.println("파일없다요");
 			}
+			
 			if(fileDeleteResult == 1) {
 				// 디렉토리 삭제
 				if (deleteDir.exists()) {
