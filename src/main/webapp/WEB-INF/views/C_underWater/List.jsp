@@ -26,10 +26,11 @@
 			<div class="row multi-columns-row post-columns">
 				<div class="col-sm-8" style="width: 73%; margin-top: 2%;">
 				<h1 class="module-title font-alt" style="margin-bottom: 30px;">수중 갤러리</h1>
-                <form role="form" style="text-align:-webkit-center;">
+                <form role="form" style="text-align:-webkit-center;" onsubmit="return false">
                   <div class="search-box" style="width: 40%;">
+            	    <input type="text" hidden="hidden" />
                     <input class="form-control" type="text" placeholder="Search..."/>
-                    <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
+                    <button class="search-btn" type="button"><i class="fa fa-search"></i></button>
                   </div>
                 </form>
                 <div class="row" style="margin: 15px;">

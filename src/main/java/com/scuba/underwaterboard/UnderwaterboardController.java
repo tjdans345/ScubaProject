@@ -35,7 +35,7 @@ public class UnderwaterboardController {
 	}
 	
 	// 수중 게시판 글 등록
-	@RequestMapping(value = "writeinsert", method = RequestMethod.POST)
+	@RequestMapping(value = "writeinsert", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView writeinsert(UnderwaterboardVO underwaterboardVO) {
 		System.out.println("와쓰");
 		System.out.println("title : " + underwaterboardVO.getTitle());

@@ -15,6 +15,7 @@
 			$("#filename").on("change", function() {
 				readURL(this);
 			});
+			
 			//썸네일 미리보기 태그 삽입
 			function readURL(input) {
 				if(input.files && input.files[0]){
@@ -39,15 +40,24 @@
 					$("#title").focus();
 					return false;
 				} else if($("#introduction").val() =="") {
+					$("#introduction").focus();
 					alert("간단한 소개글을 입력해 주세요");
 					return false;
-				} else if() {
-					
+				} else if($("#country > option:selected").val() == "") {
+					$("#country").focus();
+					alert("국가를 선택 해주세요.");
+					return false;
+				} else if($("#area > option:selected").val() == "") {
+					$("#area").focus();
+					alert("지역을 선택 해주세요.");
+					return false;
 				} else if(content == "") {
+					$("#content").focus();
 					alert("내용을 입력해주세요");
 					CKEDITOR.instances.content.focus();
 					return false;
 				}  else if(length >3000) {
+					$("#content").focus();
 					alert("3000글자 이내로 작성해주세요 ");
 				} else {
 					$("#wform").attr("action", "${contextPath}/underWaterBoard/writeinsert");
@@ -81,7 +91,8 @@
                   </div>
                   <div class="form-group">
                   	<h5><b>썸네일 이미지 등록</b></h5>
-                    <input type="file" class="form-control input-lg custom-file-input" name="thumbnail" id="filename" name="filename">
+                  	<input type="text" hidden="hidden" />
+                    <input type="file" accept="image/jpeg, .jpg, .png, .gif" class="form-control input-lg custom-file-input" name="thumbnail" id="filename" name="filename">
                   </div>
                   <!-- 썸 네일 미리보기 -->
                   <div class="form-group" id="preimg">
@@ -94,12 +105,12 @@
                   <div class="form-group" style="height: 62px;">
                   	<h5><b>지역</b></h5>
 	                  <select class="form-control" id="country" name="country" style="width: 50%; float: left;">
-	                  <option selected="selected" disabled="disabled">국가</option>
+	                  <option selected="selected" disabled="disabled" value="">국가</option>
 	                  <option value="대한민국">대한민국</option>
 	                  <option value="화성">화성</option>
 	                  </select>
 	                  <select class="form-control" id="area" name="area" style="width: 50%; float: left;">
-	                  <option selected="selected" disabled="disabled">지역</option>
+	                  <option selected="selected" disabled="disabled" value="">지역</option>
 	                  <option value="경기도">경기도</option>
 	                  <option value="부산">부산</option>
 	                  </select>
