@@ -1,6 +1,7 @@
 package com.scuba.member;
 
 import java.util.Base64;
+import java.util.HashMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -53,7 +54,6 @@ public class MemberController {
 	@RequestMapping(value = "userjoin" , method = RequestMethod.POST)
 	public ModelAndView userjoin(MemberVO memberVO,
 								HttpServletRequest request) throws Exception {
-		memberVO.setPwd(pwdchange(memberVO.getPwd()));
 		memberService.joinMember(memberVO);
 		request.getSession().setAttribute("user_id",memberVO.getId());
 		modelAndView.setViewName("redirect:/index.scu");
@@ -62,109 +62,53 @@ public class MemberController {
 //로그인
 	@RequestMapping(value = "userLogin" , method = RequestMethod.POST)
 	public ModelAndView userLogin(MemberVO memberVO
-						,HttpServletRequest request
-						,HttpServletResponse response) throws Exception {
-		String msg ="";
-		if(1 == memberService.idCheck(memberVO.getId())) {
-			if(pwdchange(memberVO.getPwd()).equals(memberService.getPwd(memberVO.getId()))) {
-				request.getSession().setAttribute("user_id",memberVO.getId());
-				modelAndView.setViewName("redirect:/index.scu");
-			}else {
-				msg = "비밀번호가 틀렸습니다 .";
-				modelAndView.setViewName("member/Login");
-			}
-		}else {
-			msg ="아이디가 틀렸습니다 .";
-			modelAndView.setViewName("member/Login");
-		}
-		modelAndView.addObject("msg",msg);
+						,HttpServletRequest request) throws Exception {
+		HashMap<String,Object> map = memberService.memberlogin(memberVO, request);
+		modelAndView.addObject("msg",map.get("msg"));
+		modelAndView.setViewName((String)map.get("nextPage"));
 		return modelAndView;
 	}
 //아이디 중복확인
 	@ResponseBody
 	@RequestMapping(value = "idCheck" , method = RequestMethod.POST)
 	public int idCheck(String id) throws Exception{
-		int idCheck=0;
-		if(1==memberService.idCheck(id)) {
-			idCheck = 1; // 이미 존재하는 아이디
-		}else {
-			idCheck = 2; // 없는 아이디 
-		}
-		return idCheck ;
+		return memberService.idCheck(id) ;
 	}
 //닉네임 체크
 	@ResponseBody
 	@RequestMapping(value = "nicknameCheck" , method = RequestMethod.POST)
 	public int nicknameCheck(String nickname) throws Exception{
-		int nicknameCheck=0;
-		if(1==memberService.nicknameCheck(nickname)) {
-			nicknameCheck = 1; // 이미 존재하는 닉네임
-		}else {
-			nicknameCheck = 2; // 없는 닉네임
-		}
-		return nicknameCheck ;
+		return memberService.nicknameCheck(nickname) ;
 	}
 //이메일 체크
 	@ResponseBody
 	@RequestMapping(value = "emailCheck" , method = RequestMethod.POST)
 	public int emailCheck(String email) throws Exception{
-		int emailCheck=0;
-		if(1==memberService.emailCheck(email)) {
-			emailCheck = 1; // 이미 존재하는 이메일
-		}else {
-			emailCheck = 2; // 없는 이메일
-		}
-		return emailCheck ;
+		return memberService.emailCheck(email) ;
 	}
 //이메일 인증
 	@ResponseBody
 	@RequestMapping(value = "emailSend", method = RequestMethod.POST)
 	public int emailSend(String email) throws Exception {
-		//인증번호 생성
-		int random = (int)(Math.random()*1000000);
-		if(random<100000) random += 100000;
-		String title = "이메일 인증 메일입니다 . ";
-		String content = "인증 번호는 "+ random + " 입니다.";
-		sendMail(email, title, content);
-		return random;
+		return memberService.sendemail(email);
 	}
 //아이디 찾기
 	@ResponseBody
 	@RequestMapping(value = "findId", method = RequestMethod.POST)
 	public String findId(String email) throws Exception {
-		String callId="";
-		if(memberService.emailCheck(email)==0) {
-			callId = "none"; //회원 없음
-		}else {
-			callId = memberService.findId(email);
-		}
-		return callId;
+		return memberService.findId(email);
 	}
 //비밀번호 찾기
 	@ResponseBody
 	@RequestMapping(value = "sendEmailPwd", method = RequestMethod.POST)
 	public String sendEmailPwd(String id , String email) throws Exception {
-		String pwdCheck="";
-		if(memberService.idCheck(id)==0) {
-			pwdCheck = "noneId"; //회원 없음
-		}else if(!memberService.findEmail(id).equals(email)){
-			pwdCheck = "noneEmail"; // 이메일 없음
-		}
-		return pwdCheck;
+		return memberService.sendEmailPwd(id, email);
 	}
 //비밀번호 찾기 메일보내기
 	@ResponseBody
 	@RequestMapping(value = "sendEmailPwd2", method = RequestMethod.POST)
 	public int sendEmailPwd2(String id , String email) throws Exception {
-		int CheckNum=0;
-		//인증번호 생성
-		int random = (int)(Math.random()*1000000);
-		if(random<100000) random += 100000;
-			String title = "비밀번호 찾기 이메일 입니다 .";
-			String content = id + " 님의 인증 번호는 "+ random +"입니다."; 
-			CheckNum = random;
-			sendMail(email, title, content);
-		return CheckNum;
+		return memberService.sendEmailPwd2(id, email);
 	}
 //비밀번호 변경 이동
 	@RequestMapping(value = "PwdChange" , method = RequestMethod.POST)
@@ -177,7 +121,6 @@ public class MemberController {
 	@RequestMapping(value = "findPwdChage" , method = RequestMethod.POST)
 	public ModelAndView findPwdChage(MemberVO memberVO,
 									HttpServletRequest request) throws Exception{
-		memberVO.setPwd(pwdchange(memberVO.getPwd()));
 		memberService.findPwdChage(memberVO);
 		request.getSession().setAttribute("id",memberVO.getId());
 		modelAndView.setViewName("redirect:/index.scu");
@@ -209,12 +152,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "pwdcheck" , method = RequestMethod.POST)
 	public int pwdcheck(MemberVO memberVO) throws Exception {
-		int check = 0 ;
-		String pwd = memberService.getPwd(memberVO.getId());
-		if(!pwd.equals(pwdchange(memberVO.getPwd()))){
-			check = 1;
-		}
-		return check;
+		return memberService.pwdcheck(memberVO);
 	}
 	//유저 정보 수정시 닉네임 체크
 	@ResponseBody
@@ -222,27 +160,4 @@ public class MemberController {
 	public int userUpdatenicknameCheck(String nickname,String id) {
 		return memberService.userUpdatenicknameCheck(nickname, id);
 	}
-//메일 보내기
-	public void sendMail(String email , String title , String content) throws Exception{
-		MimeMessage message = mailSender.createMimeMessage();
-		MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8");
-		messageHelper.setFrom("scuba");
-		messageHelper.setTo(email);
-		messageHelper.setSubject(title);
-		messageHelper.setText(content);
-		mailSender.send(message);
-	}
-//비밀번호 보안 SHA-256방식
-    private String pwdchange(String plainText) throws Exception {
-    	String Alg = "AES/CBC/PKCS5Padding";
-    	String PK = "012123453456731234890123451234012";
-    	String IV = PK.substring(0,16);
-        Cipher cipher = Cipher.getInstance(Alg);
-        SecretKeySpec keySpec = new SecretKeySpec(IV.getBytes(), "AES");
-        IvParameterSpec ivParamSpec = new IvParameterSpec(IV.getBytes());
-        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParamSpec);
-        
-        byte[] encrypted = cipher.doFinal(plainText.getBytes("UTF-8"));
-        return Base64.getEncoder().encodeToString(encrypted);
-    }
 }

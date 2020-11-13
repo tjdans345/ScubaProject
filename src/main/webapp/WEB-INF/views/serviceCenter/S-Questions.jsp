@@ -111,12 +111,6 @@ function viewinquiry() {
                 <hr class="divider-w mt-10 mb-20">
                 <a href="${contextPath}/MoveServiceList.ser">이용안내 관리페이지</a>
                 <a href="${contextPath}/MoveInquiryList.ser">1대1문의 관리페이지</a>
-                <form role="form" style="padding-bottom: 20px;">
-                  <div class="search-box">
-                    <input class="form-control" type="text" placeholder="질문검색"/>
-                    <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
-                  </div>
-                </form>
                 <div class="row">
                     <div class="tab-pane" id="list">
                       <div class="panel-group" id="accordion" style="padding: 0 15px;">

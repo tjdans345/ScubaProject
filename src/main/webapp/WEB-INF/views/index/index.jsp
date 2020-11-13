@@ -16,6 +16,68 @@
 	margin-top: 10px;
 }
 </style>
+<script type="text/javascript">
+window.onload = function() {
+	$.ajax({
+		url : 'indexCity.info',
+		success : function (data) {
+		var html = '<div class="post-thumbnail" id="preView">';
+			html += '<img src="${contextPath}/resources/upload/information/City/'+data[0].cityImage+'" alt="Blog Featured Image" />';
+		 	html += '</div><div class="post-header font-alt">';
+			html += '<h1 class="post-title">'+data[0].cityName+'</h1>';
+			html += '<div class="post-meta"><p>'+data[0].cityExp+'</p></div></div>';
+			$('#baseinfo').append(html);
+			setTimeout(function () {
+		 	for(var i = 0 ; i < data.length ; i++){
+		 		var Xpoint =data[i].divingXpoint;
+		 		var Ypoint = data[i].divingYpoint;
+		 		var DivingName = data[i].divingName;
+		 		var DivingRating = data[i].divingRating;
+		 		var DivingDepthMin = data[i].divingDepthMin;
+		 		var DivingDepthMax = data[i].divingDepthMax;
+
+		 		var img = document.createElement("img");
+		 		img.setAttribute("src","${contextPath}/resources/assets/images/scubaFlag.png");
+				img.setAttribute("class","pointChecker");
+				img.setAttribute("onclick","location.href='${contextPath}/DivingSiteView.info?CityName="+data[0].cityName+"&DivingName="+DivingName+"'");
+				img.setAttribute("cursor","pointer");
+				img.style.position="absolute";
+		 		img.style.width="15px";
+		 		img.style.height="15px";
+		 		img.setAttribute("title",DivingName+"\n단계 :"+DivingRating+"\n수심 : "+DivingDepthMin+"m ~ "+DivingDepthMax+"m");
+		 		img.style.left = Xpoint * $('#preView>img').width()+8 + "px";
+		 		img.style.top = Ypoint * $('#preView>img').height()-7 + "px";
+		 		document.getElementById('preView').appendChild(img);
+		 		}
+			},100);
+				$(window).resize(function() {
+					$('.pointChecker').remove();
+				 	for(var i = 0 ; i < data.length ; i++){
+				 		var Xpoint =data[i].divingXpoint;
+				 		var Ypoint = data[i].divingYpoint;
+				 		var DivingName = data[i].divingName;
+				 		var DivingRating = data[i].divingRating;
+				 		var DivingDepthMin = data[i].divingDepthMin;
+				 		var DivingDepthMax = data[i].divingDepthMax;
+
+				 		var img = document.createElement("img");
+				 		img.setAttribute("src","${contextPath}/resources/assets/images/scubaFlag.png");
+						img.setAttribute("class","pointChecker");
+						img.setAttribute("onclick","location.href='${contextPath}/DivingSiteView.info?CityName="+data[0].cityName+"&DivingName="+DivingName+"'");
+						img.setAttribute("cursor","pointer");
+						img.style.position="absolute";
+				 		img.style.width="15px";
+				 		img.style.height="15px";
+				 		img.setAttribute("title",DivingName+"\n단계 :"+DivingRating+"\n수심 : "+DivingDepthMin+"m ~ "+DivingDepthMax+"m");
+				 		img.style.left = Xpoint * $('#preView>img').width()+8 + "px";
+				 		img.style.top = Ypoint * $('#preView>img').height()-7 + "px";
+				 		document.getElementById('preView').appendChild(img);
+				 		}
+				});
+		}
+	});
+}
+</script>
 </head>
 <body>
 	<!-- 이미지 -->
@@ -186,16 +248,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-8">
-					<div class="post">
-						<div class="post-thumbnail">
-							<img src="${contextPath}/resources/assets/images/post-4.jpg" alt="Blog Featured Image" />
-						</div>
-						<div class="post-header font-alt">
-							<h1 class="post-title">지역 이름</h1>
-							<div class="post-meta">
-								<p>간단한 정보</p>
-							</div>
-						</div>
+					<div class="post" id="baseinfo">
 					</div>
 				</div>
 				<!--위쪽 이미지 // 아래쪽 사이드바 -->

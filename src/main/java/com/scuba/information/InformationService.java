@@ -1,30 +1,47 @@
 package com.scuba.information;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.UploadContext;
-import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 @Service
 public class InformationService {
 	@Autowired
 	private InformationDAO informationDAO;
-	//파일 업로드
-	public void FileUpload(MultipartFile file,String url) throws Exception {
-		File saveFile =new File(url,file.getOriginalFilename());
-		if(!new File(url).exists()) new File(url).mkdirs();
-		file.transferTo(saveFile);
-	}
 	//국가 DB 인설트
-	public void enterCountry(InformationVO informationVO) {
+	public void enterCountry(MultipartHttpServletRequest mutirequest,
+							HttpSession session) throws Exception{
+		InformationVO informationVO = new InformationVO();
+		informationVO.setCountryName(mutirequest.getParameter("CountryName"));
+		if(mutirequest.getParameter("CountryImageAlread")!=null) {
+			informationVO.setCountryImage(mutirequest.getParameter("CountryImageAlread"));
+		}else {
+			informationVO.setCountryImage(mutirequest.getFile("CountryImage").getOriginalFilename());
+		}
+		informationVO.setCityXpoint(Double.parseDouble(mutirequest.getParameter("CityXpoint")));
+		informationVO.setCityYpoint(Double.parseDouble(mutirequest.getParameter("CityYpoint")));
+		informationVO.setCityName(mutirequest.getParameter("CityName"));
+		informationVO.setCityExp(mutirequest.getParameter("CityExp"));
+		informationVO.setAveTemper(Integer.parseInt(mutirequest.getParameter("AveTemper")));
+		//시즌 값 생성
+		String Season = "";
+		for(int i = 0 ; i < 12 ; i++) {
+		if(mutirequest.getParameter("Season"+i) != null) Season += mutirequest.getParameter("Season"+i)+"월 ";
+		}
+		informationVO.setSeason(Season);
+		if(mutirequest.getParameter("CountryImageAlread")==null) {
+			//파일 업로드
+			MultipartFile file = mutirequest.getFile("CountryImage");
+			String url = session.getServletContext().getRealPath("/resources/upload/information/Country/");
+			informationDAO.FileUpload(file, url);
+		}
+		//DB입력 
 		informationDAO.enterCountry(informationVO);
 	}
 	//국가명 리스트 가져오기
@@ -36,8 +53,31 @@ public class InformationService {
 		return informationDAO.getCountryinfo(CountryName);
 	}
 	//도시 DB 인설트
-	public void enterCity(InformationVO informationVO) {
+	public void enterCity(MultipartHttpServletRequest multirequest,
+						HttpSession session) throws Exception{
+		//DB작업
+		InformationVO informationVO = new InformationVO();
+		informationVO.setCityName(multirequest.getParameter("CityName"));
+		if(multirequest.getParameter("CityImageAlread")!=null) {
+			informationVO.setCityImage(multirequest.getParameter("CityImageAlread"));
+		}else {
+			informationVO.setCityImage(multirequest.getFile("CityImage").getOriginalFilename());
+		}
+		informationVO.setCountryName(multirequest.getParameter("CountryName"));
+		informationVO.setDivingXpoint(Double.parseDouble(multirequest.getParameter("DivingXpoint")));
+		informationVO.setDivingYpoint(Double.parseDouble(multirequest.getParameter("DivingYpoint")));
+		informationVO.setDivingName(multirequest.getParameter("DivingName"));
+		informationVO.setDivingExp(multirequest.getParameter("DivingExp"));
+		informationVO.setDivingRating(multirequest.getParameter("DivingRating"));
+		informationVO.setDivingDepthMin(multirequest.getParameter("DivingDepthMin"));
+		informationVO.setDivingDepthMax(multirequest.getParameter("DivingDepthMax"));
 		informationDAO.enterCity(informationVO);
+		//파일 업로드
+		if(multirequest.getParameter("CityImageAlread")==null) {
+		MultipartFile file = multirequest.getFile("CityImage");
+		String url = session.getServletContext().getRealPath("/resources/upload/information/City/");
+		informationDAO.FileUpload(file, url);
+		}
 	}
 	//국가에 따른 도시명 리스트 가져오기
 	public List<String> getCityList(String CountryName){
@@ -64,8 +104,17 @@ public class InformationService {
 		return informationDAO.DivingSiteinfo(map);
 	}
 	//어류등록
-	public void SendFish(InformationVO informationVO) {
+	public void SendFish(MultipartHttpServletRequest multirequest,
+						HttpSession session)throws Exception {
+		InformationVO informationVO = new InformationVO();
+		informationVO.setFishName(multirequest.getParameter("FishName"));
+		informationVO.setFishExp(multirequest.getParameter("FishExp"));
+		informationVO.setFishImage(multirequest.getFile("FishImage").getOriginalFilename());
+		informationVO.setHauntingCity(multirequest.getParameter("HauntingCity"));
 		informationDAO.SendFish(informationVO);
+		MultipartFile file = multirequest.getFile("FishImage");
+		String url = session.getServletContext().getRealPath("/resources/upload/information/Fish/");
+		informationDAO.FileUpload(file, url);
 	}
 	//어류리스트 가져오기
 	public List<InformationVO> getFishList(){
@@ -86,5 +135,10 @@ public class InformationService {
 	//도시페이지 어류 가져오기
 	public List<HashMap<String,Object>> getFishinCity(String CityName){
 		return informationDAO.getFishinCity("%"+CityName+"%");
+	}
+	//인덱스페이지 랜덤 도시 뿌려주기
+	public List<InformationVO> indexCity() {
+		String CityName = informationDAO.getRandomCityName();
+		return informationDAO.getDivinglist(CityName);
 	}
 }

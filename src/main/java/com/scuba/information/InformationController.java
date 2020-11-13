@@ -10,6 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,32 +48,7 @@ public class InformationController{
 	@RequestMapping(value = "sendCountry", method = RequestMethod.POST)
 	public ModelAndView sendCountry(MultipartHttpServletRequest mutirequest,
 									HttpSession session) throws Exception {
-		InformationVO informationVO = new InformationVO();
-		informationVO.setCountryName(mutirequest.getParameter("CountryName"));
-		if(mutirequest.getParameter("CountryImageAlread")!=null) {
-			informationVO.setCountryImage(mutirequest.getParameter("CountryImageAlread"));
-		}else {
-			informationVO.setCountryImage(mutirequest.getFile("CountryImage").getOriginalFilename());
-		}
-		informationVO.setCityXpoint(Double.parseDouble(mutirequest.getParameter("CityXpoint")));
-		informationVO.setCityYpoint(Double.parseDouble(mutirequest.getParameter("CityYpoint")));
-		informationVO.setCityName(mutirequest.getParameter("CityName"));
-		informationVO.setCityExp(mutirequest.getParameter("CityExp"));
-		informationVO.setAveTemper(Integer.parseInt(mutirequest.getParameter("AveTemper")));
-		//시즌 값 생성
-		String Season = "";
-		for(int i = 0 ; i < 12 ; i++) {
-		if(mutirequest.getParameter("Season"+i) != null) Season += mutirequest.getParameter("Season"+i)+"월 ";
-		}
-		informationVO.setSeason(Season);
-		if(mutirequest.getParameter("CountryImageAlread")==null) {
-			//파일 업로드
-			MultipartFile file = mutirequest.getFile("CountryImage");
-			String url = session.getServletContext().getRealPath("/resources/upload/information/Country/");
-			informationService.FileUpload(file, url);
-		}
-		//DB입력 
-		informationService.enterCountry(informationVO);
+		informationService.enterCountry(mutirequest, session);
 		modelAndView.setViewName("redirect:/EnterCountry.info");
 		return modelAndView;
 	}
@@ -100,29 +76,7 @@ public class InformationController{
 	@RequestMapping(value = "sendCity", method = RequestMethod.POST)
 	public ModelAndView sendCity(MultipartHttpServletRequest multirequest,
 									HttpSession session) throws Exception {
-		//DB작업
-		InformationVO informationVO = new InformationVO();
-		informationVO.setCityName(multirequest.getParameter("CityName"));
-		if(multirequest.getParameter("CityImageAlread")!=null) {
-			informationVO.setCityImage(multirequest.getParameter("CityImageAlread"));
-		}else {
-			informationVO.setCityImage(multirequest.getFile("CityImage").getOriginalFilename());
-		}
-		informationVO.setCountryName(multirequest.getParameter("CountryName"));
-		informationVO.setDivingXpoint(Double.parseDouble(multirequest.getParameter("DivingXpoint")));
-		informationVO.setDivingYpoint(Double.parseDouble(multirequest.getParameter("DivingYpoint")));
-		informationVO.setDivingName(multirequest.getParameter("DivingName"));
-		informationVO.setDivingExp(multirequest.getParameter("DivingExp"));
-		informationVO.setDivingRating(multirequest.getParameter("DivingRating"));
-		informationVO.setDivingDepthMin(multirequest.getParameter("DivingDepthMin"));
-		informationVO.setDivingDepthMax(multirequest.getParameter("DivingDepthMax"));
-		informationService.enterCity(informationVO);
-		//파일 업로드
-		if(multirequest.getParameter("CityImageAlread")==null) {
-		MultipartFile file = multirequest.getFile("CityImage");
-		String url = session.getServletContext().getRealPath("/resources/upload/information/City/");
-		informationService.FileUpload(file, url);
-		}
+		informationService.enterCity(multirequest, session);
 		modelAndView.setViewName("redirect:/EnterCity.info");
 		return modelAndView;
 	}
@@ -130,12 +84,7 @@ public class InformationController{
 	@ResponseBody
 	@RequestMapping(value = "getCityList", method = RequestMethod.POST)
 	public List<String> getCityList(String CountryName) {
-		List<String> list = informationService.getCityList(CountryName);
-		JSONArray jsonArray = new JSONArray();
-		for(int i = 0 ; i < list.size() ; i ++) {
-			jsonArray.add(i, list.get(i));
-		}
-		return list;
+		return informationService.getCityList(CountryName);
 	}
 	//도시 등록시 도시 카테고리 변경
 	@ResponseBody
@@ -238,15 +187,7 @@ public class InformationController{
 	@RequestMapping(value = "SendFish",method = RequestMethod.POST)
 	public ModelAndView SendFish(MultipartHttpServletRequest multirequest,
 								HttpSession session) throws Exception {
-		InformationVO informationVO = new InformationVO();
-		informationVO.setFishName(multirequest.getParameter("FishName"));
-		informationVO.setFishExp(multirequest.getParameter("FishExp"));
-		informationVO.setFishImage(multirequest.getFile("FishImage").getOriginalFilename());
-		informationVO.setHauntingCity(multirequest.getParameter("HauntingCity"));
-		informationService.SendFish(informationVO);
-		MultipartFile file = multirequest.getFile("FishImage");
-		String url = session.getServletContext().getRealPath("/resources/upload/information/Fish/");
-		informationService.FileUpload(file, url);
+		informationService.SendFish(multirequest, session);
 		modelAndView.setViewName("redirect:/EnterFish.info");
 		return modelAndView;
 	}
@@ -271,5 +212,11 @@ public class InformationController{
 			jsonArray.add(list.get(i));
 		}
 		return jsonArray;
+	}
+	//인덱스 페이지 랜덤 지역 뿌려주기
+	@ResponseBody
+	@RequestMapping(value = "indexCity")
+	public List<InformationVO> indexCity(){
+		return informationService.indexCity();
 	}
 }

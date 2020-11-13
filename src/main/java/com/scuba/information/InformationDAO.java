@@ -1,5 +1,6 @@
 package com.scuba.information;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,12 +9,19 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Repository
 public class InformationDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	//파일 업로드
+	public void FileUpload(MultipartFile file,String url) throws Exception {
+		File saveFile =new File(url,file.getOriginalFilename());
+		if(!new File(url).exists()) new File(url).mkdirs();
+		file.transferTo(saveFile);
+	}
 	//국가 DB 인설트
 	public void enterCountry(InformationVO informationVO) {
 		sqlSession.insert("mapper.information.enterCountry",informationVO);
@@ -77,5 +85,9 @@ public class InformationDAO {
 	//도시페이지 어류 가져오기
 	public List<HashMap<String,Object>> getFishinCity(String CityName){
 		return sqlSession.selectList("mapper.information.getFishinCity",CityName);
+	}
+	//랜덤 도시이름 가져오기
+	public String getRandomCityName() {
+		return sqlSession.selectOne("mapper.information.getRandomCityName");
 	}
 }

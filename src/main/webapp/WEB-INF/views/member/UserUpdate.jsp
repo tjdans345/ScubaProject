@@ -9,17 +9,27 @@
 <script type="text/javascript">
 //미리보기
 function preView(event) {
-	var reader = new FileReader();
-	reader.onload = function(event) {
-		var img = document.createElement("img");
-		img.setAttribute("src",event.target.result);
-		img.setAttribute("onclick","getLocation()");
-		img.setAttribute("style","cursor: pointer; width: 200px; border-radius: 100%;");
-		img.setAttribute("onclick","$('#image').click()");
-		document.querySelector("div#preView").appendChild(img);
+	var pathpoint = $('#image').val().lastIndexOf('.');
+	var filepoint = $('#image').val().substring(pathpoint+1 , $('#image').val().length);
+	var filetype = filepoint.toLowerCase();
+
+	if(filetype=='jpg'||filetype=='png'||filetype=='jpeg'){
+		var reader = new FileReader();
+		reader.onload = function(event) {
+			var img = document.createElement("img");
+			img.setAttribute("src",event.target.result);
+			img.setAttribute("onclick","getLocation()");
+			img.setAttribute("style","cursor: pointer; width: 200px; border-radius: 100%;");
+			img.setAttribute("onclick","$('#image').click()");
+			document.querySelector("div#preView").appendChild(img);
+		}
+		$('#preView').empty();
+		reader.readAsDataURL(event.target.files[0]);
+	}else{
+		alert('확장자 명이 jpg , png , jpeg 인 파일을 올려주세요');
+		$('#image').val("");
 	}
-	$('#preView').empty();
-	reader.readAsDataURL(event.target.files[0]);
+	
 }
 function check() {
 	var id = $('#id').val();

@@ -115,9 +115,7 @@
       </nav>
       	<!-- 	상단 배너 -->
 <!--       	배경 이미지 1 ~ 6  -->
-<%
-	int random = (int)(Math.random()*10000)%6+1;
-%>
+<%int random = (int)(Math.random()*10000)%6+1; %>
 	<section class="module bg-dark-30 about-page-header" data-background="${contextPath}/resources/assets/images/TopBanner<%=random%>.jpg" style="padding: 200px 0;">
 	</section>
 	<!-- 	상단 배너 -->

@@ -113,4 +113,11 @@
 	select * from fish where HauntingCity like #{CityName};
 	]]>
 	</select>
+<!-- 	랜덤 시티 네임 가져오기 -->
+	<select id="getRandomCityName" resultType="String">
+	<![CDATA[
+	SELECT distinct cityName FROM city order by rand() limit 1;
+	]]>
+	</select>
+	
 </mapper>

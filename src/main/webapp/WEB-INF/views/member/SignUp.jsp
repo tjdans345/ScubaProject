@@ -96,11 +96,11 @@ function userjoin() {
                     </div>    
                   </div> 
                   <div class="form-group">
-                    <input class="form-control" id="emailcheck" style="display: none;" type="text" name="emailcheck" placeholder="인증번호"/>
+                    <input class="form-control" id="emailcheck" style="display: none;" type="text" name="emailcheck" placeholder="인증번호" required="required"/>
                   </div>    
                   <div class="form-group" style="float: right;">
                     <button class="btn btn-round btn-b" type="button" onclick="userjoin()">회원 가입</button>
-                    <button class="btn btn-round btn-b" onclick="history.back()">취소</button>
+                    <button class="btn btn-round btn-b" type="button" onclick="history.back()">취소</button>
                   </div>
                </form>
              </div>

@@ -5,8 +5,12 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
+import javax.mail.internet.MimeMessage;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +19,9 @@ public class MemberDAO {
 	
 	@Autowired
 	private SqlSession sqlSession;
+	@Autowired
+	private JavaMailSender mailSender;
+	
 	//파일업로드
 	public String FileUpload(MultipartFile file,String url) throws Exception {
 		Date date_now = new Date(System.currentTimeMillis());
@@ -25,6 +32,16 @@ public class MemberDAO {
 		file.transferTo(saveFile);
 		return filename;
 	}
+	//메일 보내기
+		public void sendMail(String email , String title , String content) throws Exception{
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8");
+			messageHelper.setFrom("scuba");
+			messageHelper.setTo(email);
+			messageHelper.setSubject(title);
+			messageHelper.setText(content);
+			mailSender.send(message);
+		}
 	//회원가입
 	public void joinMember(MemberVO memberVO) {
 		sqlSession.insert("mapper.member.joinMember",memberVO);
