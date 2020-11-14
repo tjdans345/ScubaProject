@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
@@ -67,7 +68,7 @@
       <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="background-color: #e0efff;">
         <div class="container">
           <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="${contextPath}/" style="color: black;">Titan</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="${contextPath}/index/main" style="color: black;">Scuba</a>
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right topMenu">
@@ -86,7 +87,7 @@
                   <li><a href="index_mp_fullscreen_video_background.html">구인 구직</a></li>
                   <li><a href="index_op_fullscreen_gradient_overlay.html">동료 모집</a></li>
                   <li><a href="index_agency.html">후기 게시판</a></li>
-                  <li><a href="index_portfolio.html">수중 사진</a></li>
+                  <li><a href="${contextPath}/underWaterBoard/underWaterBoardList">수중 사진</a></li>
                   <li><a href="index_restaurant.html">중고 장터</a></li>
                 </ul>
               </li>

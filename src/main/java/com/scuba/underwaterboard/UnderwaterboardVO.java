@@ -1,6 +1,6 @@
-package com.scuba.freeboard;
+package com.scuba.underwaterboard;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
@@ -10,13 +10,18 @@ import lombok.Setter;
 @Component
 @Getter
 @Setter
-public class FreeBoardVO {
+public class UnderwaterboardVO {
 	private int num;
 	private String nickname;
+	private String thumbnail;
 	private int viewcount;
 	private int likecount;
 	private Date writedate;
 	private String title;
 	private String content;
 	private String communityname;
+	private String introduction;
+	private String country;
+	private String area;
+	private String hashtag;
 }
