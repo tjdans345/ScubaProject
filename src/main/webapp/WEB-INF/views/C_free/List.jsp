@@ -1,12 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../inc/Top.jsp" %>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
+<%
+	request.getSession().setAttribute("category", "free");
+%>
   <head>
+  	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  	<link href="${contextPath}/ckeditor/contents.css" rel="stylesheet">
     <title>Titan | Multipurpose HTML5 Template</title>
+    <script type="text/javascript">
+    $(document).ready(function() {
+    	
+    	$("#writebtn").click(function() {
+			location.href="${contextPath}/freeBoard/writeboard";
+		});
+    	
+    	//상세글 보기위해 글 번호 전달
+    	$(".title_btn").click(function() {
+			var num = $(this).data("num");
+			location.href="${contextPath}/freeBoard/freeBoardView?num="+num;
+		});
+    	
+    	
+	});
+    </script>
   </head>
-  <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
-  <jsp:include page="../inc/Top.jsp"/>
+  <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60" style="margin: 0px;">
       <div class="main">
         <section class="module">
           <div class="container">
@@ -27,7 +48,7 @@
                   <option>좋아요순</option>
                   <option>조회순</option>
                 </select>
-              <button class="btn btn-border-d btn-round" style="float: right;">글쓰기</button>
+              <button id="writebtn" class="btn btn-border-d btn-round" style="float: right;">글쓰기</button>
             </div>
             <hr class="divider-w pt-20">
             <div class="row">
@@ -42,38 +63,25 @@
                       <th width="10%">조회</th>
                       <th width="10%">좋아요</th>
                     </tr>
+                 <c:forEach var="list" items="${freeBoardList}">
+                 	<fmt:formatDate var="writeDate" pattern="yyyy-MM-dd" value="${list.writedate}"/>
                     <tr>
-                      <td class="hidden-xs">1</td>
+                      <td class="hidden-xs">${list.num}</td>
                       <td>
-                        <h5 class="product-title font-alt">Accessories Pack</h5>
+                        <h5 class="product-title font-alt"><a class="title_btn" data-num="${list.num}">${list.title}</a></h5>
                       </td>
                       <td class="hidden-xs">
-                        <h5 class="product-title font-alt">나</h5>
+                        <h5 class="product-title font-alt">${list.nickname}</h5>
                       </td>
                       <td class="hidden-xs">
-                        <h5 class="product-title font-alt">1994/02/02</h5>
+                        <h5 class="product-title font-alt">${writeDate}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">500</h5>
+                        <h5 class="product-title font-alt">${list.viewcount}</h5>
                       </td>
-                      <td class="pr-remove">30</td>
+                      <td class="pr-remove">${list.likecount}</td>
                     </tr>
-                    <tr>
-                      <td class="hidden-xs">2</td>
-                      <td>
-                        <h5 class="product-title font-alt">Men’s Casual Pack</h5>
-                      </td>
-                      <td class="hidden-xs">
-                        <h5 class="product-title font-alt">너</h5>
-                      </td>
-                      <td class="hidden-xs">
-                        <h5 class="product-title font-alt">1994/02/02</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">400</h5>
-                      </td>
-                      <td class="pr-remove">10</td>
-                    </tr>
+                  </c:forEach>  
                   </tbody>
                 </table>
               </div>

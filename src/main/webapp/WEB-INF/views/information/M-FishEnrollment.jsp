@@ -12,7 +12,6 @@ function preView(event) {
 	reader.onload = function(event) {
 		var img = document.createElement("img");
 		img.setAttribute("src",event.target.result);
-		img.setAttribute("onclick","getLocation()");
 		document.querySelector("div#preView").appendChild(img);
 	}
 	$('#preView').empty();
@@ -27,7 +26,7 @@ function preView(event) {
               <div class="col-sm-8" style="text-align:-webkit-center;">
               <h4 class="font-alt mb-0">어류 등록</h4>
                 <hr class="divider-w mt-10 mb-20">
-                <form class="form" role="form" action="${contextPath}/SendFish.info" method="post" enctype="multipart/form-data">
+                <form class="form" role="form" action="${contextPath}/informations/SendFish" method="post" enctype="multipart/form-data">
                   <div class="form-group">
                     <input class="form-control input-lg" name="FishName" type="text" placeholder="어종 이름" required/>
                   </div>

@@ -1,34 +1,23 @@
 package com.scuba.member;
 
-import java.util.Base64;
 import java.util.HashMap;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 @Controller
+@RequestMapping("/member/*")
 public class MemberController {
 
 	@Autowired
 	MemberService memberService;
-	@Autowired
-	private JavaMailSender mailSender;
 	
 	private ModelAndView modelAndView = new ModelAndView();
 //	로그인페이지 이동
@@ -48,8 +37,8 @@ public class MemberController {
 	@RequestMapping(value = "signUp")
 	public ModelAndView signUp() {
 		modelAndView.setViewName("member/SignUp");
-		return modelAndView;
-	}
+		return modelAndView; 
+	} 
 //회원가입
 	@RequestMapping(value = "userjoin" , method = RequestMethod.POST)
 	public ModelAndView userjoin(MemberVO memberVO,
@@ -62,7 +51,7 @@ public class MemberController {
 //로그인
 	@RequestMapping(value = "userLogin" , method = RequestMethod.POST)
 	public ModelAndView userLogin(MemberVO memberVO
-						,HttpServletRequest request) throws Exception {
+								,HttpServletRequest request) throws Exception {
 		HashMap<String,Object> map = memberService.memberlogin(memberVO, request);
 		modelAndView.addObject("msg",map.get("msg"));
 		modelAndView.setViewName((String)map.get("nextPage"));

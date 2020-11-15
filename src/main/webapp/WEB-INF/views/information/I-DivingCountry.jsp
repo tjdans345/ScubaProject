@@ -11,7 +11,7 @@ function CountryChange() {
 	var CountryName = $("#CountryNameCategory option:selected").val();
 	//City카테고리 변경
 	$.ajax({
-		url:'getCityList.info',
+		url:'${contextPath}/informations/getCityList',
 		type:'POST',
 		data : {CountryName : CountryName},
 		success : function (data) {
@@ -28,7 +28,7 @@ function CountryChange() {
 	});
 	//국가 선택시 도시 이미지 바꿔주기
 	$.ajax({
-		url : 'antherCityArea.info',
+		url : '${contextPath}/informations/antherCityArea',
 		type : 'POST',
 		data : {CountryName:CountryName},
 		success : function(data) {
@@ -36,9 +36,9 @@ function CountryChange() {
 			for(var i = 0 ; i < data.length ; i++){
 				var html = '<div class="col-sm-6 col-md-4 col-lg-4">';
 				html += '<div class="post">';
-				html += '<div class="post-thumbnail"><a href="${contextPath}/DivingCity.info?CityName='+data[i].CityName+'"><img src="${contextPath}/resources/upload/information/City/'+data[i].CityImage+'" alt="Blog-post Thumbnail"/></a></div>';
+				html += '<div class="post-thumbnail"><a href="${contextPath}/informations/DivingCity?CityName='+data[i].CityName+'"><img src="${contextPath}/resources/upload/information/City/'+data[i].CityImage+'" alt="Blog-post Thumbnail"/></a></div>';
 				html += '<div class="post-header font-alt">';
-				html += '<h2 class="post-title"><a href="${contextPath}/DivingCity.info?CityName='+data[i].CityName+'">'+data[i].CityName+'</a></h2>';
+				html += '<h2 class="post-title"><a href="${contextPath}/informations/DivingCity?CityName='+data[i].CityName+'">'+data[i].CityName+'</a></h2>';
 				html += '</div></div></div>';
 				$('#antherCityArea').append(html);
 			}
@@ -47,7 +47,7 @@ function CountryChange() {
 	});
 	//나라 이미지 변경시 도시 위치 체크
 	$.ajax({
-		url:'getCountryPointinfo.info',
+		url:'${contextPath}/informations/getCountryPointinfo',
 		type:'POST',
 		data:{CountryName:CountryName},
 		success : function(data) {
@@ -68,7 +68,7 @@ function CountryChange() {
 					img.setAttribute("class","pointChecker");
 					img.setAttribute("cursor","pointer");
 					img.setAttribute("title",data[i].CityName+"\n수온 :"+data[i].AveTemper+"\n시즌 : "+data[i].Season);
-					img.setAttribute("onclick","location.href='${contextPath}/DivingCity.info?CityName="+data[i].CityName+"'");
+					img.setAttribute("onclick","location.href='${contextPath}/informations/DivingCity?CityName="+data[i].CityName+"'");
 					img.style.position="absolute";
 					img.style.width="15px";
 					img.style.height="15px";
@@ -90,6 +90,7 @@ function CountryChange() {
 				img.setAttribute("class","pointChecker");
 				img.setAttribute("cursor","pointer");
 				img.setAttribute("title",data[i].CityName+"\n수온 :"+data[i].AveTemper+"\n시즌 : "+data[i].Season);
+				img.setAttribute("onclick","location.href='${contextPath}/informations/DivingCity?CityName="+data[i].CityName+"'");
 				img.style.position="absolute";
 				img.style.width="15px";
 				img.style.height="15px";
@@ -103,7 +104,7 @@ function CountryChange() {
 }
 function CityChange() {
 	var CityName = $("#CityNameCategory option:selected").val();
-	location.href="${contextPath}/DivingCity.info?CityName="+CityName;
+	location.href="${contextPath}/informations/DivingCity?CityName="+CityName;
 }
 </script>
 </head>
@@ -137,9 +138,9 @@ function CityChange() {
                 <select class="form-control" id="CityNameCategory" style="width: 100px;" onchange="CityChange()">
                   <option selected="selected" disabled="disabled">지역선택</option>
                 </select>
-                <a href="${contextPath}/EnterCountry.info">나라 등록 o</a>
-                <a href="${contextPath}/EnterCity.info">지역 등록 o</a>
-                <a href="${contextPath}/FishList.info">어류 리스트</a>
+                <a href="${contextPath}/informations/EnterCountry">나라 등록 o</a>
+                <a href="${contextPath}/informations/EnterCity">지역 등록 o</a>
+                <a href="${contextPath}/informations/FishList">어류 리스트</a>
               </div>
               <div class="col-sm-12" id="preView">
 				<h2>카테고리를 선택해 주세요</h2>

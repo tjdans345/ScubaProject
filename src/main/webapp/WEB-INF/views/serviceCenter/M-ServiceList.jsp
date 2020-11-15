@@ -10,7 +10,7 @@
 window.onload = function() {
 	var TopQuestions = $('#TopQuestions option:selected').val();
 	$.ajax({
-		url:'getList.ser',
+		url:'${contextPath}/Service/getList',
 		type:'POST',
 		data: {TopQuestions : TopQuestions},
 		success : function(data) {
@@ -34,7 +34,7 @@ window.onload = function() {
 function ChangeTopQuestions() {
 	var TopQuestions = $('#TopQuestions option:selected').val();
 	$.ajax({
-		url:'getList.ser',
+		url:'${contextPath}/Service/getList',
 		type:'POST',
 		data: {TopQuestions : TopQuestions},
 		success : function(data) {
@@ -58,7 +58,7 @@ function ChangeTopQuestions() {
 function changeQuestions(id) {
 	var TopQuestions = $('#TopQuestions option:selected').val();
 	$.ajax({
-		url:'changeQuestions.ser',
+		url:'${contextPath}/Service/changeQuestions',
 		type:'POST',
 		data:{TopQuestions:TopQuestions , Num : id},
 		success: function() {
@@ -71,7 +71,7 @@ function delQuestions(id) {
 	var msg = "번호 "+ id + " 를 삭제하시겠습니까 ?";
 	if(confirm(msg)){
 		$.ajax({
-			url : 'delQuestions.ser',
+			url : '${contextPath}/Service/delQuestions',
 			type : 'POST',
 			data : { Num : id },
 			success : function () {
@@ -88,7 +88,7 @@ function delQuestions(id) {
           <div class="container">
             <div class="row">
               <div class="col-sm-8" style="text-align:-webkit-center;">
-                    <a href="${contextPath}/MoveServiceWrite.ser">이용안내 글쓰기</a>
+                    <a href="${contextPath}/Service/MoveServiceWrite">이용안내 글쓰기</a>
               <div class="row">
                 <select class="form-control" id="TopQuestions" onchange="ChangeTopQuestions()" style="float: right; width:15%; margin-right: 7%">
                   <option selected="selected" value="1">등록중</option>

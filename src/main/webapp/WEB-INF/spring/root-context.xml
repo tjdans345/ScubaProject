@@ -5,7 +5,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://www.springframework.org/schema/beans">
-<!-- 마이바티스 -->
+	<!-- 마이바티스 -->
 	<bean id="dataSource"
 		class="org.apache.ibatis.datasource.pooled.PooledDataSource">
 		<property name="driver" value="com.mysql.jdbc.Driver" />
@@ -26,20 +26,30 @@
 		class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
-<!-- 마이바티스 -->
+	<!-- 마이바티스 -->
 
-<!-- 메일보내기 -->
-	  <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-	    <property name="host" value="smtp.gmail.com" />
-	    <property name="port" value="587" />
-	    <property name="username" value="tjdrhd13131@gmail.com" />
-	    <property name="password" value="tjdrhd13131^^" />
-	    <property name="javaMailProperties">
-	    <props>
-	      <prop key="mail.smtp.auth">true</prop>
-	      <prop key="mail.smtp.starttls.enable">true</prop>
-	    </props>
-	    </property>
-	  </bean>
-<!-- 메일보내기 -->
+	<!-- 메일보내기 -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="tjdrhd13131@gmail.com" />
+		<property name="password" value="tjdrhd13131^^" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 메일보내기 -->
+
+	<!-- MultipartResolver 설정 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10000000" />
+		<property name="maxInMemorySize" value="100000000" />
+	</bean>
+	
+	
 </beans>

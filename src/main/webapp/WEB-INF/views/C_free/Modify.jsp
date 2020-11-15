@@ -1,20 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../inc/Top.jsp"%>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
     <title>Titan | Multipurpose HTML5 Template</title>
-    <script type="text/javascript" src="../smarteditor2/js/HuskyEZCreator.js" charset="utf-8"></script>
+    <script src="${contextPath}/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<!-- 	<script src="./editor.js"></script> -->
 	<style type="text/css">
 	#smart_editor2{
 	width: 100%;
 	}
 	</style>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {
+		//전송 버튼 클릭 시
+		$(".Modify_btn").click(function() {
+			var content = CKEDITOR.instances.content.getData();
+			var length = CKEDITOR.instances.content.getData().length;
+			//유효성 체크
+			if($("#title").val() == "") {
+				alert("제목을 입력해 주세요");
+				$("#title").focus();
+				return false;
+			} else if(content == "") {
+				alert("내용을 입력해주세요");
+				CKEDITOR.instances.content.focus();
+				return false;
+			} else if(length >3000) {
+				alert("3000글자 이내로 작성해주세요 ");
+			}
+			else {
+				$("#mform").attr("action", "${contextPath}/freeBoard/Modifyinsert");
+				$("#mform").submit();
+			   }
+			});
+		//돌아가기(수정 취소)버튼
+    	$(".back_btn").click(function() {
+    		location.href="${contextPath}/freeBoard/modiFyCancle?num="+${modifyList.num};
+			});
+	});
+	</script>
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
-  <jsp:include page="../inc/Top.jsp"/>
       <div class="main">
         <section class="module">
           <div class="container">
@@ -22,29 +51,30 @@
               <div class="col-sm-8 col-sm-offset-2">
                 <h4 class="font-alt mb-0">자유 게시판 글 수정</h4>
                 <hr class="divider-w mt-10 mb-20">
-                <form class="form" role="form">
+                <form id="mform" class="form" role="form" method="post">
+                <input type="hidden" name="communityname" value="${modifyList.communityname}">
                   <div class="form-group" style="float: left; margin-right: 5%; width: 30%;">
                   	<h5><b>번호</b></h5>
-                    <input class="form-control input-lg" type="text" placeholder="1" readonly="readonly"/>
-                  </div>
-                  <div class="form-group" style="float: left; margin-right: 5%; width: 30%;">
-                  	<h5><b>작성자</b></h5>
-                    <input class="form-control input-lg" type="text" placeholder="너" readonly="readonly"/>
-                  </div>                  
+                    <input class="form-control input-lg" name="num" type="text" value="${modifyList.num}" readonly="readonly"/>
+                     <input class="form-control input-lg" type="hidden" value="1" readonly="readonly"/>
+                  </div>                
                   <div class="form-group" style="float: left; width: 30%;">
                   	<h5><b>작성날짜</b></h5>
-                    <input class="form-control input-lg" type="text" placeholder="1994/02/02" readonly="readonly"/>
+                  	<fmt:formatDate var="writeDate" pattern="yyyy-MM-dd" value="${viewList.writedate}"/>
+                    <input class="form-control input-lg" type="text" value="${writeDate}" readonly="readonly"/>
                   </div>
                   <div class="form-group" style="clear: both;">
                   	<h5><b>제목</b></h5>
-                    <input class="form-control input-lg" type="text" placeholder="제목을 입력하세요(메인 제목)"/>
+                    <input class="form-control input-lg" id="title" type="text" name="title" placeholder="${modifyList.title}"/>
                   </div>
                   <div>
-                  <textarea class="form-control" rows="10" name="content" id="content" style="width:100%; min-width:260px; height:30em; display:none;"></textarea>
+                  <textarea class="form-control" rows="10" name="content" id="content" style="width:100%; min-width:260px; height:30em; display:none;">
+                  ${modifyList.content}
+                  </textarea>
                   </div>
-                  <div style="float: right;">
-                  <button class="btn btn-border-d btn-round" type="button">수정하기</button>
-                  <button class="btn btn-border-d btn-round" type="reset">취소</button>
+                  <div style="float: right; margin-top: 1%;">
+                  <button class="btn btn-border-d btn-round Modify_btn" type="button">수정하기</button>
+                  <button class="btn btn-border-d btn-round back_btn" type="reset">돌아가기</button>
                   </div>
                 </form>
               </div>
@@ -55,27 +85,57 @@
        <jsp:include page="../inc/Footer.jsp"/>
        
        <script type="text/javascript">
-       $(document).ready(function() {
-    		
-    		var oEditors = [];
-    		nhn.husky.EZCreator.createInIFrame({
-    			oAppRef : oEditors,
-    			elPlaceHolder : "content",
-    			sSkinURI : "../smarteditor2/SmartEditor2Skin.html",
-    			htParams : {
-    				bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
-    				bUseVerticalResizer : false,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
-    				bUseModeChanger : false,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-    				//bSkipXssFilter : true,		// client-side xss filter 무시 여부 (true:사용하지 않음 / 그외:사용)
-    				//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
-    				fOnBeforeUnload : function(){
-    					//alert("완료!");
-    				}
-    			},
-    			fCreator : "createSEditor2"
-    		});
-    		
-    	});
-       </script>
+    //CKEDITOR Form 설정 부분 
+	CKEDITOR.on('dialogDefinition', function (ev) {
+        var dialogName = ev.data.name;
+        var dialog = ev.data.definition.dialog;
+        var dialogDefinition = ev.data.definition;
+        if (dialogName == 'image') {
+            dialog.on('show', function (obj) {
+                this.selectPage('Upload'); //업로드텝으로 시작
+            });
+            dialogDefinition.removeContents('advanced'); // 자세히탭 제거
+            dialogDefinition.removeContents('Link'); // 링크탭 제거
+        }
+    });
+		//CKEDITOR 설정
+		CKEDITOR.replace('content', {
+			height : 500,
+			width : 750,
+			//이미지 업로드 경로
+			filebrowserUploadUrl: "${contextPath}/Common/imguploadModify?num=${modifyList.num}",
+			enterMode:'2'
+		});
+		
+	//제목 글자 수, 내용 글자 수 정규식
+	$("#title").on('blur',function(){
+		if($("#title").val() != "") {
+			var title = $("#title").val();
+			var titletrim = title.trim();
+			var pattern = /^.{1,50}$/; 
+			if(!title.trim() == "") {
+				if(!title.match(pattern)) {
+					alert("제목을 1~50자 사이로 입력해주세요.");
+					$("#title").val("");
+					$("#title").focus();
+				}
+			}else {
+				alert("공백이 아닌 제목을 1~50자 사이로 입력해주세요.");
+			}
+			
+		}
+	});
+	
+	//글 내용 수 초과 감지
+	CKEDITOR.instances.content.on('key', function() {
+		var content = this.getData();
+		var length = content.length;
+		if(length >= 3000) {
+		alert("3000글자 이내로 작성해 주세요");
+	    this.setData(content.slice(0, 2999));
+		}
+	});
+	
+	</script>
   </body>
 </html>

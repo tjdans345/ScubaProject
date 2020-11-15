@@ -16,7 +16,7 @@ function addCity(fishName) {
 		var msg = fishName + "의 서식지에 " +CityName+" 을 추가하시겠습니까 ?";
 		if(confirm(msg)){
 			$.ajax({
-				url:'addHauntingCity.info',
+				url:'${contextPath}/informations/addHauntingCity',
 				type:'POST',
 				data :{FishName : fishName , CityName : CityName},
 				success : function() {
@@ -42,18 +42,12 @@ $(document).ready(function() {
 <!--   검색 -->
     <div class="row mb-40">
       <div class="col-sm-6 col-sm-offset-3">
-        <form role="form">
-          <div class="search-box">
-            <input class="form-control" type="text" placeholder="Search..."/>
-            <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
-          </div>
-        </form>
       </div>
     </div>
     <div class="row mb-40">
         <div class="col-sm-12">
 	        <div style="float: right;">
-	        	<a href="${contextPath}/EnterFish.info">어류 등록</a>
+	        	<a href="${contextPath}/informations/EnterFish">어류 등록</a>
 	        </div>
 	        <div>
 	        	<button class="btn btn-border-d btn-round" type="button" onclick="setCity()" style="padding: 5px;">지역 추가</button>

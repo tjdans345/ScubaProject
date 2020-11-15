@@ -43,7 +43,7 @@ function check() {
 		return false;
 	}else{
 		$.ajax({
-			url:'userUpdatenicknameCheck.mem',
+			url:'${contextPath}/member/userUpdatenicknameCheck',
 			type:'POST',
 			data:{nickname:nickname,id:id},
 			success:function(data){
@@ -57,7 +57,7 @@ function check() {
 		});
 	}
 	$.ajax({
-		url : 'pwdcheck.mem',
+		url : '${contextPath}/member/pwdcheck',
 		type : 'POST',
 		data : {id:id,pwd:pwd},
 		success : function(data) {
@@ -80,7 +80,7 @@ function check() {
              <div class="col-sm-6 col-sm-offset-3">
                <h4 class="font-alt">회원 정보 수정</h4>
                <hr class="divider-w mb-10">
-               <form class="form" id="form" method="post" action="${contextPath}/memberChange.mem" enctype="multipart/form-data">
+               <form class="form" id="form" method="post" action="${contextPath}/member/memberChange" enctype="multipart/form-data">
                	  <div class="form-group" id="preView" style="margin: 25px 0 ;">
                		<img src="${contextPath}/resources/upload/member/${userinfo.image}" id="memberimage" alt="Post Thumbnail" onclick="$('#image').click()" style="cursor: pointer; width: 200px; border-radius: 100%;"/>
                   </div>

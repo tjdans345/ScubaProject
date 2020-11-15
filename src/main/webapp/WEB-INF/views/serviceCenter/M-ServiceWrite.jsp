@@ -22,7 +22,7 @@ function changeCategory() {
               <div class="col-sm-8" style="text-align:-webkit-center;">
               <h4 class="font-alt mb-0">서비스센터 질문 등록</h4>
                 <hr class="divider-w mt-10 mb-20">
-                <form class="form" role="form" action="${contextPath}/EnterService.ser" method="post">
+                <form class="form" role="form" action="${contextPath}/Service/EnterService" method="post">
                   <div class="form-group">
                   	<select class="form-control" id="CategoryList" onchange="changeCategory()" style="width: 25%; float: left; margin-bottom: 15px;">
                   	<option selected="selected" disabled="disabled">카테고리</option>

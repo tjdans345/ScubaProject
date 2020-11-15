@@ -15,7 +15,7 @@
       	}else {
       	  var id = '${user_id}';	 
       	      $.ajax({
-      	    	 url : 'getinquirylist.ser',
+      	    	 url : '${contextPath}/Service/getinquirylist',
       	    	 type : 'POST',
       	    	 data : {id:id},
       	    	 success : function(data) {
@@ -44,7 +44,7 @@
 		var CategoryTag = List[i];
 		var Category = CategoryTag.id;
 		$.ajax({
-			url : 'getServiceList.ser',
+			url : '${contextPath}/Service/getServiceList',
 			type : 'POST',
 			data : {Category : Category},
 			success : function(data) {
@@ -64,7 +64,7 @@
 }
 function writeinquiry() {
   var html = '<button class="btn btn-block btn-round btn-b" onclick="viewinquiry()">1대1 문의내역 보기</button>';
-  html += '<form action="${contextPath}/writeinquiry.ser" method="post">';
+  html += '<form action="${contextPath}/Service/writeinquiry" method="post">';
   html += '<div class="panel panel-default">';
   html += '<div class="panel-heading">';
   html += '<h4 class="panel-title font-alt"><input class="form-control" type="text" name="title" placeholder="제목"></h4></div>';
@@ -76,7 +76,7 @@ function writeinquiry() {
 function viewinquiry() {
   var id = '${user_id}';	 
       $.ajax({
-    	 url : 'getinquirylist.ser',
+    	 url : '${contextPath}/Service/getinquirylist',
     	 type : 'POST',
     	 data : {id:id},
     	 success : function(data) {
@@ -109,8 +109,8 @@ function viewinquiry() {
               <div class="col-sm-8 col-sm-offset-2">
                <h4 class="font-alt mb-0">고객센터</h4>
                 <hr class="divider-w mt-10 mb-20">
-                <a href="${contextPath}/MoveServiceList.ser">이용안내 관리페이지</a>
-                <a href="${contextPath}/MoveInquiryList.ser">1대1문의 관리페이지</a>
+                <a href="${contextPath}/Service/MoveServiceList">이용안내 관리페이지</a>
+                <a href="${contextPath}/Service/MoveInquiryList">1대1문의 관리페이지</a>
                 <div class="row">
                     <div class="tab-pane" id="list">
                       <div class="panel-group" id="accordion" style="padding: 0 15px;">

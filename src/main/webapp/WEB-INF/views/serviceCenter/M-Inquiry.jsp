@@ -10,14 +10,14 @@
 window.onload = function() {
 	var status = $('#status option:selected').val();
 	$.ajax({
-		url : 'getAllinquiryList.ser',
+		url : '${contextPath}/Service/getAllinquiryList',
 		type : 'POST',
 		data : {answerstatus:status},
 		success : function(data) {
 			var html ="";
 			for (var i = 0; i < data.length; i++) {
 			html += "<tr><td>"+data[i].id+"</td>";
-			html += "<td><a href='${contextPath}/MoveModInquiry.ser?Num="+data[i].Num+"'>"+data[i].title+"</a></td>";
+			html += "<td><a href='${contextPath}/Service/MoveModInquiry?Num="+data[i].Num+"'>"+data[i].title+"</a></td>";
 			html += "<td>"+data[i].contents+"</td>";
 			html += "<td>"+data[i].writedate+"</td>";
 			if(data[i].answerstatus==0){
@@ -34,14 +34,14 @@ window.onload = function() {
 function statusChange() {
 	var status = $('#status option:selected').val();
 	$.ajax({
-		url : 'getAllinquiryList.ser',
+		url : '${contextPath}/Service/getAllinquiryList',
 		type : 'POST',
 		data : {answerstatus:status},
 		success : function(data) {
 			var html ="";
 			for (var i = 0; i < data.length; i++) {
 			html += "<tr><td>"+data[i].id+"</td>";
-			html += "<td><a href='${contextPath}/MoveModInquiry.ser?Num="+data[i].Num+"'>"+data[i].title+"</a></td>";
+			html += "<td><a href='${contextPath}/Service/MoveModInquiry?Num="+data[i].Num+"'>"+data[i].title+"</a></td>";
 			html += "<td>"+data[i].contents+"</td>";
 			html += "<td>"+data[i].writedate+"</td>";
 			if(data[i].answerstatus==0){

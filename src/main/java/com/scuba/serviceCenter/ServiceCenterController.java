@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping(value = "/Service/*")
 public class ServiceCenterController {
 	
 	private ModelAndView modelAndView = new ModelAndView();

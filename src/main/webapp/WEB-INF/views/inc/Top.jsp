@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
@@ -67,21 +68,21 @@
       <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style="background-color: #e0efff;">
         <div class="container">
           <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="${contextPath}/index.scu" style="color: black;">Titan</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#custom-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="${contextPath}/index/main" style="color: black;">Scuba</a>
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right topMenu">
               <li><a href="R-ResortList.jsp" style="display: inline-block;">샾 소개</a>
               </li>
-              <li><a href="${contextPath}/DivingCountry.info">다이빙지도</a>
+              <li><a href="${contextPath}/informations/DivingCountry">다이빙지도</a>
               </li>
               <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">커뮤니티</a>
                 <ul class="dropdown-menu" style="background-color: #c4dffb;">
-                  <li><a href="${contextPath}/freeBoard.free">자유 게시판</a></li>
+                  <li><a href="${contextPath}/freeBoard/freeBoardList">자유 게시판</a></li>
                   <li><a href="index_mp_fullscreen_video_background.html">구인 구직</a></li>
                   <li><a href="index_op_fullscreen_gradient_overlay.html">동료 모집</a></li>
                   <li><a href="index_agency.html">후기 게시판</a></li>
-                  <li><a href="index_portfolio.html">수중 사진</a></li>
+                  <li><a href="${contextPath}/underWaterBoard/underWaterBoardList">수중 사진</a></li>
                   <li><a href="index_restaurant.html">중고 장터</a></li>
                 </ul>
               </li>
@@ -90,21 +91,21 @@
                 <ul class="dropdown-menu" style="background-color: #c4dffb;">
                   <li><a href="index_mp_fullscreen_video_background.html">공지사항</a></li>
                   <li><a href="index_op_fullscreen_gradient_overlay.html">이벤트</a></li>
-                  <li><a href="${contextPath}/moveServiceCenter.ser">이용안내</a></li>
+                  <li><a href="${contextPath}/Service/moveServiceCenter">이용안내</a></li>
                 </ul>
                </li>
 				<c:choose>
 					<c:when test="${user_id == null}">
 						<li>
-					    <a href="${contextPath}/login.mem" style="display: inline-block;">로그인</a>
+					    <a href="${contextPath}/member/login" style="display: inline-block;">로그인</a>
 						</li>
 					</c:when>
 					<c:otherwise>
 					<li class="dropdown" >
 					    <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="display: inline-block;">마이페이지</a>
 							<ul class="dropdown-menu" style="background-color: #c4dffb;">
-			                  <li><a href="${contextPath}/MoveuserUpdate.mem">회원정보 수정</a></li>
-			                  <li><a href="${contextPath}/logout.mem">로그아웃</a></li>
+			                  <li><a href="${contextPath}/member/MoveuserUpdate">회원정보 수정</a></li>
+			                  <li><a href="${contextPath}/member/logout">로그아웃</a></li>
 			                </ul>
 			        </li>
 					</c:otherwise>

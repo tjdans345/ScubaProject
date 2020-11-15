@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 @Controller
+@RequestMapping(value = "/informations/*")
 public class InformationController{
 	
 	@Autowired

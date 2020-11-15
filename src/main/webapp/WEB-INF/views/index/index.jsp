@@ -19,7 +19,7 @@
 <script type="text/javascript">
 window.onload = function() {
 	$.ajax({
-		url : 'indexCity.info',
+		url : '${contextPath}/informations/indexCity',
 		success : function (data) {
 		var html = '<div class="post-thumbnail" id="preView">';
 			html += '<img src="${contextPath}/resources/upload/information/City/'+data[0].cityImage+'" alt="Blog Featured Image" />';

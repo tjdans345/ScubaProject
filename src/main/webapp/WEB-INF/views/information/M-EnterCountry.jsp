@@ -45,7 +45,7 @@ function preView(event) {
 function CountryChage() {
 	var CountryName = $("#CountryNameCategory option:selected").val();
 	$.ajax({
-		url:'getCountryinfo.info',
+		url:'${contextPath}/informations/getCountryinfo',
 		type:'POST',
 		data : {CountryName : CountryName},
 		success : function(data){
@@ -94,7 +94,7 @@ function CountryChage() {
 	            </div>
 <!--             이미지 -->
                 <hr class="divider-w mt-10 mb-20">
-                <form class="form" role="form" id="form" method="post" action="${contextPath}/sendCountry.info" enctype="multipart/form-data">
+                <form class="form" role="form" id="form" method="post" action="${contextPath}/informations/sendCountry" enctype="multipart/form-data">
                   <div class="form-group">
                     <input class="form-control input-sm" id="CountryName" name="CountryName" type="text" placeholder="국가명" required/>
                   </div>

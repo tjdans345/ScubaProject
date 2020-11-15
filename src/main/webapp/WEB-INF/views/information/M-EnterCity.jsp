@@ -46,7 +46,7 @@ function preView(event) {
 function CountryChange() {
 	var CountryName = $("#CountryNameCategory option:selected").val();
 	$.ajax({
-		url:'getCityList.info',
+		url:'${contextPath}/informations/getCityList',
 		type:'POST',
 		data : {CountryName : CountryName},
 		success : function (data) {
@@ -66,7 +66,7 @@ function CountryChange() {
 function CityChange() {
 	var CityName = $("#CityNameCategory option:selected").val();
 	$.ajax({
-		url:'getCityinfo.info',
+		url:'${contextPath}/informations/getCityinfo',
 		type:'POST',
 		data:{CityName:CityName},
 		success : function(data) {
@@ -121,7 +121,7 @@ function CityChange() {
 	            </div>
 <!--             이미지 -->
                 <hr class="divider-w mt-10 mb-20">
-                <form class="form" role="form" id="form" method="post" action="${contextPath}/sendCity.info" enctype="multipart/form-data">
+                <form class="form" role="form" id="form" method="post" action="${contextPath}/informations/sendCity" enctype="multipart/form-data">
                   <div class="form-group">
                     <input class="form-control input-sm" id="CityName" name="CityName" type="text" placeholder="도시명" required/>
                   </div>

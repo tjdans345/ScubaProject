@@ -14,7 +14,7 @@
               <div class="col-sm-8" style="text-align:-webkit-center;">
               <h4 class="font-alt mb-0">1대1 문의 수정</h4>
                 <hr class="divider-w mt-10 mb-20">
-                <form class="form" role="form" action="${contextPath}/ModInquiry.ser" method="post">
+                <form class="form" role="form" action="${contextPath}/Service/ModInquiry" method="post">
                 	<input type="hidden" name="Num" value="${info.num}">
                   <div class="form-group">
                     <input class="form-control input-lg" type="text" value="${info.id}" readonly="readonly"/>
@@ -33,7 +33,7 @@
                	  </div>
                   <div class="row" style="text-align: center;">
                   <button class="btn btn-border-d btn-round" >수정하기</button>&nbsp;
-                  <button class="btn btn-border-d btn-round" type="button" onclick="location.href='${contextPath}/MoveInquiryList.ser';">리스트가기</button>
+                  <button class="btn btn-border-d btn-round" type="button" onclick="location.href='${contextPath}/Service/MoveInquiryList';">리스트가기</button>
                   </div>
                 </form>
               </div>

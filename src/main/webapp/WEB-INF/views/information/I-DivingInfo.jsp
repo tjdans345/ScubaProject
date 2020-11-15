@@ -11,7 +11,7 @@
 window.onload=function(){
 	var CityName = '${nowCityName}';
 	$.ajax({
-		url : 'getDivingList.info',
+		url : '${contextPath}/informations/getDivingList',
 		type : 'POST',
 		data : {CityName:CityName},
 		success:function(data){
@@ -26,7 +26,7 @@ window.onload=function(){
 	 		var img = document.createElement("img");
 	 		img.setAttribute("src","${contextPath}/resources/assets/images/scubaFlag.png");
 			img.setAttribute("class","pointChecker");
-			img.setAttribute("onclick","location.href='${contextPath}/DivingSiteView.info?CityName=${nowCityName}&DivingName="+DivingName+"'");
+			img.setAttribute("onclick","location.href='${contextPath}/informations/DivingSiteView?CityName=${nowCityName}&DivingName="+DivingName+"'");
 			img.setAttribute("cursor","pointer");
 			img.style.position="absolute";
 	 		img.style.width="15px";
@@ -49,7 +49,7 @@ window.onload=function(){
 			 		var img = document.createElement("img");
 			 		img.setAttribute("src","${contextPath}/resources/assets/images/scubaFlag.png");
 					img.setAttribute("class","pointChecker");
-					img.setAttribute("onclick","location.href='${contextPath}/DivingSiteView.info?CityName=${nowCityName}&DivingName="+DivingName+"'");
+					img.setAttribute("onclick","location.href='${contextPath}/informations/DivingSiteView?CityName=${nowCityName}&DivingName="+DivingName+"'");
 					img.setAttribute("cursor","pointer");
 					img.style.position="absolute";
 			 		img.style.width="15px";
@@ -65,11 +65,11 @@ window.onload=function(){
 }
 function CountryChange() {
 	var CountryName = $("#CountryNameCategory option:selected").val();
-	location.href="${contextPath}/DivingCountry.info?CountryName="+CountryName;
+	location.href="${contextPath}/informations/DivingCountry?CountryName="+CountryName;
 }
 function CityChange() {
 	var CityName = $("#CityNameCategory option:selected").val();
-	location.href="${contextPath}/DivingCity.info?CityName="+CityName;
+	location.href="${contextPath}/informations/DivingCity?CityName="+CityName;
 }
 </script>
 </head>
