@@ -12,7 +12,7 @@ public class MemberVO {
 	private String id;
 	private String pwd;
 	private String nickname;
-	private String email;
+	private String email , image;
 	private int status;
 	private int decCount;
 }

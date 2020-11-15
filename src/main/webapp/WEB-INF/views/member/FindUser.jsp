@@ -32,7 +32,7 @@ function findId() {
 		alert("이메일 형식이 잘못 되었습니다 .")
 	}else{
 		$.ajax({
-			url:'findId.mem',
+			url:'${contextPath}/member/findId',
 			type:'POST',
 			data:{email:email},
 			success:function(data){
@@ -64,7 +64,7 @@ function sendEmailPwd() {
 		alert('이메일 형식이 잘못되었습니다 .')
 	}else{
 		$.ajax({
-			url:'sendEmailPwd.mem',
+			url:'${contextPath}/member/sendEmailPwd',
 			type:'POST',
 			data:{id:id,email:email},
 			success:function(data){
@@ -80,7 +80,7 @@ function sendEmailPwd() {
 					document.getElementById('id').readOnly = true;
 					document.getElementById('email_pwd').readOnly = true;
 					$.ajax({
-						url:'sendEmailPwd2.mem',
+						url:'${contextPath}/member/sendEmailPwd2',
 						type:'POST',
 						data:{id:id,email:email},
 						success:function(data){
@@ -133,7 +133,7 @@ function PwdChange() {
               <div class="col-sm-4 col-sm-offset-4 passf" style="min-width: 397px; display: none;">
                 <h4 class="font-alt">비밀번호 찾기</h4>
                 <hr class="divider-w mb-10">
-                <form class="form" id="PwdChange" method="post" action="${contextPath}/PwdChange.mem">
+                <form class="form" id="PwdChange" method="post" action="${contextPath}/member/PwdChange">
                   <div class="form-group">
                     <input class="form-control" id="id" type="text" name="id" placeholder="id"/>
                   </div>

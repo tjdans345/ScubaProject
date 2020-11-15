@@ -17,7 +17,7 @@ function emailSend() {
 		$('#email').focus();
 	}else{
 		$.ajax({
-			url:'emailSend.mem',
+			url:'${contextPath}/member/emailSend',
 			type : 'POST',
 			data : {email:email},
 			success: function(data) {
@@ -76,7 +76,7 @@ function userjoin() {
             <div class="col-sm-4 col-sm-offset-4" >
                <h4 class="font-alt">회원 가입</h4>
                <hr class="divider-w mb-10">
-               <form class="form" id="joinform" action="${contextPath}/userjoin.mem" method="post" style="min-width: 245px;">
+               <form class="form" id="joinform" action="${contextPath}/member/userjoin" method="post" style="min-width: 245px;">
 				  <div class="form-group">
                     <input class="form-control" id="id" type="text" name="id" placeholder="id"/>
                   </div>
@@ -96,11 +96,11 @@ function userjoin() {
                     </div>    
                   </div> 
                   <div class="form-group">
-                    <input class="form-control" id="emailcheck" style="display: none;" type="text" name="emailcheck" placeholder="인증번호"/>
+                    <input class="form-control" id="emailcheck" style="display: none;" type="text" name="emailcheck" placeholder="인증번호" required="required"/>
                   </div>    
                   <div class="form-group" style="float: right;">
                     <button class="btn btn-round btn-b" type="button" onclick="userjoin()">회원 가입</button>
-                    <button class="btn btn-round btn-b" onclick="history.back()">취소</button>
+                    <button class="btn btn-round btn-b" type="button" onclick="history.back()">취소</button>
                   </div>
                </form>
              </div>
@@ -120,7 +120,7 @@ $('#id').on("blur",function(){
 		$('#id').focus();
 	}else{
 		$.ajax({
-			url:'idCheck.mem',
+			url:'${contextPath}/member/idCheck',
 			type:'POST',
 			data:{id:id},
 			success:function(data){
@@ -173,7 +173,7 @@ $('#nickname').on('blur',function(){
 		$('#nickname').focus();
 	}else{
 		$.ajax({
-			url:'nicknameCheck.mem',
+			url:'${contextPath}/member/nicknameCheck',
 			type:'POST',
 			data:{nickname:nickname},
 			success:function(data){
@@ -201,7 +201,7 @@ $('#email').on('blur',function(){
 		$('#email').focus();
 	}else{
 		$.ajax({
-			url:'emailCheck.mem',
+			url:'${contextPath}/member/emailCheck',
 			type:'POST',
 			data:{email:email},
 			success:function(data){
