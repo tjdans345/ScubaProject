@@ -5,6 +5,8 @@
 <configuration>
 	<typeAliases>
  		<typeAlias type="com.scuba.member.MemberVO" alias="memberVO"/>
+ 		<typeAlias type="com.scuba.information.InformationVO" alias="informationVO"/>
+ 		<typeAlias type="com.scuba.serviceCenter.ServiceCenterVO" alias="serviceCenterVO"/>
  		<typeAlias type="com.scuba.freeboard.FreeBoardVO" alias="freeboardVO"/>
 	</typeAliases>
 </configuration>

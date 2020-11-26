@@ -40,7 +40,7 @@ function pwdCheck() {
               <div class="col-sm-4 col-sm-offset-4 idf" style="min-width: 397px;">
                 <h4 class="font-alt">비밀번호 변경</h4>
                 <hr class="divider-w mb-10">
-                <form class="form" method="post" id="findPwdChage" action="${contextPath}/findPwdChage.mem">
+                <form class="form" method="post" id="findPwdChage" action="${contextPath}/member/findPwdChage">
                   <div class="form-group">
                     <input class="form-control" id="id" type="text" name="id" value="${id}" readonly="readonly"/>
                   </div> 

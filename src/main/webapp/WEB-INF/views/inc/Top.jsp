@@ -49,7 +49,7 @@
     <script src="${contextPath}/resources/assets/lib/imagesloaded/imagesloaded.pkgd.js"></script>
     <script src="${contextPath}/resources/assets/lib/flexslider/jquery.flexslider.js"></script>
     <script src="${contextPath}/resources/assets/lib/owl.carousel/dist/owl.carousel.min.js"></script>
-    <script src="${contextPath}/resources/assets/lib/smoothscroll.js"></script>
+<%--     <script src="${contextPath}/resources/assets/lib/smoothscroll.js"></script> --%>
     <script src="${contextPath}/resources/assets/lib/magnific-popup/dist/jquery.magnific-popup.js"></script>
     <script src="${contextPath}/resources/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js"></script>
     <script src="${contextPath}/resources/assets/js/plugins.js"></script>
@@ -72,14 +72,9 @@
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right topMenu">
-              <li ><a href="R-ResortList.jsp" style="display: inline-block;">샾 소개</a>
+              <li><a href="R-ResortList.jsp" style="display: inline-block;">샾 소개</a>
               </li>
-                <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">정보소개</a>
-                <ul class="dropdown-menu" style="background-color: #c4dffb;">
-                  <li><a href="index_mp_fullscreen_video_background.html">지도 사진</a></li>
-                  <li><a href="index_op_fullscreen_gradient_overlay.html">포인트 리스트</a></li>
-                  <li><a href="index_agency.html">물고기 리스트</a></li>
-                </ul>
+              <li><a href="${contextPath}/informations/DivingCountry">다이빙지도</a>
               </li>
               <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">커뮤니티</a>
                 <ul class="dropdown-menu" style="background-color: #c4dffb;">
@@ -96,28 +91,32 @@
                 <ul class="dropdown-menu" style="background-color: #c4dffb;">
                   <li><a href="index_mp_fullscreen_video_background.html">공지사항</a></li>
                   <li><a href="index_op_fullscreen_gradient_overlay.html">이벤트</a></li>
-                  <li><a href="index_op_fullscreen_gradient_overlay.html">이용안내</a></li>
+                  <li><a href="${contextPath}/Service/moveServiceCenter">이용안내</a></li>
                 </ul>
                </li>
-              <li>
 				<c:choose>
-					<c:when test="${id == null}">
-					    <a href="${contextPath}/login.mem" style="display: inline-block;">로그인</a>
+					<c:when test="${user_id == null}">
+						<li>
+					    <a href="${contextPath}/member/login" style="display: inline-block;">로그인</a>
+						</li>
 					</c:when>
 					<c:otherwise>
-					    <a href="${contextPath}/login.mem" style="display: inline-block;">로그인 중</a>
+					<li class="dropdown" >
+					    <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="display: inline-block;">마이페이지</a>
+							<ul class="dropdown-menu" style="background-color: #c4dffb;">
+			                  <li><a href="${contextPath}/member/MoveuserUpdate">회원정보 수정</a></li>
+			                  <li><a href="${contextPath}/member/logout">로그아웃</a></li>
+			                </ul>
+			        </li>
 					</c:otherwise>
 				</c:choose>
-              </li>
             </ul>
           </div>
         </div>
       </nav>
       	<!-- 	상단 배너 -->
 <!--       	배경 이미지 1 ~ 6  -->
-<%
-	int random = (int)(Math.random()*10000)%6+1;
-%>
+<%int random = (int)(Math.random()*10000)%6+1; %>
 	<section class="module bg-dark-30 about-page-header" data-background="${contextPath}/resources/assets/images/TopBanner<%=random%>.jpg" style="padding: 200px 0;">
 	</section>
 	<!-- 	상단 배너 -->
