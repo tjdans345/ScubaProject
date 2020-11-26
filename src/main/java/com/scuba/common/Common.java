@@ -10,13 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -29,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/Common/*")
 public class Common {
 
-	private static final Logger logger = LoggerFactory.getLogger(Common.class);
+	
 	ModelAndView mav = new ModelAndView();
 
 	// 경고창 띄어주기
@@ -93,11 +90,9 @@ public class Common {
 				upload.transferTo(file);
 				// 서버 업로드
 				// write메소드의 매개값으로 파일의 총 바이트를 매개값으로 줌
-				String callback = request.getParameter("CKEditorFuncNum");
+//				String callback = request.getParameter("CKEditorFuncNum");
 				// 서버 => 클라이언트로 텍스트 전송(자바스크립트 실행)
 				String fileUrl = request.getContextPath() + "/resources/images/Temporary/" + id + "/" + fileSaveName;
-//				printWriter.println("<script>window.parent.CKEDITOR.tools.callFunction(" + callback + ",'" + fileUrl
-//						+ "','이미지가 업로드되었습니다.')" + "</script>");
 				printWriter.println("{\"filename\" : \""+fileSaveName+"\", \"uploaded\" : 1, \"url\":\""+fileUrl+"\"}");
 				printWriter.flush();
 			}
@@ -108,6 +103,7 @@ public class Common {
 	public int imguploadServer(HttpServletRequest request, HttpServletResponse response, ArrayList<String> realimglist,String category, String folderNum) {
 		// result : 파일 이동 및 임시폴더 삭제완료시 반환 값 , dfm : 파일이동 유무 확인, dfr : 디렉토리 파일 삭제 유무 확인
 		// result = 0:실패 / 1:성공
+		System.out.println("이미지 업로드 서버 찍힘요ㅕ ~ ");
 		int result = 0, dfr = 0, dfm = 0;
 		// 세션영역에서 유저아이디 얻어옴 (for 임시폴더 path설정)
 		String id = (String) request.getSession().getAttribute("user_id");
@@ -238,14 +234,9 @@ public class Common {
 		public int imguploadModifyServer(HttpServletRequest request, HttpServletResponse response, ArrayList<String> realimglist,String category, String folderNum){
 					// result : 파일 이동 및 임시폴더 삭제완료시 반환 값 , dfm : 파일이동 유무 확인, dfr : 디렉토리 파일 삭제 유무 확인
 					// result = 0:실패 / 1:성공
-					int result = 0, dfr = 0, dfm = 0;
-					System.out.println("와쓰");
-					// 세션영역에서 유저아이디 얻어옴 (for 임시폴더 path설정)
-					String id = (String) request.getSession().getAttribute("user_id");
+					int result = 0;
 					// DB글 번호 (서버에 저장 될 폴더이름)
 					String serverFolderName = folderNum;
-					// 임시파일 경로
-					String tempPath = request.getSession().getServletContext().getRealPath("/resources/images/Temporary/" + id);
 					// 서버파일업로드 경로(실제 저장 폴더)
 					String serverUploadPath = request.getSession().getServletContext().getRealPath("/resources/images/" + category + "/" + serverFolderName);
 					// 파일 업로드 폴더명
@@ -264,11 +255,11 @@ public class Common {
 						unUselist.addAll(Arrays.asList(tempfiles));
 						
 						System.out.println("테스트 리스트 1:   " + unUselist);
-						//중복된 값 다 제거 
+						//중복된 값 다 제거 (실제 사용하는 이미지 외에 파일들 걸러내는 작업)
 						unUselist.removeAll(realimglist);
 						System.out.println("테스트 리스트 2:   " + unUselist);
 						
-						//사용하지 않는 이미지가 없다면
+						//사용하지 않는 이미지가 없다면 (다 사용한다면)
 						if(unUselist.size() ==0 ) {
 							System.out.println("zzz");
 							result = 1;
@@ -310,9 +301,7 @@ public class Common {
 					tempfile.delete();
 					if (!tempfile.isFile()) { //파일이 존재 하지 않을 시
 						fileDeleteResult = 1;
-						System.out.println("파일없다요");
 					} else { //파일이 존재 하면 (삭제 되지 않았을 경우)
-						System.out.println("파일있다요");
 						fileDeleteResult = 0;
 					}
 				}
@@ -344,6 +333,21 @@ public class Common {
 		return dirDeleteResult;
 	}
 	
+	//썸네일 이미지 업로드
+	public void ThumbnailUpload(MultipartFile upload, String fileSaveName, String folderNum, String category, HttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {
+
+		// 임시파일업로드 서버경로를 설정해줌
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/images/"+category+"/Thumbnail/"+folderNum);
+		// 유저 아이디로로 임시폴더를 만들어줌
+		File makeFolder = new File(uploadPath);
+		if (!makeFolder.exists()) {
+			makeFolder.mkdirs();
+		}
+		// 해당경로에 파일을 업로드함
+		File file = new File(uploadPath, fileSaveName);
+			upload.transferTo(file);
+		
+	}
 		
 
 }

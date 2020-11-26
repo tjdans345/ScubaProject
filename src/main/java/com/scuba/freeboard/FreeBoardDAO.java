@@ -29,7 +29,7 @@ public class FreeBoardDAO {
 		return sqlsession.update("mapper.Freeboard.contentChange", map);
 	}
 	
-	// 최신 게시글 +1 번호 조회
+	// 최신 게시글  번호 조회
 	public int getMaxNum() {
 		return sqlsession.selectOne("mapper.Freeboard.getMaxNum");
 	}

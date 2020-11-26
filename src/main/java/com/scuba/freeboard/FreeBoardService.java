@@ -46,7 +46,7 @@ public class FreeBoardService {
 		String category = (String) request.getSession().getAttribute("category");
 		// 컨텐트 내용 저장후 정규식을 이용하여 src 경로만 추출
 		String content = freeboardVO.getContent();
-		// src경로 추출 정규식 ********src태그 뽑아오는 거<src=[\\\\\\\"']?([^>\\\\\\\"']+)[\\\\\\\"']?[^>]*>*******
+		// src경로 추출 정규식 ********src태그만 뽑아오는 정규식<src=[\\\\\\\"']?([^>\\\\\\\"']+)[\\\\\\\"']?[^>]*>*******
 		Pattern pattern = Pattern.compile("<img[^>]*src=[\\\"']?(?!https:)([^>\\\"']+)[\\\"']?[^>]*>");
 		Matcher matcher = pattern.matcher(content);
 		// imglist : src경로 list , realimglist : 실제 이미지(파일)명 list
@@ -239,7 +239,7 @@ public class FreeBoardService {
 		int i = 0;
 		// 컨텐트 전체내용에서 src경로가 나올때까지 설정한 정규식을 통하여 추출함
 		while (matcher.find()) {
-			System.out.println("정규식 추출" + matcher.group(1));
+			System.out.println("정규식 추출" +i+ matcher.group(1));
 			if (matcher.group(1) == null) {
 				break;
 			}
@@ -252,7 +252,6 @@ public class FreeBoardService {
 			//이미지 유무 확인
 			imgexists = 1;
 		}
-		
 		if(imgexists == 1) {
 			common.imguploadModifyServer(request, response, realimglist, category, folderNum);
 		} else { //이미지 없을 시
