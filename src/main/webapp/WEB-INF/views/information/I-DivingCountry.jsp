@@ -36,7 +36,7 @@ function CountryChange() {
 			for(var i = 0 ; i < data.length ; i++){
 				var html = '<div class="col-sm-6 col-md-4 col-lg-4">';
 				html += '<div class="post">';
-				html += '<div class="post-thumbnail"><a href="${contextPath}/informations/DivingCity?CityName='+data[i].CityName+'"><img src="${contextPath}/resources/upload/information/City/'+data[i].CityImage+'" alt="Blog-post Thumbnail"/></a></div>';
+				html += '<div class="post-thumbnail"><a href="${contextPath}/informations/DivingCity?CityName='+data[i].CityName+'"><img src="${contextPath}/resources/upload/admin/information/City/'+data[i].CityImage+'" alt="Blog-post Thumbnail"/></a></div>';
 				html += '<div class="post-header font-alt">';
 				html += '<h2 class="post-title"><a href="${contextPath}/informations/DivingCity?CityName='+data[i].CityName+'">'+data[i].CityName+'</a></h2>';
 				html += '</div></div></div>';

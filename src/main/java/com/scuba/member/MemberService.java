@@ -33,7 +33,7 @@ public class MemberService {
 		if(1 == memberDAO.idCheck(memberVO.getId())) {
 			if(pwdchange(memberVO.getPwd()).equals(memberDAO.getPwd(memberVO.getId()))) {
 				request.getSession().setAttribute("user_id",memberVO.getId());
-				nextPage = "redirect:/index.scu";
+				nextPage = "redirect:/index/main";
 			}else {
 				msg = "비밀번호가 틀렸습니다 .";
 				nextPage = "member/Login";

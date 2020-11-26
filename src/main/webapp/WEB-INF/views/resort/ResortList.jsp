@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@include file="../inc/Top.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,6 @@
 <style type="text/css">
 	.list{margin-bottom: 15px;}
 </style>
-<jsp:include page="../inc/Top.jsp"/>
 </head>
 <body>
 	
@@ -41,7 +41,7 @@
 <!-- 	리스트 -->
           	<div class="col-sm-10" style="margin-top: 2%;">
             <div class="row list">
-              <div class="col-sm-6 col-md-8 col-lg-8" style="padding-left: 0%;"><img src="../assets/images/section-1.jpg" alt="Title of Image"/></div>
+              <div class="col-sm-6 col-md-8 col-lg-8" style="padding-left: 0%;"><img src="${contextPath}/resources/assets/images/section-1.jpg" alt="Title of Image"/></div>
               <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="work-details">
                   <h4 class="work-details-title font-alt">리조트 이름</h4>
@@ -57,7 +57,7 @@
             </div>
             
              <div class="row list">
-              <div class="col-sm-6 col-md-8 col-lg-8" style="padding-left: 0%;"><img src="../assets/images/section-1.jpg" alt="Title of Image"/></div>
+              <div class="col-sm-6 col-md-8 col-lg-8" style="padding-left: 0%;"><img src="${contextPath}/resources/assets/images/section-1.jpg" alt="Title of Image"/></div>
               <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="work-details">
                   <h4 class="work-details-title font-alt">리조트 이름</h4>
@@ -73,7 +73,7 @@
             </div>
             
              <div class="row list">
-              <div class="col-sm-6 col-md-8 col-lg-8" style="padding-left: 0%;"><img src="../assets/images/section-1.jpg" alt="Title of Image"/></div>
+              <div class="col-sm-6 col-md-8 col-lg-8" style="padding-left: 0%;"><img src="${contextPath}/resources/assets/images/section-1.jpg" alt="Title of Image"/></div>
               <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="work-details">
                   <h4 class="work-details-title font-alt">리조트 이름</h4>
@@ -105,7 +105,7 @@
 						<ul class="widget-posts">
 							<li class="clearfix">
 								<div class="widget-posts-image">
-									<a href="#"><img src="../assets/images/rp-3.jpg"
+									<a href="#"><img src="${contextPath}/resources/assets/images/rp-3.jpg"
 										alt="Post Thumbnail" /></a>
 								</div>
 								<div class="widget-posts-body">
@@ -117,7 +117,7 @@
 							</li>
 							<li class="clearfix">
 								<div class="widget-posts-image">
-									<a href="#"><img src="../assets/images/rp-4.jpg"
+									<a href="#"><img src="${contextPath}/resources/assets/images/rp-4.jpg"
 										alt="Post Thumbnail" /></a>
 								</div>
 								<div class="widget-posts-body">

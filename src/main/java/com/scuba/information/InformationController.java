@@ -58,7 +58,7 @@ public class InformationController{
 	@RequestMapping(value = "getCountryinfo", method = RequestMethod.POST)
 	public JSONObject getCountryinfo(String CountryName,HttpSession session,
 									HttpServletRequest request) {
-		String url = request.getContextPath()+"/resources/upload/information/Country/";
+		String url = request.getContextPath()+"/resources/upload/admin/information/Country/";
 		InformationVO informationVO = informationService.getCountryinfo(CountryName);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("CountryName",informationVO.getCountryName());
@@ -92,7 +92,7 @@ public class InformationController{
 	@RequestMapping(value = "getCityinfo", method = RequestMethod.POST)
 	public JSONObject getCityinfo(String CityName,HttpSession session,
 									HttpServletRequest request) {
-		String url = request.getContextPath()+"/resources/upload/information/City/";
+		String url = request.getContextPath()+"/resources/upload/admin/information/City/";
 		InformationVO informationVO = informationService.getCityinfo(CityName);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("CityName",informationVO.getCityName());
@@ -105,7 +105,7 @@ public class InformationController{
 	@RequestMapping(value = "getCountryPointinfo", method = RequestMethod.POST)
 	public JSONArray getCountryPointinfo(String CountryName,HttpSession session,
 									HttpServletRequest request) {
-		String url = request.getContextPath()+"/resources/upload/information/Country/";
+		String url = request.getContextPath()+"/resources/upload/admin/information/Country/";
 		List<HashMap<String,Object>> list = informationService.getCountryPointinfo(CountryName);
 		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonObject = new JSONObject();
@@ -220,4 +220,10 @@ public class InformationController{
 	public List<InformationVO> indexCity(){
 		return informationService.indexCity();
 	}
+	@ResponseBody
+	@RequestMapping(value = "getCountryNameList")
+	public List<String> getCountryNameList(){
+		return informationService.getCountryName();
+	}
+	
 }

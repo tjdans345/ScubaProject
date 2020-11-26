@@ -47,8 +47,6 @@ public class Common {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter printWriter = response.getWriter();
-		// test용
-		request.getSession().setAttribute("user_id", "test3");
 		// 임시폴더 이름(아이디)
 		String id = (String) request.getSession().getAttribute("user_id");
 		// 이미지 이름 얻어오기(실제이름)

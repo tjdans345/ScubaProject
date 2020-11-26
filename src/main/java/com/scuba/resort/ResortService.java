@@ -1,0 +1,55 @@
+package com.scuba.resort;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+@Service
+public class ResortService {
+	@Autowired
+	private ResortDAO resortDAO;
+	
+	public void EnterResort(MultipartHttpServletRequest multipartHttpServletRequest,
+							HttpSession session) throws Exception {
+		ResortVO resortVO = new ResortVO();
+		int num = 1;
+		if(resortDAO.CheckNum()!=0) {
+			num = resortDAO.getMaxNum()+1;
+		}
+		resortVO.setNum(num);
+		resortVO.setId((String)session.getAttribute("user_id"));
+		resortVO.setResortName(multipartHttpServletRequest.getParameter("resortName"));
+		resortVO.setPhoneNumber(multipartHttpServletRequest.getParameter("phoneNumber"));
+		resortVO.setCacaoId(multipartHttpServletRequest.getParameter("cacaoId"));
+		if(multipartHttpServletRequest.getParameter("phoneNumber")==null) resortVO.setPhoneNumber("");
+		if(multipartHttpServletRequest.getParameter("cacaoId")==null) resortVO.setCacaoId("");
+		resortVO.setHomepageAddress(multipartHttpServletRequest.getParameter("homepageAddress"));
+		if(multipartHttpServletRequest.getParameter("homepageAddress")==null) resortVO.setHomepageAddress("");
+		resortVO.setSimpleIntroduce(multipartHttpServletRequest.getParameter("simpleIntroduce"));
+		resortVO.setContents(multipartHttpServletRequest.getParameter("contents"));
+		resortVO.setTag(multipartHttpServletRequest.getParameter("tag"));
+		resortVO.setAddress(multipartHttpServletRequest.getParameter("address"));
+		resortVO.setCountry(multipartHttpServletRequest.getParameter("country"));
+		resortVO.setCity(multipartHttpServletRequest.getParameter("city"));
+		List<MultipartFile> list = new ArrayList<MultipartFile>();
+		for(int i = 1 ; i < 4 ; i ++) {
+			if(multipartHttpServletRequest.getFile("image"+i).getOriginalFilename() != "") {
+				list.add(multipartHttpServletRequest.getFile("image"+i));
+			}
+		}
+		resortVO.setImage1(list.get(0).getOriginalFilename());
+		if(list.size()==2) resortVO.setImage2(list.get(1).getOriginalFilename());
+		if(list.size()==3) resortVO.setImage3(list.get(2).getOriginalFilename());
+		String url = session.getServletContext().getRealPath("/resources/upload/Resort/"+num+"/");
+		for(int i = 0 ; i < list.size() ; i++) {
+			resortDAO.FileUpload(list.get(i), url);
+		}
+		resortDAO.EnterResort(resortVO);
+	}
+}

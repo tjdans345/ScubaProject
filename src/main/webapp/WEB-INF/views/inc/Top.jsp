@@ -49,7 +49,6 @@
     <script src="${contextPath}/resources/assets/lib/imagesloaded/imagesloaded.pkgd.js"></script>
     <script src="${contextPath}/resources/assets/lib/flexslider/jquery.flexslider.js"></script>
     <script src="${contextPath}/resources/assets/lib/owl.carousel/dist/owl.carousel.min.js"></script>
-<%--     <script src="${contextPath}/resources/assets/lib/smoothscroll.js"></script> --%>
     <script src="${contextPath}/resources/assets/lib/magnific-popup/dist/jquery.magnific-popup.js"></script>
     <script src="${contextPath}/resources/assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js"></script>
     <script src="${contextPath}/resources/assets/js/plugins.js"></script>
@@ -72,7 +71,13 @@
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right topMenu">
-              <li><a href="R-ResortList.jsp" style="display: inline-block;">샾 소개</a>
+              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">리조트</a>
+                <ul class="dropdown-menu" style="background-color: #c4dffb;">
+                  <li><a href="${contextPath}/Resort/moveResortList">리조트 리스트</a></li>
+                  <c:if test="${user_id != null}">
+                    <li><a href="${contextPath}/Resort/moveResortWriter">리조트 등록하기</a></li>
+                  </c:if>
+                </ul>
               </li>
               <li><a href="${contextPath}/informations/DivingCountry">다이빙지도</a>
               </li>
