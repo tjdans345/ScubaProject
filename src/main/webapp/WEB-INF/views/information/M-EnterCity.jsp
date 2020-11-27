@@ -134,7 +134,8 @@ function CityChange() {
 	                  <c:forEach var="CountryName" items="${CountryList}">
 	                  <option value="${CountryName}">${CountryName}</option>
 	                  </c:forEach>
-	                </select>                  </div>
+	                </select>                  
+	                </div>
                   <div class="form-group">
                     <input class="form-control input-sm" name="DivingXpoint" id="Xpoint" type="text" placeholder="x축 좌표" readonly="readonly"/>
                   </div>
@@ -184,21 +185,37 @@ function CityChange() {
         </section>
         <script type="text/javascript">
         function checkform() {
-        	if($('#CityName').val()==""){
-        		alert("도시명을 입력해 주세요");
-        	}else if($('#CountryName option:selected').val()=="국가 명"){
-        		alert("국가명을 선택해 주세요 .");
-        	}else if($('#DivingName').val()==""){
-        		alert("다이빙 사이트 명을 입력해 주세요 .");
-        	}else if($('#DivingExp').val()==""){
-        		alert("다이빙사이트 설명을 입력해 주세요 . ");
-        	}else if($('#DivingRating option:selected').val()=="단계"){ 
-        		alert("다이빙사이트 단계를 입력해 주세요 .");
-        	}else if($('#Xpoint').val()==""){
-        		alert("이미지의 좌표를 지정해 주세요 .");
-        	}else{
-        		$('#form').submit();
-        	}
+			var CityName = $('#CityName').val();
+			var CountryName = $('#CountryName option:selected').val();
+			if(CountryName == null){
+				CountryName = $('#CountryName').val();
+			}
+			var CityCheck = 0;
+        	$.ajax({
+        		url:'${contextPath}/informations/CityCheck',
+        		type:'POST',
+        		data:{CityName : CityName , CountryName : CountryName},
+        		success: function (data) {
+					CityCheck = data;
+		        	if($('#CityName').val()==""){
+		        		alert("도시명을 입력해 주세요");
+		        	}else if($('#CountryName option:selected').val()=="국가 명"){
+		        		alert("국가명을 선택해 주세요 .");
+		        	}else if($('#DivingName').val()==""){
+		        		alert("다이빙 사이트 명을 입력해 주세요 .");
+		        	}else if($('#DivingExp').val()==""){
+		        		alert("다이빙사이트 설명을 입력해 주세요 . ");
+		        	}else if($('#DivingRating option:selected').val()=="단계"){ 
+		        		alert("다이빙사이트 단계를 입력해 주세요 .");
+		        	}else if($('#Xpoint').val()==""){
+		        		alert("이미지의 좌표를 지정해 주세요 .");
+		        	}else if(CityCheck == 1){
+						alert("등록된 도시가 아님니다 .");
+		        	}else{
+		        		$('#form').submit();
+		        	}
+				}
+        	});
         }
         </script>
 <jsp:include page="../inc/Footer.jsp"/>

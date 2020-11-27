@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 public class ResortService {
 	@Autowired
 	private ResortDAO resortDAO;
-	
+	//리조트 글등록
 	public void EnterResort(MultipartHttpServletRequest multipartHttpServletRequest,
 							HttpSession session) throws Exception {
 		ResortVO resortVO = new ResortVO();

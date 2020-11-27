@@ -48,7 +48,7 @@ public class InformationController{
 	public ModelAndView sendCountry(MultipartHttpServletRequest mutirequest,
 									HttpSession session) throws Exception {
 		informationService.enterCountry(mutirequest, session);
-		modelAndView.setViewName("redirect:/EnterCountry.info");
+		modelAndView.setViewName("redirect:/informations/EnterCountry");
 		return modelAndView;
 	}
 	//국가 등록시 카테고리 변경
@@ -76,7 +76,7 @@ public class InformationController{
 	public ModelAndView sendCity(MultipartHttpServletRequest multirequest,
 									HttpSession session) throws Exception {
 		informationService.enterCity(multirequest, session);
-		modelAndView.setViewName("redirect:/EnterCity.info");
+		modelAndView.setViewName("redirect:/informations/EnterCity");
 		return modelAndView;
 	}
 	//국가 카테고리 변경
@@ -219,14 +219,22 @@ public class InformationController{
 	public List<InformationVO> indexCity(){
 		return informationService.indexCity();
 	}
+	//도시 페이지 리조트 뿌려주기
 	@ResponseBody
 	@RequestMapping(value = "getCountryNameList")
 	public List<String> getCountryNameList(){
 		return informationService.getCountryName();
 	}
+	//인덱스페이지 리조트 뿌려주기
 	@ResponseBody
 	@RequestMapping(value = "getIndexCityResortList" , method = RequestMethod.POST)
 	public List<ResortVO> getIndexCityResortList(String CityName){
 		return informationService.getIndexCityResortList(CityName);
+	}
+	//도시 체크
+	@ResponseBody
+	@RequestMapping(value = "CityCheck" , method = RequestMethod.POST)
+	public int CityCheck(String CityName , String CountryName){
+		return informationService.CityCheck(CityName, CountryName);
 	}
 }
