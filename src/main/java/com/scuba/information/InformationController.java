@@ -10,16 +10,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+import com.scuba.resort.ResortVO;
 
 @Controller
 @RequestMapping(value = "/informations/*")
@@ -130,6 +128,7 @@ public class InformationController{
 		modelAndView.addObject("nowCountryName",list.get(0).getCountryName());
 		modelAndView.addObject("CityList", informationService.getCityList(list.get(0).getCountryName()));
 		modelAndView.addObject("FishList",informationService.getFishinCity(CityName));
+		modelAndView.addObject("resortList",informationService.getCityResortList(CityName));
 		modelAndView.setViewName("information/I-DivingInfo");
 		return modelAndView;
 	}
@@ -225,5 +224,9 @@ public class InformationController{
 	public List<String> getCountryNameList(){
 		return informationService.getCountryName();
 	}
-	
+	@ResponseBody
+	@RequestMapping(value = "getIndexCityResortList" , method = RequestMethod.POST)
+	public List<ResortVO> getIndexCityResortList(String CityName){
+		return informationService.getIndexCityResortList(CityName);
+	}
 }

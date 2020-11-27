@@ -1,6 +1,7 @@
 package com.scuba.resort;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -51,5 +52,27 @@ public class ResortService {
 			resortDAO.FileUpload(list.get(i), url);
 		}
 		resortDAO.EnterResort(resortVO);
+	}
+	public HashMap<String,Object> getAdminResortList(int nowpage , int resortStatus,String search){
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("search","%"+search+"%");
+		map.put("resortStatus",resortStatus);
+		int total = resortDAO.getResortCount(map);
+		int pagesize = 5;
+		int totalpage = total/pagesize+(total%pagesize==0?0:1);
+		int pagefirst = (nowpage-1)*pagesize;
+		int blocksize = 3 ;
+		int blockfirst = nowpage -((nowpage-1)%blocksize);
+		int blocklast = blockfirst + (blocksize-1);
+		if(blocklast>totalpage) blocklast = totalpage;
+		map.put("totalpage",totalpage);
+		map.put("resortStatus",resortStatus);
+		map.put("pagefirst",pagefirst);
+		map.put("resortList",resortDAO.getAdminResortList(map));
+		map.put("search",search);
+		map.put("blockfirst",blockfirst);
+		map.put("blocklast",blocklast);
+		map.put("blocksize",blocksize);
+		return map;
 	}
 }

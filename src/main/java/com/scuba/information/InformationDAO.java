@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.scuba.resort.ResortVO;
+
 @Repository
 public class InformationDAO {
 	@Autowired
@@ -89,5 +91,13 @@ public class InformationDAO {
 	//랜덤 도시이름 가져오기
 	public String getRandomCityName() {
 		return sqlSession.selectOne("mapper.information.getRandomCityName");
+	}
+	//도시명으로 리조트 가져오기
+	public List<ResortVO> getCityResortList(String CityName){
+		return sqlSession.selectList("mapper.resort.getCityResortList",CityName);
+	}
+	//인덱스 도시명으로 리조트 리스트 가져오기
+	public List<ResortVO> getIndexCityResortList(String CityName){
+		return sqlSession.selectList("mapper.resort.getIndexCityResortList", CityName);
 	}
 }

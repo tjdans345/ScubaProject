@@ -36,6 +36,7 @@
                   <option>조회순</option>
                   <option>등록순</option>
                 </select>
+                <a href='${contextPath}/Resort/moveResortAdmin'>리조트 관리 페이지</a>
                 </div>
 <!-- 	검색 정렬순서 -->
 <!-- 	리스트 -->

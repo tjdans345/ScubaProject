@@ -3,7 +3,26 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.resort" >
-<!-- 	등록된 리조트가 있는지 확인 -->
+	<resultMap type="resortVO" id="getresortList">
+		<result column="num" property="num"/>
+		<result column="resortStatus" property="resortStatus"/>
+		<result column="id" property="id"/>
+		<result column="resortName" property="resortName"/>
+		<result column="phoneNumber" property="phoneNumber"/>
+		<result column="cacaoId" property="cacaoId"/>
+		<result column="homepageAddress" property="homepageAddress"/>
+		<result column="simpleIntroduce" property="simpleIntroduce"/>
+		<result column="contents" property="contents"/>
+		<result column="tag" property="tag"/>
+		<result column="address" property="address"/>
+		<result column="country" property="country"/>
+		<result column="image1" property="image1"/>
+		<result column="image2" property="image2"/>
+		<result column="image3" property="image3"/>
+		<result column="city" property="city"/>
+		<result column="enterDate" property="enterDate"/>
+	</resultMap>
+<!-- 	리조트  글 존재여부 확인 -->
 	<select id="CheckNum" resultType="int">
 		<![CDATA[
 		select count(num) from resort
@@ -23,7 +42,33 @@
 		`image2`, `image3`, `address`, `country`, `city`) 
 		VALUES (#{num},#{id},#{resortName},#{phoneNumber},
 		#{cacaoId},#{homepageAddress},#{simpleIntroduce},#{contents},#{tag},
-		#{image1},#{image2},#{image3},#{address},#{country},#{city});
+		#{image1},#{image2},#{image3},#{address},#{country},#{city})
 		]]>
 	</insert>
+	<!-- 	리조트 총 글 갯수 구하기 -->
+	<select id="getResortCount" resultType="int" parameterType="hashmap">
+		<![CDATA[
+		select count(num) from resort 
+		where resortStatus = #{resortStatus} and resortName like #{search}
+		]]>
+	</select>
+<!-- 	관리자 리조트 리스트 가져오기 -->
+	<select id="getAdminResortList" parameterType="hashmap" resultMap="getresortList">
+		<![CDATA[
+		select * from resort where resortStatus=#{resortStatus}
+		and	resortName like #{search} order by num limit #{pagefirst},5
+		]]>
+	</select>
+<!-- 	시티명으로 리조트 리스트 가져오기 -->
+	<select id="getCityResortList" parameterType="String" resultMap="getresortList">
+		<![CDATA[
+		select * from resort where city=#{CityName}
+		]]>
+	</select>
+<!-- 	시티명으로 리조트 리스트 가져오기 (index) -->
+	<select id="getIndexCityResortList" parameterType="String" resultMap="getresortList">
+		<![CDATA[
+		select * from resort where city=#{CityName} limit 6
+		]]>
+	</select>
 </mapper>

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.scuba.resort.ResortVO;
 @Service
 public class InformationService {
 	@Autowired
@@ -140,5 +142,13 @@ public class InformationService {
 	public List<InformationVO> indexCity() {
 		String CityName = informationDAO.getRandomCityName();
 		return informationDAO.getDivinglist(CityName);
+	}
+	//도시명으로 리조트 리스트 가져오기
+	public List<ResortVO> getCityResortList(String CityName){
+		return informationDAO.getCityResortList(CityName);
+	}
+	//인덱스 도시명으로 리조트 리스트 가져오기
+	public List<ResortVO> getIndexCityResortList(String CityName){
+		return informationDAO.getIndexCityResortList(CityName);
 	}
 }
