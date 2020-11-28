@@ -45,7 +45,8 @@ public class MemberController {
 								HttpServletRequest request) throws Exception {
 		memberService.joinMember(memberVO);
 		request.getSession().setAttribute("user_id",memberVO.getId());
-		modelAndView.setViewName("redirect:/index.scu");
+		request.getSession().setAttribute("user_nickname", memberVO.getNickname());
+		modelAndView.setViewName("redirect:/index/main");
 		return modelAndView;
 	}
 //로그인

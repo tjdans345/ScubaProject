@@ -83,9 +83,9 @@ window.onload = function() {
 					    for (var i = 0; i < data2.length; i++) {
 							html += '<li class="clearfix">';
 							html +='<div class="widget-posts-image">';
-							html +='<a href="#"><img src="${contextPath}/resources/upload/Resort/'+data2[i].num+'/'+data2[i].image1+'"/></a>';
+							html +='<a href="#"><img src="${contextPath}/resources/images/Resort/thumbnail/'+data2[i].num+'/'+data2[i].image1+'"/></a>';
 							html +='</div><div class="widget-posts-body"><div class="widget-posts-title">';
-							html +='<a href="#">'+data2[i].resortName+'</a></div></div></li>';	
+							html +='<a href="${contextPath}/Resort/moveViewResort?num='+data2[i].num+'">'+data2[i].resortName+'</a></div></div></li>';	
 						}
 					    $('#aroundResort').append(html);
 					}

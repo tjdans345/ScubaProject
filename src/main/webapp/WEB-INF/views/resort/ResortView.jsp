@@ -1,39 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@include file="../inc/Top.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>리조트 상세보기</title>
-<jsp:include page="../inc/Top.jsp"/>
 </head>
 <body>
+<!-- 관리자 , 작성자 일때 버튼 보이기 , 출입 가능 하기 설정 해야함. -->
 <!-- 리조트 정보 -->
         <section class="module-small">
           <div class="container">
             <div class="row"> 
               <div class="col-sm-8">
                 <div class="post">
-					<div class="post-images-slider">
+					<div class="post-images-slider" style="height: 600px;">
 	                  <ul class="slides">
-	                    <li><img class="center-block" src="../assets/images/work-1.jpg" alt="Slider Image"/></li>
-	                    <li><img class="center-block" src="../assets/images/work-2.jpg" alt="Slider Image"/></li>
-	                    <li><img class="center-block" src="../assets/images/work-4.jpg" alt="Slider Image"/></li>
+	                    <li><img class="center-block" src="${contextPath}/resources/images/Resort/thumbnail/${resortVO.num}/${resortVO.image1}"/></li>
+						<c:if test="${resortVO.image2 != null}">
+						<li><img class="center-block" src="${contextPath}/resources/images/Resort/thumbnail/${resortVO.num}/${resortVO.image2}"/></li>
+						</c:if>
+						<c:if test="${resortVO.image3 != null}">
+						<li><img class="center-block" src="${contextPath}/resources/images/Resort/thumbnail/${resortVO.num}/${resortVO.image3}"/></li>
+						</c:if>
 	                  </ul>
                 	</div>                 
                 	<div class="post-header font-alt">
-                    <h1 class="post-title">글 제목</h1>
-                    <div class="post-meta">작성자| 등록일자 | ♥ 개수 
+                    <h1 class="post-title">${resortVO.resortName}</h1>
+                    <div class="post-meta">${resortVO.id}| ${resortVO.enterDate} | ♥ 개수 
                     </div>
                   </div>
                   <div class="post-entry">
-                    <p>리조트 설명 내용입니다.</p>
+                    <p>${resortVO.contents}</p>
                   </div>
                 </div>
                 <div class="row">
-               	  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">목록보기</button>
-                  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">글 삭제</button>
-                  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">글 수정</button>
+               	  <button class="btn btn-border-d btn-round" type="button" style="float: right; margin: 5px;">목록보기</button>
+                  <button class="btn btn-border-d btn-round" type="button" onclick="location.href='${contextPath}/Resort/delResort?num=${resortVO.num}'" style="float: right; margin: 5px;">글 삭제</button>
+                  <button class="btn btn-border-d btn-round" type="button" style="float: right; margin: 5px;">글 수정</button>
                 </div>
               </div>
 <!--               위 ( 이미지 , 설명 ) // 아래 ( 사이드바 ) -->
@@ -42,28 +47,28 @@
                   <h5 class="widget-title font-alt">근처의 다른 숖(파워광고)</h5>
                   <ul class="widget-posts">
                     <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-1.jpg" alt="Post Thumbnail"/></a></div>
+                      <div class="widget-posts-image"><a href="#"><img src="${contextPath}/resources/assets/images/rp-1.jpg" alt="Post Thumbnail"/></a></div>
                       <div class="widget-posts-body">
                         <div class="widget-posts-title"><a href="#">Designer Desk Essentials</a></div>
                         <div class="widget-posts-meta">23 january</div>
                       </div>
                     </li>
                     <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-2.jpg" alt="Post Thumbnail"/></a></div>
+                      <div class="widget-posts-image"><a href="#"><img src="${contextPath}/resources/assets/images/rp-2.jpg" alt="Post Thumbnail"/></a></div>
                       <div class="widget-posts-body">
                         <div class="widget-posts-title"><a href="#">Realistic Business Card Mockup</a></div>
                         <div class="widget-posts-meta">15 February</div>
                       </div>
                     </li>
                     <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-3.jpg" alt="Post Thumbnail"/></a></div>
+                      <div class="widget-posts-image"><a href="#"><img src="${contextPath}/resources/assets/images/rp-3.jpg" alt="Post Thumbnail"/></a></div>
                       <div class="widget-posts-body">
                         <div class="widget-posts-title"><a href="#">Eco bag Mockup</a></div>
                         <div class="widget-posts-meta">21 February</div>
                       </div>
                     </li>
                     <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-4.jpg" alt="Post Thumbnail"/></a></div>
+                      <div class="widget-posts-image"><a href="#"><img src="${contextPath}/resources/assets/images/rp-4.jpg" alt="Post Thumbnail"/></a></div>
                       <div class="widget-posts-body">
                         <div class="widget-posts-title"><a href="#">Bottle Mockup</a></div>
                         <div class="widget-posts-meta">2 March</div>
@@ -73,7 +78,8 @@
                 </div>
                 <div class="widget">
                   <h5 class="widget-title font-alt">해쉬태그</h5>
-                  <div class="tags font-serif"><a href="#" rel="tag">Blog</a><a href="#" rel="tag">Photo</a><a href="#" rel="tag">Video</a><a href="#" rel="tag">Image</a><a href="#" rel="tag">Minimal</a><a href="#" rel="tag">Post</a><a href="#" rel="tag">Theme</a><a href="#" rel="tag">Ideas</a><a href="#" rel="tag">Tags</a><a href="#" rel="tag">Bootstrap</a><a href="#" rel="tag">Popular</a><a href="#" rel="tag">English</a>
+                  <div class="tags font-serif">
+                  ${resortVO.tag}
                   </div>
                 </div> <br><br><br>
               </div>
@@ -90,26 +96,26 @@
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="description">
-					<p>인사말</p>
+					<p>${resortVO.simpleIntroduce}</p>
                   </div>
                   <div class="tab-pane" id="data-sheet">
                     <table class="table table-striped ds-table table-responsive">
                       <tbody>
                         <tr>
                           <th width="20%">리조트 이름</th>
-                          <td colspan="3">이름</td>
+                          <td colspan="3">${resortVO.resortName}</td>
                         </tr>
                         <tr>
                           <th>주소</th>
-                          <td>부산시</td>
+                          <td>${resortVO.homepageAddress}</td>
                           <th>휴대폰</th>
-                          <td>01012341234</td>
+                          <td>${resortVO.phoneNumber}</td>
                         </tr>
                         <tr>
                           <th>홈페이지 주소</th>
-                          <td >google.com</td>
-                          <th><img src="../assets/images/kakaoIcon.png" width="19px" alt="kakaoIcon"></th>
-                          <td>KaKaOId</td>
+                          <td >${resortVO.homepageAddress}</td>
+                          <th><img src="${contextPath}/resources/assets/images/kakaoIcon.png" width="19px" alt="kakaoIcon"></th>
+                          <td>${resortVO.cacaoId}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -189,42 +195,42 @@
               <div class="owl-carousel text-center" data-items="5" data-pagination="false" data-navigation="false">
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-1.jpg" alt="Leather belt"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-1.jpg" alt="Leather belt"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">Leather belt</a></h4>
                     </div>
                   </div>
                 </div>
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-3.jpg" alt="Derby shoes"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-3.jpg" alt="Derby shoes"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">Derby shoes</a></h4>
                     </div>
                   </div>
                 </div>
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-2.jpg" alt="Leather belt"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-2.jpg" alt="Leather belt"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">Leather belt</a></h4>
                     </div>
                   </div>
                 </div>
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-4.jpg" alt="Leather belt"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-4.jpg" alt="Leather belt"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">Leather belt</a></h4>
                     </div>
                   </div>
                 </div>
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-5.jpg" alt="Chelsea boots"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-5.jpg" alt="Chelsea boots"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">Chelsea boots</a></h4>
                     </div>
                   </div>
                 </div>
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="#"><img src="../assets/images/shop/product-6.jpg" alt="Leather belt"/></a>
+                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-6.jpg" alt="Leather belt"/></a>
                       <h4 class="shop-item-title font-alt"><a href="#">Leather belt</a></h4>
                     </div>
                   </div>

@@ -28,8 +28,8 @@ public class ResortDAO {
 		file.transferTo(saveFile);
 	}
 	//리조트 등록하기
-	public void EnterResort(ResortVO resortVO) {
-		sqlSession.insert("mapper.resort.EnterResort", resortVO);
+	public int EnterResort(ResortVO resortVO) {
+		return sqlSession.insert("mapper.resort.EnterResort", resortVO);
 	}
 	//리조트 글 갯수 가져오기
 	public int getResortCount(HashMap<String,Object> map) {
@@ -38,6 +38,18 @@ public class ResortDAO {
 	//관리자 페이지 리조트 리스트 가져오기
 	public List<ResortVO> getAdminResortList(HashMap<String,Object> map){
 		return sqlSession.selectList("mapper.resort.getAdminResortList",map);
+	}
+	//이미지 경로 변경
+	public int contentChange(HashMap map) {
+		return sqlSession.update("mapper.resort.contentChange", map);
+	}
+	//글번호로 리조트 정보 가져오기
+	public ResortVO getResortInfo(int num) {
+		return sqlSession.selectOne("mapper.resort.getResortInfo",num);
+	}
+	//조회수 증가
+	public void viewCountAdd(int num) {
+		sqlSession.update("mapper.resort.viewCountAdd",num);
 	}
 	
 }

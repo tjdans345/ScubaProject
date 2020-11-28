@@ -67,7 +67,7 @@ function resortStatusChange() {
                         <h6 class="product-title font-alt">${resortVO.id}</h6>
                       </td>
                       <td>
-                        <h6 class="product-title font-alt">${resortVO.resortName}</h6>
+                        <h6 class="product-title font-alt"><a href="${contextPath}/Resort/moveViewResort?num=${resortVO.num}">${resortVO.resortName}</a></h6>
                       </td>
                       <td>
                         <h6 class="product-title font-alt">${resortVO.phoneNumber}</h6>

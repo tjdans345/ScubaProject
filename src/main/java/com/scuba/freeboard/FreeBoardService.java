@@ -31,9 +31,9 @@ public class FreeBoardService {
 	public HashMap write(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		// ID값 설정 지워도 됨 나중에
-		request.getSession().setAttribute("user_id", "test3");
+//		request.getSession().setAttribute("user_id", "test3");
 		// 닉네임값 설정 지워도 됨 나중에
-		request.getSession().setAttribute("user_nickname", "1");
+//		request.getSession().setAttribute("user_nickname", "1");
 		// 임시 닉네임값.
 		String nickname = "1";
 		freeboardVO.setNickname(nickname);

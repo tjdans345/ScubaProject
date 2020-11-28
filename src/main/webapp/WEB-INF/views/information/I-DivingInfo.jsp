@@ -222,9 +222,9 @@ function CityChange() {
 	                    </tr>
 	                    <c:forEach items="${resortList}" var="resortVO">
 		                    <tr>
-		                      <td class="hidden-xs"><a href="#"><img src="${contextPath}/resources/upload/Resort/${resortVO.num}/${resortVO.image1}"/></a></td>
+		                      <td class="hidden-xs"><a href="#"><img src="${contextPath}/resources/images/Resort/thumbnail/${resortVO.num}/${resortVO.image1}"/></a></td>
 		                      <td>
-		                        <h5 class="font-alt">${resortVO.resortName}</h5>
+		                        <h5 class="font-alt"><a href="${contextPath}/Resort/moveViewResort?num=${resortVO.num}">${resortVO.resortName}</a></h5>
 		                      </td>
 		                      <td class="hidden-xs">
 		                        <h5 class="font-alt">${resortVO.homepageAddress}</h5>

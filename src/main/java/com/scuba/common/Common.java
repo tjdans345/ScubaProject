@@ -8,7 +8,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -342,6 +344,35 @@ public class Common {
 		return dirDeleteResult;
 	}
 	
+	//페이징(매개변수 현제 페이지 , 총 글 갯수 , 페이지 사이즈,블락사이즈)
+	public HashMap<String,Object> paging (int nowpage , int total ,int pagesize,int blocksize){
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		//총 페이지 수
+		int totalpage = total/pagesize+(total%pagesize==0?0:1);
+		//페이지 시작 번호
+		int pagefirst = (nowpage-1)*pagesize;
+		//블락의 첫번째 번호
+		int blockfirst = nowpage -((nowpage-1)%blocksize);
+		//블락의 마지막 번호
+		int blocklast = blockfirst + (blocksize-1);
+		if(blocklast>totalpage) blocklast = totalpage;
 		
+		map.put("totalpage",totalpage);
+		map.put("pagefirst",pagefirst);
+		map.put("blockfirst",blockfirst);
+		map.put("blocklast",blocklast);
+		map.put("blocksize",blocksize);
+		return map;
+		//페이징 예시
+//        <c:if test="${map.blockfirst!=1}">
+//        <a href="${contextPath}/Resort/moveResortAdmin?nowpage=${map.blockfirst-1}&resortStatus=${map.resortStatus}&search=${map.search}"><i class="fa fa-angle-left"></i></a>
+//        </c:if>
+//        <c:forEach begin="${map.blockfirst}" end="${map.blocklast}" var="i">
+//        <a href="${contextPath}/Resort/moveResortAdmin?nowpage=${i}&resortStatus=${map.resortStatus}&search=${map.search}">${i}</a>
+//        </c:forEach>
+//        <c:if test="${map.totalpage != map.blocklast }">
+//        <a href="${contextPath}/Resort/moveResortAdmin?nowpage=${map.blocklast+1}&resortStatus=${map.resortStatus}&search=${map.search}"><i class="fa fa-angle-right"></i></a>
+//        </c:if>
+	} 
 
 }

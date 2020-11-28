@@ -21,6 +21,7 @@
 		<result column="image3" property="image3"/>
 		<result column="city" property="city"/>
 		<result column="enterDate" property="enterDate"/>
+		<result column="viewCount" property="viewCount"/>
 	</resultMap>
 <!-- 	리조트  글 존재여부 확인 -->
 	<select id="CheckNum" resultType="int">
@@ -71,4 +72,22 @@
 		select * from resort where city=#{CityName} limit 6
 		]]>
 	</select>
+<!-- 	컨텐트 내용 변경 -->
+	<update id="contentChange" parameterType="hashmap">
+		<![CDATA[
+		update resort set contents = #{afterContent} where num = ${contentNum};
+		]]>
+	</update>
+<!-- 	리조트 번호로 리조트 정보 가져오기 -->
+	<select id="getResortInfo" parameterType="int" resultType="resortVO">
+		<![CDATA[
+		select * from resort where num = #{num}
+		]]>
+	</select>
+<!-- 	조회수 추가 -->
+	<update id="viewCountAdd" parameterType="int">
+		<![CDATA[
+		update resort set viewCount=viewCount+1 where num = #{num}
+		]]>
+	</update>
 </mapper>

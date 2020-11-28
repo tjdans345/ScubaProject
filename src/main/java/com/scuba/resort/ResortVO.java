@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @Component
 public class ResortVO {
-	private int num ,resortStatus;
+	private int num ,resortStatus , viewCount;
 	private String id , resortName, phoneNumber, cacaoId , homepageAddress;
 	private String simpleIntroduce , contents , tag , address , country;
 	private String image1 , image2 , image3 , city;

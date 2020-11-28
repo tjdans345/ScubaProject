@@ -1,5 +1,7 @@
 package com.scuba.resort;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,10 @@ public class ResortController {
 	//리조트 등록
 	@RequestMapping(value = "EnterResort" , method = RequestMethod.POST)
 	public ModelAndView EnterResort(MultipartHttpServletRequest multipartHttpServletRequest, 
-									HttpSession session) throws Exception{
-		resortService.EnterResort(multipartHttpServletRequest, session);
-		modelAndView.setViewName("resort/ResortWriter");
+									HttpServletRequest request,
+									HttpServletResponse response) throws Exception{
+		int num = resortService.EnterResort(multipartHttpServletRequest, request , response);
+		modelAndView.setViewName("redirect:/Resort/moveViewResort?num="+num);
 		return modelAndView;
 	}
 	//리조트 관리자 페이지 이동
@@ -45,6 +48,19 @@ public class ResortController {
 										@RequestParam(defaultValue = "") String search) {
 		modelAndView.addObject("map",resortService.getAdminResortList(nowpage, resortStatus,search));
 		modelAndView.setViewName("resort/M-ResortList");
+		return modelAndView;
+	}
+	//리조트 상세보기 이동
+	@RequestMapping(value = "moveViewResort")
+	public ModelAndView moveViewResort(int num) {
+		modelAndView.addObject("resortVO",resortService.getResortInfo(num));
+		modelAndView.setViewName("resort/ResortView");
+		return modelAndView;
+	}
+	//리조트 삭제
+	@RequestMapping(value = "delResort")
+	public ModelAndView delResort(int num) {
+		
 		return modelAndView;
 	}
 	
