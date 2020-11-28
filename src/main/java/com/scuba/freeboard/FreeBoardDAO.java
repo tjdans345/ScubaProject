@@ -25,7 +25,7 @@ public class FreeBoardDAO {
 	}
 	
 	//이미지 경로 변경
-	public int contentChange(HashMap map) {
+	public int contentChange(HashMap<String, Object> map) {
 		return sqlsession.update("mapper.Freeboard.contentChange", map);
 	}
 	

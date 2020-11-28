@@ -62,6 +62,7 @@ public class FreeBoardController {
 	public ModelAndView freeboarModify(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response) {
 //		System.out.println(freeboardVO.getNum());
 		freeboardCheckVO.setNum(freeboardVO.getNum());
+		request.getSession().setAttribute("category",freeboardVO.getCommunityname());
 		mav.addObject("modifyList", freeboardService.ModifyList(freeboardVO.getNum()));
 		mav.setViewName("C_free/Modify");
 		return mav;
@@ -72,7 +73,7 @@ public class FreeBoardController {
 	public ModelAndView writeinsert(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// Service 글 등록
-		HashMap resultMap = freeboardService.write(freeboardVO, request, response);
+		HashMap<String, Object> resultMap = freeboardService.write(freeboardVO, request, response);
 		int writeResult = (Integer) resultMap.get("writeResult");
 		// 글 등록 성공시 (1:이미지o 2:이미지x)
 		if (writeResult == 1 || writeResult == 2) {
@@ -97,7 +98,7 @@ public class FreeBoardController {
 			//뷰페이지 악의적인 조작 검증
 			if(originalNum == nowNum) {
 				// Service 글 수정
-				HashMap resultMap = freeboardService.Modify(freeboardVO, request, response);
+				HashMap<String, Object> resultMap = freeboardService.Modify(freeboardVO, request, response);
 				// 글 수정 결과 리턴값 
 				int modifyResult = (Integer)resultMap.get("modifyResult");
 				// 글 수정 성공시 (1:이미지o 2:이미지x)

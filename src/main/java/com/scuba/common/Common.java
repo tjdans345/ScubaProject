@@ -14,12 +14,14 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -28,7 +30,33 @@ public class Common {
 
 	
 	ModelAndView mav = new ModelAndView();
-
+	//이미지 유효성 체크
+	@ResponseBody
+	@RequestMapping(value = "imgCheck", method = RequestMethod.POST)
+	public int imgCheck(MultipartHttpServletRequest request) throws IOException {
+		System.out.println("와쓰;");
+		System.out.println(request.getFile("imgfile"));
+		MultipartFile file = request.getFile("imgfile");
+		int result = 0;
+		
+		String fileOriginalName = file.getOriginalFilename();
+		// 파일 확장자 얻기
+		String ext = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+		System.out.println(fileOriginalName);
+		System.out.println(ext);
+		if(!(".gif".equalsIgnoreCase(ext) || ".jpg".equalsIgnoreCase(ext) || ".png".equalsIgnoreCase(ext))) {
+			result = 1; //파일 확장자 체크
+		}else { 
+			//파일 크기 제한 (xml 설정외에도 코드로 제한해놨음)
+			if(file.getSize() > 5*1024*1024) {
+			result = 2; //파일 크기 체크
+			}
+			result = 3; //파일 확장자, 크기 적합
+		}
+		
+		return result;
+	}
+	
 	// 경고창 띄어주기
 	public void noticeMethod(HttpServletRequest request, HttpServletResponse response, String notice) throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
@@ -44,8 +72,6 @@ public class Common {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter printWriter = response.getWriter();
-		// test용
-		request.getSession().setAttribute("user_id", "test3");
 		// 임시폴더 이름(아이디)
 		String id = (String) request.getSession().getAttribute("user_id");
 		// 이미지 이름 얻어오기(실제이름)
@@ -106,7 +132,7 @@ public class Common {
 		System.out.println("이미지 업로드 서버 찍힘요ㅕ ~ ");
 		int result = 0, dfr = 0, dfm = 0;
 		// 세션영역에서 유저아이디 얻어옴 (for 임시폴더 path설정)
-		String id = (String) request.getSession().getAttribute("user_id");
+		String id = (String)request.getSession().getAttribute("user_id");
 		// DB글 번호 (서버에 저장 될 폴더이름)
 		String serverFolderName = folderNum;
 		// 임시파일 경로
@@ -176,9 +202,7 @@ public class Common {
 				PrintWriter printWriter = response.getWriter();
 				String contentNum = num;
 				System.out.println("contentNum : " + contentNum);
-				// test용
-				request.getSession().setAttribute("user_id", "test3");
-				String category = "free";
+				String category = (String)request.getSession().getAttribute("category");
 				String serverFolderName = contentNum;
 				// 이미지 이름 얻어오기(실제이름)
 				String fileOriginalName = upload.getOriginalFilename();
@@ -245,8 +269,8 @@ public class Common {
 					if (!serverFolder.exists()) {
 						serverFolder.mkdirs();
 					}
-					// 삭제 디렉토리 및 파일 경로
-					File deleteDir = new File(serverUploadPath);
+						// 삭제 디렉토리 및 파일 경로
+						File deleteDir = new File(serverUploadPath);
 						//서버 폴더에 들어있는 전체 이미지 리스트
 						String[] tempfiles = deleteDir.list();
 						
@@ -261,7 +285,6 @@ public class Common {
 						
 						//사용하지 않는 이미지가 없다면 (다 사용한다면)
 						if(unUselist.size() ==0 ) {
-							System.out.println("zzz");
 							result = 1;
 						} else{
 							String filePath = serverUploadPath;
@@ -336,9 +359,10 @@ public class Common {
 	//썸네일 이미지 업로드
 	public void ThumbnailUpload(MultipartFile upload, String fileSaveName, String folderNum, String category, HttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {
 
-		// 임시파일업로드 서버경로를 설정해줌
+		//파일업로드 서버경로를 설정해줌
 		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/images/"+category+"/Thumbnail/"+folderNum);
-		// 유저 아이디로로 임시폴더를 만들어줌
+		
+		//업로드 파일 폴더 생성
 		File makeFolder = new File(uploadPath);
 		if (!makeFolder.exists()) {
 			makeFolder.mkdirs();
@@ -346,8 +370,57 @@ public class Common {
 		// 해당경로에 파일을 업로드함
 		File file = new File(uploadPath, fileSaveName);
 			upload.transferTo(file);
+	}
+	
+	//썸네일 수정 시 기존 썸네일 삭제
+	public void ThumbnailModify(String thumbnail, String folderNum, MultipartFile file, String category, HttpServletRequest request, HttpServletResponse response) {
+		//서버경로를 설정해줌
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/images/"+category+"/Thumbnail/"+folderNum);
+		
+		// 삭제 디렉토리 및 파일 경로
+		File deleteDir = new File(uploadPath);
+		//서버 폴더에 들어있는 전체 이미지 리스트
+		String[] tempfiles = deleteDir.list();
+		//중복된 값 제거 위해 List형식으로 변경
+		ArrayList<String> thumbnailimg = new ArrayList<String>();
+		thumbnailimg.add(thumbnail);
+		
+		//저장폴더에 있는 모든파일 List형식으로 변경
+		List<String> unUselist = new ArrayList<String>();
+		unUselist.addAll(Arrays.asList(tempfiles));
+		//중복된 값 다 제거 (실제 사용하는 이미지 외에 파일들 걸러내는 작업)
+		unUselist.removeAll(thumbnailimg);
+		
+		// 사용하지않는 파일(이미지)삭제 for문
+		for (int i =0; i<unUselist.size(); i++) {
+			File deleteFile = new File(uploadPath+"/"+unUselist.get(i));
+			//삭제 할 파일 있는지 체크 후 삭제
+			if(deleteFile.exists()) {
+				deleteFile.delete();
+			}
+		}
 		
 	}
-		
-
+	
+	//글 삭제시 썸네일 이미지 삭제
+	public void ThumbnailDelete(HttpServletRequest request, HttpServletResponse response, String category, String folderNum) {
+		//서버경로를 설정해줌
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/images/"+category+"/Thumbnail/"+folderNum);
+		File deleteDir = new File(uploadPath);
+		File[] tempfiles = deleteDir.listFiles();
+		// 삭제 for문
+		File serverFolder = new File(uploadPath);
+		// 폴더가 있으면 파일삭제
+		if (serverFolder.exists()) {
+			//삭제할 파일이 존재 한다면
+			if(tempfiles.length != 0) {
+				for (File tempfile : tempfiles) {
+					tempfile.delete();
+					}
+				}
+			if (deleteDir.exists()) {
+				deleteDir.delete();
+			   }
+		  }
+		}
 }

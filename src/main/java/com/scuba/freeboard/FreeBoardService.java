@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,7 +27,7 @@ public class FreeBoardService {
 	}
 
 	//글 작성
-	public HashMap write(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
+	public HashMap<String, Object> write(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		// ID값 설정 지워도 됨 나중에
 		request.getSession().setAttribute("user_id", "test3");
@@ -69,7 +68,7 @@ public class FreeBoardService {
 			imgexists = 1;
 		}
 		//글 등록 결과 값
-		HashMap resultmap = new HashMap();
+		HashMap<String, Object> resultmap = new HashMap<String, Object>();
 		// DB 인설트 구문 성공시 1 반환 글 작성 완료시 진행
 		if (freeboardDAO.write(freeboardVO) == 1) {
 			// 최근게시글 번호 값 가져오기 새로생길 저장 폴더 이름(추가될 게시글 번호) 용도
@@ -84,7 +83,7 @@ public class FreeBoardService {
 					String beforeContent = freeboardVO.getContent();
 					String changePath = beforeContent.replace("Temporary", category);
 					String afterContent = changePath.replace("test3", folderNum);
-					HashMap map = new HashMap();
+					HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("afterContent", afterContent);
 					map.put("contentNum", folderNum);
 					//이미지 경로 수정
@@ -149,7 +148,7 @@ public class FreeBoardService {
 	}
 	
 	//게시글 수정 등록
-	public HashMap Modify(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response) {
+	public HashMap<String, Object> Modify(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response) {
 				//수정 등록 결과값
 				int modifyResult = 0;
 				//카테고리 값 얻기 
@@ -184,7 +183,7 @@ public class FreeBoardService {
 					imgexists = 1;
 				}
 				//글 수정 결과 값
-				HashMap resultmap = new HashMap();
+				HashMap<String, Object> resultmap = new HashMap<String, Object>();
 				//수정된 글 DB 전송
 				//글 수정 성공시
 				if(freeboardDAO.Modify(freeboardVO) == 1) {
@@ -201,7 +200,7 @@ public class FreeBoardService {
 					} else { //이미지 없을 시
 						System.out.println("이미지없다 ");
 						//수정 된 글 이미지 없을 시 서버 디렉토리 삭제 해줌
-						if(common.DirDelete(request, response, category, folderNum) ==1) {
+						if(common.DirDelete(request, response, category, folderNum) ==1 || common.DirDelete(request, response, category, folderNum) == 2) {
 							resultmap.put("contentNum", folderNum);
 							resultmap.put("modifyResult", 2); //이미지 없는 글 수정 성공
 						} else { //이미지 처리 실패

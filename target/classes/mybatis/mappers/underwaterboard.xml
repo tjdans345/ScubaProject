@@ -29,7 +29,7 @@
 	<!-- 게시글 작성 -->
 	<insert id="write" parameterType="underwaterboardVO">
 	<![CDATA[
-	INSERT INTO underwaterboard (nickname, title, content, communityname, country, area, introduction, thumbnail) values (#{nickname}, #{title}, #{content}, #{communityname} ,#{country}, #{area}, #{introduction}, #{thumbnail});
+	INSERT INTO underwaterboard (nickname, title, content, communityname, country, area, introduction, thumbnail, hashtag) values (#{nickname}, #{title}, #{content}, #{communityname} ,#{country}, #{area}, #{introduction}, #{thumbnail}, #{hashtag});
 	]]>
 	</insert>
 	
@@ -54,9 +54,32 @@
 	]]>
 	</update>
 	
+	<!-- 게시글 상세보기(글 수정 시) -->
+	<select id="ModifyList" parameterType="_int" resultType="underwaterboardVO">
+	<![CDATA[
+	select * from underwaterboard where num = #{contentnum};
+	]]>
+	</select>
 	
+	<!-- 게시글 수정 -->
+	<update id="Modify" parameterType="underwaterboardVO">
+	<![CDATA[
+	update underwaterboard set title = #{title}, content = #{content}, thumbnail = #{thumbnail}, introduction = #{introduction}, 
+		   country = #{country}, area = #{area}, hashtag = #{hashtag} where num = #{num};
+	]]>
+	</update>	
 	
+	<!-- 게시글 삭제시 닉네임 체크 -->
+	<select id="idCheck" parameterType="_int" resultType="String">
+	<![CDATA[
+	select nickname from underwaterboard where num = #{contentNum};
+	]]>
+	</select>
 	
-	
-	
+	<!-- 게시글 삭제 -->
+	<delete id="condelete" parameterType="_int">
+	<![CDATA[
+	delete from underwaterboard where num = #{contentNum};
+	]]>
+	</delete>
 </mapper>

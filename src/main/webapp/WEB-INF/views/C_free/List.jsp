@@ -68,7 +68,7 @@
                     <tr>
                       <td class="hidden-xs">${list.num}</td>
                       <td>
-                        <h5 class="product-title font-alt"><a class="title_btn" data-num="${list.num}">${list.title}</a></h5>
+                        <h5 class="product-title font-alt"><a href="javascript:;" class="title_btn" data-num="${list.num}">${list.title}</a></h5>
                       </td>
                       <td class="hidden-xs">
                         <h5 class="product-title font-alt">${list.nickname}</h5>

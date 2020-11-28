@@ -4,12 +4,10 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Component
-@Getter
-@Setter
+@Data
 public class FreeBoardVO {
 	private int num;
 	private String nickname;

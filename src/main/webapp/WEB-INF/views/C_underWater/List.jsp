@@ -56,7 +56,7 @@
 						<div class="post">
 							<div class="post-thumbnail">
 							  <c:choose>
-							  	<c:when test="${list.thumbnail eq 'baseImage.PNG'}">
+							  	<c:when test="${list.thumbnail eq 'baseImage.jpg'}">
 							  	<a href="javascript:;" class="view_btn" data-num="${list.num}">
 								<img src="${contextPath}/resources/images/${list.communityname}/Thumbnail/${list.thumbnail}" alt="Blog-post Thumbnail" style="width: 200px; height: 200px;"/>
 								</a>
@@ -73,7 +73,7 @@
 									<a href="javascript:;" class="view_btn" data-num="${list.num}">${list.title}</a>
 								</h2>
 								<div class="post-meta">
-									${list.area} | ${list.likecount} | ${list.writedate}
+									${list.nickname} | ${list.likecount} | ${list.writedate}
 								</div>
 							</div>
 							<div class="post-entry">
