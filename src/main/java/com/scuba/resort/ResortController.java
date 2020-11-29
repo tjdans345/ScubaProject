@@ -2,13 +2,13 @@ package com.scuba.resort;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +22,11 @@ public class ResortController {
 	
 	//리조트 리스트 이동
 	@RequestMapping(value = "moveResortList" )
-	public ModelAndView moveResortList() {
+	public ModelAndView moveResortList(@RequestParam(defaultValue = "") String search,
+									   @RequestParam(defaultValue = "") String city,
+									   @RequestParam(defaultValue = "enterDate") String order,
+									   @RequestParam(defaultValue = "1") int nowpage) {
+		modelAndView.addObject("map",resortService.getResrotList(search, city, order, nowpage));
 		modelAndView.setViewName("resort/ResortList");
 		return modelAndView;
 	}
@@ -60,7 +64,33 @@ public class ResortController {
 	//리조트 삭제
 	@RequestMapping(value = "delResort")
 	public ModelAndView delResort(int num) {
-		
+		//아이디 체크 구문 추가
+		resortService.delResort(num);
+		modelAndView.setViewName("redirect:/Resort/moveResortList");
+		return modelAndView;
+	}
+	//리조트 상태 변경 (리스트)
+	@ResponseBody
+	@RequestMapping(value = "changeResortStatusList",method = RequestMethod.POST)
+	public void changeResortStatusList(int num , int status) {
+		if(status == 1) {
+			status = 0 ;
+		}else {
+			status = 1;
+		}
+		resortService.changeResortStatus(num, status);
+	}
+	//리조트 상태 변경 (뷰)
+	@ResponseBody
+	@RequestMapping(value = "changeResortStatusView",method = RequestMethod.POST)
+	public void changeResortStatusView(int num , int status) {
+		resortService.changeResortStatus(num, status);
+	}
+	//리조트 수정페이지 이동
+	@RequestMapping(value = "moveResortMod")
+	public ModelAndView moveResortMod(int num) {
+		modelAndView.addObject("resortinfo",resortService.getResortInfo(num));
+		modelAndView.setViewName("resort/ResortMod");
 		return modelAndView;
 	}
 	

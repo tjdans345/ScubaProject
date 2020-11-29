@@ -160,4 +160,8 @@ public class InformationService {
 		}
 		return check;
 	}
+	//시티 리스트 가져오기
+	public List<String> getAllCityList(){
+		return informationDAO.getAllCityList();
+	}
 }

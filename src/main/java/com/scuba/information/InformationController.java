@@ -237,4 +237,10 @@ public class InformationController{
 	public int CityCheck(String CityName , String CountryName){
 		return informationService.CityCheck(CityName, CountryName);
 	}
+	//시티 리스트 가져오기
+	@ResponseBody
+	@RequestMapping(value = "getAllCityList" , method = RequestMethod.POST)
+	public List<String> getAllCityList(){
+		return informationService.getAllCityList();
+	}
 }

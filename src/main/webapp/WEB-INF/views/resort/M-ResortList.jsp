@@ -15,6 +15,18 @@ function resortStatusChange() {
 	var resortStatus = $('#resortStatus option:selected').val();
 	location.href='${contextPath}/Resort/moveResortAdmin?resortStatus='+resortStatus+'&search=${map.search}';
 }
+function changeStatus(num,status) {
+	document.getElementById(num).onclick = null;
+	$.ajax({
+		url:'${contextPath}/Resort/changeResortStatusList',
+		type:'POST',
+		data:{num:num,status:status},
+		success: function() {
+			
+		}
+	});
+	$('#'+num).html("변경되었습니다.");
+}
 </script>
 </head>
 <body>
@@ -79,10 +91,10 @@ function resortStatusChange() {
                       <td>
                         <h6 class="product-title font-alt">
 						<c:if test="${resortVO.resortStatus==0}">
-						<font color="cornflowerblue">비활성</font>
+						<a id="${resortVO.num}" onclick="changeStatus('${resortVO.num}','${resortVO.resortStatus}')"><font color="cornflowerblue">비활성</font></a>
 						</c:if>
 						<c:if test="${resortVO.resortStatus==1}">
-						<font color="blue">활성</font>
+						<a id="${resortVO.num}" onclick="changeStatus('${resortVO.num}','${resortVO.resortStatus}')"><font color="blue">활성</font></a>
 						</c:if>
 						<c:if test="${resortVO.resortStatus==2}">
 						<font color="red">삭제</font>

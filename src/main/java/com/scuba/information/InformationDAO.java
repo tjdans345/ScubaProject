@@ -100,4 +100,8 @@ public class InformationDAO {
 	public List<ResortVO> getIndexCityResortList(String CityName){
 		return sqlSession.selectList("mapper.resort.getIndexCityResortList", CityName);
 	}
+	//도시 리스트 가져오기
+	public List<String> getAllCityList(){
+		return sqlSession.selectList("mapper.information.getAllCityList");
+	}
 }

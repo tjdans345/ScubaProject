@@ -51,5 +51,20 @@ public class ResortDAO {
 	public void viewCountAdd(int num) {
 		sqlSession.update("mapper.resort.viewCountAdd",num);
 	}
-	
+	//리조트 상태 변경
+	public void changeResortStatus(HashMap<String,Object> map) {
+		sqlSession.update("mapper.resort.changeResortStatus",map);
+	}
+	//리조트 삭제
+	public void delResort(int num) {
+		sqlSession.update("mapper.resort.delResort",num);
+	}
+	//리조트 토탈 구하기
+	public int gettotal(HashMap<String,Object> map) {
+		return sqlSession.selectOne("mapper.resort.gettotal",map);
+	}
+	//리조트 리스트 가져오기
+	public List<ResortVO> getResrotList(HashMap<String,Object> map){
+		return sqlSession.selectList("mapper.resort.getResrotList",map);
+	}
 }

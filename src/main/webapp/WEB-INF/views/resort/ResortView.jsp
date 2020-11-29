@@ -6,6 +6,20 @@
 <head>
 <meta charset="UTF-8">
 <title>리조트 상세보기</title>
+<script type="text/javascript">
+function changeStatus() {
+	var num = '${resortVO.num}';
+	var status = $('#status option:selected').val();
+	$.ajax({
+		url:'${contextPath}/Resort/changeResortStatusView',
+		type:'POST',
+		data:{num:num,status:status},
+		success: function () {
+		}
+	});
+}
+
+</script>
 </head>
 <body>
 <!-- 관리자 , 작성자 일때 버튼 보이기 , 출입 가능 하기 설정 해야함. -->
@@ -36,9 +50,28 @@
                   </div>
                 </div>
                 <div class="row">
+                  <select onchange="changeStatus()" id="status" style="float: right; margin: 5px; height: 33px;">
+                  	<c:choose>
+                  		<c:when test="${resortVO.resortStatus==0}">
+                  			<option selected="selected" value="0">비활성</option>
+                  			<option value="1">활성</option>
+                  			<option value="2">삭제</option>
+                  		</c:when>
+                  		<c:when test="${resortVO.resortStatus==1}">
+                  			<option value="0">비활성</option>
+                  			<option selected="selected" value="1">활성</option>
+                  			<option value="2">삭제</option>
+                  		</c:when>
+						<c:otherwise>
+							<option value="0">비활성</option>
+                  			<option value="1">활성</option>
+                  			<option selected="selected" value="2">삭제</option>
+						</c:otherwise>                  		
+                  	</c:choose>
+                  </select>
                	  <button class="btn btn-border-d btn-round" type="button" style="float: right; margin: 5px;">목록보기</button>
                   <button class="btn btn-border-d btn-round" type="button" onclick="location.href='${contextPath}/Resort/delResort?num=${resortVO.num}'" style="float: right; margin: 5px;">글 삭제</button>
-                  <button class="btn btn-border-d btn-round" type="button" style="float: right; margin: 5px;">글 수정</button>
+                  <button class="btn btn-border-d btn-round" type="button" onclick="location.href='${contextPath}/Resort/moveResortMod?num=${resortVO.num}'" style="float: right; margin: 5px;">글 수정</button>
                 </div>
               </div>
 <!--               위 ( 이미지 , 설명 ) // 아래 ( 사이드바 ) -->

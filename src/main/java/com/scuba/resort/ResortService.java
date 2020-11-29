@@ -3,6 +3,7 @@ package com.scuba.resort;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -126,6 +127,28 @@ public class ResortService {
 	}
 	//리조트 삭제
 	public void delResort(int num) {
-		
+		resortDAO.delResort(num);
+	}
+	//리조트 상태 변경
+	public void changeResortStatus(int num , int status) {
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("num",num);
+		map.put("status",status);
+		resortDAO.changeResortStatus(map);
+	}
+	//리조트 리스트 가져오기
+	public Map<String,Object> getResrotList(String search , String city , String order , int nowpage){
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("search","%"+search+"%");
+		map.put("city","%"+city+"%");
+		int total = resortDAO.gettotal(map);
+		map = common.paging(nowpage, total, 5, 5);
+		map.put("search","%"+search+"%");
+		map.put("city","%"+city+"%");
+		map.put("order",order);
+		map.put("resortList",resortDAO.getResrotList(map));
+		map.put("search",search);
+		map.put("city",city);
+		return map;
 	}
 }

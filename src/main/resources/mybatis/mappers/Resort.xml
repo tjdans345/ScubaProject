@@ -90,4 +90,40 @@
 		update resort set viewCount=viewCount+1 where num = #{num}
 		]]>
 	</update>
+<!-- 	리조트 상태 변경 -->
+	<update id="changeResortStatus" parameterType="hashmap">
+		<![CDATA[
+		update resort set resortstatus = #{status} where num = #{num}
+		]]>
+	</update>
+<!-- 	리조트 삭제 -->
+	<update id="delResort" parameterType="int">
+		<![CDATA[
+		update resort set resortstatus = 2 where num = #{num}
+		]]>
+	</update>
+<!-- 	리조트 리스트 가져오기시 총갯수 구하기 -->
+	<select id="gettotal" parameterType="hashmap" resultType="int">
+		<![CDATA[
+		select count(num) from resort where resortName like #{search}
+		and city like #{city}
+		]]>
+	</select>
+<!-- 	리조트 리스트 가져오기 -->
+	<select id="getResrotList" parameterType="hashmap" resultMap="getresortList">
+		<choose>
+			<when test="order.equals('enterDate')">
+				<![CDATA[
+				select * from resort where resortName like #{search} 
+				and city like #{city} and resortstatus=1 order by enterDate desc limit #{pagefirst},5
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				select * from resort where resortName like #{search} 
+				and city like #{city} and resortstatus=1 order by viewCount desc limit #{pagefirst},5
+				]]>
+			</otherwise>
+		</choose>
+	</select>
 </mapper>
