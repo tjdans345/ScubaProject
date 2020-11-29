@@ -20,8 +20,6 @@
 			$("#filename").on("change", function() {
 				var formData = new FormData();
 				var inputFile = this.files;
-				var imgcheck = "${modifyList.thumbnail}";
-				alert(imgcheck);
 				
 				for(var i=0; i<inputFile.length; i++) {
 					formData.append("imgfile", inputFile[i]);

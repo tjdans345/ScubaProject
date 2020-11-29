@@ -9,5 +9,7 @@
  		<typeAlias type="com.scuba.serviceCenter.ServiceCenterVO" alias="serviceCenterVO"/>
  		<typeAlias type="com.scuba.freeboard.FreeBoardVO" alias="freeboardVO"/>
  		<typeAlias type="com.scuba.underwaterboard.UnderwaterboardVO" alias="underwaterboardVO"/>
+ 		<typeAlias type="com.scuba.reviewboard.ReviewboardVO" alias="reviewboardVO"/>
+ 		<typeAlias type="com.scuba.reviewboard.jobboardVO" alias="jobboardVO"/>
 	</typeAliases>
 </configuration>

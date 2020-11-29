@@ -11,7 +11,6 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
 			//썸네일 미리보기
 			$("#filename").on("change", function(event) {
 				var formData = new FormData();
