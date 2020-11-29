@@ -58,12 +58,12 @@
 							  <c:choose>
 							  	<c:when test="${list.thumbnail eq 'baseImage.jpg'}">
 							  	<a href="javascript:;" class="view_btn" data-num="${list.num}">
-								<img src="${contextPath}/resources/images/${list.communityname}/Thumbnail/${list.thumbnail}" alt="Blog-post Thumbnail" style="width: 200px; height: 200px;"/>
+								<img src="${contextPath}/resources/images/${list.communityname}/Thumbnail/${list.thumbnail}" alt="Blog-post Thumbnail" style="width: 244px; height: 150px;"/>
 								</a>
 							  	</c:when>
 							  	<c:otherwise> 
 							  	<a href="javascript:;" class="view_btn" data-num="${list.num}">
-								<img src="${contextPath}/resources/images/${list.communityname}/Thumbnail/${list.num}/${list.thumbnail}" alt="Blog-post Thumbnail"  style="width: 200px; height: 200px;"/>
+								<img src="${contextPath}/resources/images/${list.communityname}/Thumbnail/${list.num}/${list.thumbnail}" alt="Blog-post Thumbnail"  style="width: 244px; height: 150px;"/>
 								</a>
 							  	</c:otherwise>
 							  </c:choose>

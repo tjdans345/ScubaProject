@@ -16,15 +16,11 @@
 			$("#filename").on("change", function(event) {
 				var formData = new FormData();
 				var inputFile = this.files;
-				console.log(inputFile);
 				
 				for(var i=0; i<inputFile.length; i++) {
 					formData.append("imgfile", inputFile[i]);
-					console.log(inputFile[i].name);
 				}
-				
-				console.log(formData);
-				
+				//썸네일 이미지 유효성 체크
 				$.ajax({
 					contentType : false,
 					processData : false,

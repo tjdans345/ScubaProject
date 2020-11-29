@@ -18,8 +18,44 @@
 		$(document).ready(function() {
 			//썸네일 미리보기
 			$("#filename").on("change", function() {
+				var formData = new FormData();
+				var inputFile = this.files;
+				var imgcheck = "${modifyList.thumbnail}";
+				alert(imgcheck);
+				
+				for(var i=0; i<inputFile.length; i++) {
+					formData.append("imgfile", inputFile[i]);
+				}
+				//썸네일 이미지 유효성 체크
+				$.ajax({
+					contentType : false,
+					processData : false,
+					url : "${contextPath}/Common/imgCheck",
+					data : formData,
+					type : "post",
+					success : function (data) {
+						var check = data;
+						if(check == 1 ) {
+							alert("파일 형식을 확인해주세요");
+							$("#filename").val("");
+							$("#preimg").empty();
+						} else if(check == 2) {
+							alert("파일 크기를 확인해주세요");
+							$("#filename").val("");
+							$("#preimg").empty();
+						} else if(check == 3) {
+							
+						}
+					},
+					error : function(data) {
+						alert("통신 실패");
+					}
+				});
+				
 				readURL(this);
 			});
+			
+			//썸네일 미리보기 태그 삽입
 			function readURL(input) {
 				if(input.files && input.files[0]){
 					$("#preimg").empty();

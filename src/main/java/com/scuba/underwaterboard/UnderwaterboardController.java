@@ -50,7 +50,7 @@ public class UnderwaterboardController {
 		}
 		return mav;
 	}
-
+	
 	
 	// 수중 게시판 글 등록
 	@RequestMapping(value = "writeinsert", method = { RequestMethod.GET, RequestMethod.POST })
