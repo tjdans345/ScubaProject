@@ -131,6 +131,8 @@ public class Common {
 		// result = 0:실패 / 1:성공
 		System.out.println("이미지 업로드 서버 찍힘요ㅕ ~ ");
 		int result = 0, dfr = 0, dfm = 0;
+		
+		
 		// 세션영역에서 유저아이디 얻어옴 (for 임시폴더 path설정)
 		String id = (String)request.getSession().getAttribute("user_id");
 		// DB글 번호 (서버에 저장 될 폴더이름)

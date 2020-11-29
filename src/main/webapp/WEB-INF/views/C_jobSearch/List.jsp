@@ -1,12 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../inc/Top.jsp" %>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
     <title>Titan | Multipurpose HTML5 Template</title>
+    <script type="text/javascript">
+    	$(document).ready(function() {
+    		
+    		//글쓰기 페이지 이동
+			$(".wrt_btn").click(function() {
+				location.href="${contextPath}/jobSearchBoard/JobSearchWrite"
+			});
+			
+		});
+    </script>
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
-  <jsp:include page="../inc/Top.jsp"/>
       <div class="main">
       
         <section class="module">
@@ -27,7 +37,7 @@
               </div>
             </div>
             <div class="row" style="margin: 10px 0;">
-            	<button class="btn btn-border-d btn-round" style="float: right;">글쓰기</button>
+            	<button class="btn btn-border-d btn-round wrt_btn" style="float: right;">글쓰기</button>
             </div>
             <div class="row" style="clear: both;">
           <!-- 카테고리 시작 -->
@@ -50,36 +60,27 @@
                       <th width="15%">작성일</th>
                       <th width="15%">조회</th>
                     </tr>
+                    <!-- 글 리스트 -->
+                    <c:forEach var="list" items="${jobSearchBoardList}">
+                    <fmt:formatDate var="writeDate" value="${list.writedate}"/>
+                    <c:if test="${list.jobcategory eq '구인' }">
                     <tr>
-                      <td class="hidden-xs">1</td>
+                      <td class="hidden-xs">${list.num}</td>
                       <td>
-                        <h5 class="product-title font-alt">Accessories Pack</h5>
+                        <h5 class="product-title font-alt">${list.title}</h5>
                       </td>
                       <td class="hidden-xs">
-                        <h5 class="product-title font-alt">man4</h5>
+                        <h5 class="product-title font-alt">${list.nickname}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">1994/02/02</h5>
+                        <h5 class="product-title font-alt">${writeDate}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">10</h5>
+                        <h5 class="product-title font-alt">${list.viewcount}</h5>
                       </td>
                     </tr>
-                    <tr>
-                      <td class="hidden-xs">2</td>
-                      <td>
-                        <h5 class="product-title font-alt">Men’s Casual Pack</h5>
-                      </td>
-                      <td class="hidden-xs">
-                        <h5 class="product-title font-alt">man3</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">1994/02/02</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">20</h5>
-                      </td>
-                    </tr>
+                    </c:if>
+                    </c:forEach>
                   </tbody>
                 </table>
              	<!-- 구인 카테고리 --> 
@@ -95,36 +96,26 @@
                       <th width="15%">작성일</th>
                       <th width="15%">조회</th>
                     </tr>
+                    <c:forEach var="list" items="${jobSearchBoardList}">
+                    <fmt:formatDate var="writeDate" value="${list.writedate}"/>
+                    <c:if test="${list.jobcategory eq '구직' }">
                     <tr>
-                      <td class="hidden-xs">3</td>
+                      <td class="hidden-xs">${list.num}</td>
                       <td>
-                        <h5 class="product-title font-alt">Accessories Pack</h5>
+                        <h5 class="product-title font-alt">${list.title}</h5>
                       </td>
                       <td class="hidden-xs">
-                        <h5 class="product-title font-alt">man2</h5>
+                        <h5 class="product-title font-alt">${list.nickname}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">1994/02/02</h5>
+                        <h5 class="product-title font-alt">${writeDate}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">30</h5>
+                        <h5 class="product-title font-alt">${list.viewcount}</h5>
                       </td>
                     </tr>
-                    <tr>
-                      <td class="hidden-xs">4</td>
-                      <td>
-                        <h5 class="product-title font-alt">Men’s Casual Pack</h5>
-                      </td>
-                      <td class="hidden-xs">
-                        <h5 class="product-title font-alt">man1</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">1994/02/02</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">40</h5>
-                      </td>
-                    </tr>
+                    </c:if>
+                    </c:forEach>
                   </tbody>
                 </table>
              	<!-- 구직 카테고리 --> 

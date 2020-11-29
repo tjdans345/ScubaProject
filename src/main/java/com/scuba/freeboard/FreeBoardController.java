@@ -26,7 +26,8 @@ public class FreeBoardController {
 	
 	// 자유게시판 이동 , 자유게시판 전체 리스트 조회
 	@RequestMapping(value = "freeBoardList")
-	public ModelAndView freeBoardList() {
+	public ModelAndView freeBoardList(HttpServletRequest request) {
+		request.getSession().setAttribute("category", "free");
 		// 자유게시판 전체 글 조회
 		mav.addObject("freeBoardList", freeboardService.allBoardList());
 		mav.setViewName("C_free/List");

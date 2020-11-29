@@ -18,6 +18,7 @@ import com.scuba.common.Common;
 @Controller
 @RequestMapping("/reviewBoard/*")
 public class ReviewboardController {
+	
 	@Autowired
 	ReviewboardService reviewboardService;
 
@@ -39,7 +40,6 @@ public class ReviewboardController {
 	// 후기 게시판 글 쓰기 이동
 	@RequestMapping(value = "reviewBoardWrite")
 	public ModelAndView reviewBoardWrite(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.getSession().setAttribute("user_id", "test3");
 		String user_id = (String)request.getSession().getAttribute("user_id");
 		// 로그인 유무 확인
 		if (user_id == null || user_id == "") {
@@ -58,7 +58,6 @@ public class ReviewboardController {
 	public ModelAndView writeinsert(ReviewboardVO reviewboardVO, @RequestParam MultipartFile file,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		System.out.println("해쉬 태그 : " + reviewboardVO.getHashtag());
 		HashMap<String, Object> resultMap = reviewboardService.writeinsert(reviewboardVO, file, request, response);
 		
 		int writeResult = (Integer) resultMap.get("writeResult");

@@ -25,4 +25,5 @@ public class ReviewboardVO {
 	private String country;
 	private String area;
 	private String hashtag;
+	private int status;
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class UnderwaterboardDAO {
+	
 	@Autowired
 	private SqlSession sqlsession;
 

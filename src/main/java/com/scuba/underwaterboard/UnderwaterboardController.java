@@ -19,6 +19,7 @@ import com.scuba.freeboard.FreeBoardVO;
 @Controller
 @RequestMapping("/underWaterBoard/*")
 public class UnderwaterboardController {
+	
 	@Autowired
 	UnderwaterboardService underwaterboardService;
 
@@ -38,7 +39,6 @@ public class UnderwaterboardController {
 	// 수중 게시판 글 쓰기 이동
 	@RequestMapping(value = "underWaterBoardWrite")
 	public ModelAndView underWaterBoardWrite(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.getSession().setAttribute("user_id", "test3");
 		String user_id = (String)request.getSession().getAttribute("user_id");
 		// 로그인 유무 확인
 		if (user_id == null || user_id == "") {

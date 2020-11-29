@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.JobSearchboard">
+	<resultMap type="jobsearchboardVO" id="jobSearchBoardResult">
+		<result property="num" column="num" />
+		<result property="nickname" column="nickname" />
+		<result property="viewcount" column="viewcount" />
+		<result property="likecount" column="likecount" />
+		<result property="writedate" column="writedate" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="communityname" column="communityname" />
+	</resultMap>
+	
+	<!-- 전체 게시글 조회 -->
+	<select id="allBoardList" resultMap="jobSearchBoardResult">
+	<![CDATA[
+	select * from jobsearchboard order by num desc;
+	]]>
+	</select>
+	
+	<!-- 게시글 작성 -->
+	<insert id="write" parameterType="jobsearchboardVO">
+	<![CDATA[
+	insert into jobsearchboard (title, nickname, content, communityname, jobcategory) values (#{title}, #{nickname}, #{content}, #{communityname}, #{jobcategory});
+	]]>
+	</insert>
+	
+	<!-- 최근 게시글 번호 조회 -->
+	<select id="getMaxNum" resultType="_int">
+	<![CDATA[
+	select max(num) from jobsearchboard;
+	]]>
+	</select>
+	
+	<!-- 이미지 경로 변경 -->
+	<update id="contentChange" parameterType="hashmap">
+	<![CDATA[
+	update jobsearchboard set content = #{afterContent} where num = ${contentNum};
+	]]>
+	</update>
+	
+</mapper>

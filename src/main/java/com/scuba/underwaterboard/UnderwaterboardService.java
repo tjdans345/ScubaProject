@@ -19,6 +19,7 @@ import com.scuba.common.Common;
 
 @Service
 public class UnderwaterboardService {
+	
 	@Autowired
 	private UnderwaterboardDAO underwaterboardDAO;
 
@@ -48,7 +49,6 @@ public class UnderwaterboardService {
 		
 		//닉네임값.
 		String nickname = (String)request.getSession().getAttribute("user_nickname");
-		System.out.println("닉네임 : " + nickname);
 		underwaterboardVO.setNickname(nickname);
 
 		// 이미지 사용 여부
