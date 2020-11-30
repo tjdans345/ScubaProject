@@ -153,7 +153,7 @@ public class UnderwaterboardController {
 	public ModelAndView writeCancle() {
 		mav.setViewName("redirect:/underWaterBoard/underWaterBoardList");
 		return mav;
-	}		
+	}
 		
 	// 글수정 취소
 	@RequestMapping(value = "modiFyCancle")

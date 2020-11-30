@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../inc/Top.jsp" %>
+<%@ include file="../inc/Top.jsp"%>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
@@ -13,7 +13,14 @@
 				location.href="${contextPath}/jobSearchBoard/JobSearchWrite"
 			});
 			
+			//상세글 보기위해 글 번호 전달
+	    	$(".title_btn").click(function() {
+				var num = $(this).data("num");
+				location.href="${contextPath}/jobSearchBoard/jobSearchBoardView?num="+num;
+			});
+    		
 		});
+    	
     </script>
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
@@ -50,7 +57,6 @@
              <div class="tab-content">
              <!-- 구인 카테고리 -->   
                <div class="tab-pane active" id="support">
-               
                 <table class="table table-striped table-border checkout-table">
                   <tbody>
                     <tr>
@@ -67,7 +73,7 @@
                     <tr>
                       <td class="hidden-xs">${list.num}</td>
                       <td>
-                        <h5 class="product-title font-alt">${list.title}</h5>
+                        <h5 class="product-title font-alt"><a href="javascript:;" class="title_btn" data-num="${list.num}">${list.title}</a></h5>
                       </td>
                       <td class="hidden-xs">
                         <h5 class="product-title font-alt">${list.nickname}</h5>
@@ -102,7 +108,7 @@
                     <tr>
                       <td class="hidden-xs">${list.num}</td>
                       <td>
-                        <h5 class="product-title font-alt">${list.title}</h5>
+                         <h5 class="product-title font-alt"><a href="javascript:;" class="title_btn" data-num="${list.num}">${list.title}</a></h5>
                       </td>
                       <td class="hidden-xs">
                         <h5 class="product-title font-alt">${list.nickname}</h5>

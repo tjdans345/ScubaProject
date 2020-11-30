@@ -265,7 +265,6 @@ public class Common {
 					String serverFolderName = folderNum;
 					// 서버파일업로드 경로(실제 저장 폴더)
 					String serverUploadPath = request.getSession().getServletContext().getRealPath("/resources/images/" + category + "/" + serverFolderName);
-					// 파일 업로드 폴더명
 					File serverFolder = new File(serverUploadPath);
 					// 글번호로 서버 저장 폴더 생성
 					if (!serverFolder.exists()) {
@@ -275,11 +274,9 @@ public class Common {
 						File deleteDir = new File(serverUploadPath);
 						//서버 폴더에 들어있는 전체 이미지 리스트
 						String[] tempfiles = deleteDir.list();
-						
 						//저장폴더에 있는 모든파일 List형식으로 변경
 						List<String> unUselist = new ArrayList<String>();
 						unUselist.addAll(Arrays.asList(tempfiles));
-						
 						System.out.println("테스트 리스트 1:   " + unUselist);
 						//중복된 값 다 제거 (실제 사용하는 이미지 외에 파일들 걸러내는 작업)
 						unUselist.removeAll(realimglist);

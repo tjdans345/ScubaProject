@@ -42,4 +42,39 @@
 	]]>
 	</update>
 	
+	<!-- 게시글 상세보기 -->
+	<select id="viewList" parameterType="_int" resultType="jobsearchboardVO">
+	<![CDATA[
+	select * from jobsearchboard where num = #{contentNum};
+	]]>
+	</select>
+	
+	<!-- 게시글 수정페이지 이동 -->
+	<select id="ModifyList" parameterType="_int" resultType="jobsearchboardVO">
+	<![CDATA[
+	select * from jobsearchboard where num = #{contentNum};
+	]]>
+	</select>	
+
+	<!-- 게시글 수정 -->
+	<update id="Modify" parameterType="jobsearchboardVO">
+	<![CDATA[
+	update jobsearchboard set title = #{title}, content = #{content} , jobcategory = #{jobcategory} where num = #{num};
+	]]>
+	</update>	
+	
+	<!-- 게시글 삭제시 닉네임 체크 -->
+	<select id="idCheck" parameterType="_int" resultType="String">
+	<![CDATA[
+	select nickname from jobsearchboard where num = #{contentNum};
+	]]>
+	</select>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="condelete" parameterType="_int">
+	<![CDATA[
+	delete from jobsearchboard where num = #{contentNum};
+	]]>
+	</delete>
+	
 </mapper>

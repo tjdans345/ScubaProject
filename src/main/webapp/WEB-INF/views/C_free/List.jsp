@@ -13,6 +13,7 @@
     <script type="text/javascript">
     $(document).ready(function() {
     	
+    	//글쓰기 페이지 이동
     	$("#writebtn").click(function() {
 			location.href="${contextPath}/freeBoard/writeboard";
 		});

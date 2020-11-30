@@ -1,14 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../inc/Top.jsp"%>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
     <title>Titan | Multipurpose HTML5 Template</title>
+    
+    <script type="text/javascript">
+    	$(document).ready(function() {
+			
+    		//글쓰기 페이지 이동
+    		$(".wrt_btn").click(function() {
+				location.href="${contextPath}/marketBoard/marketBoardWrite"
+			});
+    		
+    		
+		});
+    	
+    	
+    	
+    	
+    	
+    </script>
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
-  <jsp:include page="../inc/Top.jsp"/>
       <div class="main">
-      
         <section class="module">
           <div class="container">
           	<div class="row">
@@ -27,7 +43,7 @@
               </div>
             </div>
             <div class="row" style="float: right; margin: 10px 0;">
-            	<button class="btn btn-border-d btn-round">글쓰기</button>
+            	<button class="btn btn-border-d btn-round wrt_btn">글쓰기</button>
             </div>
             <div class="row" style="clear: both;">
           <!-- 카테고리 시작 -->
@@ -41,60 +57,49 @@
              <div class="tab-content">
              <!-- 팝니다 카테고리 -->   
                <div class="tab-pane active" id="sell">
-               
                 <table class="table table-striped table-border checkout-table">
                   <tbody>
                     <tr>
                       <th class="hidden-xs" width="7%">글번호</th>
-                      <th width="7%">이미지</th>
+                      <th width="7%">판매 상태</th>
                       <th width="41%">제목</th>
                       <th class="hidden-xs" width="10%">작성자</th>
                       <th width="10%">작성일</th>
                       <th width="15%">희망가격</th>
                       <th width="10%">상태</th>
                     </tr>
+                    <!-- 글 리스트 -->
+                    <c:forEach var="list" items="${marketBoardList}">
+                    <fmt:formatDate var="writeDate" value="${list.writedate}"/>
+                    <c:if test="${list.marketcategory eq '팝니다' }">
                     <tr>
-                      <td class="hidden-xs">1</td>
+                      <td class="hidden-xs">${list.num}</td>
                       <td>
-                        <h5 class="product-title font-alt">Accessories Pack</h5>
+                      	<c:if test="${list.dealstatus == 0}">
+                        <h5 class="product-title font-alt" style="color: blue;">판매중</h5>
+                        </c:if>
+                        <c:if test="${list.dealstatus == 1}">
+                        <h5 class="product-title font-alt" style="color: red;">판매 완료</h5>
+                        </c:if>
                       </td>
                       <td class="hidden-xs">
-                        <h5 class="product-title font-alt">man4</h5>
+                        <h5 class="product-title font-alt">${list.title}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">1994/02/02</h5>
+                        <h5 class="product-title font-alt">${list.nickname}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">10</h5>
+                        <h5 class="product-title font-alt">${writeDate}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">10</h5>
+                        <h5 class="product-title font-alt">${list.price}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">10</h5>
+                        <h5 class="product-title font-alt">${list.productstatus}</h5>
                       </td>
                     </tr>
-                    <tr>
-                      <td class="hidden-xs">2</td>
-                      <td>
-                        <h5 class="product-title font-alt">Men’s Casual Pack</h5>
-                      </td>
-                      <td class="hidden-xs">
-                        <h5 class="product-title font-alt">man3</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">1994/02/02</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">20</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">10</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">10</h5>
-                      </td>
-                    </tr>
+                    </c:if>
+                    </c:forEach>
                   </tbody>
                 </table>
                <div class="col-sm-12" style="text-align: center;">
@@ -102,63 +107,60 @@
               </div>
                     </div>
               <!-- 팜니다 카테고리 --> 
+              
                <!--삽니다 카테고리 -->       
               <div class="tab-pane" id="buy">
                 <table class="table table-striped table-border checkout-table">
                   <tbody>
                     <tr>
                       <th class="hidden-xs" width="7%">글번호</th>
-                      <th width="48%">제목</th>
+                      <th width="20%">판매 상태</th>
+                      <th width="41%">제목</th>
                       <th class="hidden-xs" width="10%">작성자</th>
                       <th width="10%">작성일</th>
                       <th width="15%">희망가격</th>
                       <th width="10%">상태</th>
                     </tr>
+                    <c:forEach var="list" items="${marketBoardList}">
+                    <fmt:formatDate var="writeDate" value="${list.writedate}"/>
+                    <c:if test="${list.marketcategory eq '삽니다' }">
                     <tr>
-                      <td class="hidden-xs">3</td>
+                      <td class="hidden-xs">${list.num}</td>
                       <td>
-                        <h5 class="product-title font-alt">Accessories Pack</h5>
+                      	<c:if test="${list.dealstatus == 0}">
+                        <h5 class="product-title font-alt" style="color: blue;">구매중</h5>
+                        </c:if>
+                        <c:if test="${list.dealstatus == 1}">
+                        <h5 class="product-title font-alt" style="color: red;">구매 완료</h5>
+                        </c:if>
                       </td>
                       <td class="hidden-xs">
-                        <h5 class="product-title font-alt">man2</h5>
+                        <h5 class="product-title font-alt">${list.title}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">1994/02/02</h5>
+                        <h5 class="product-title font-alt">${list.nickname}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">30</h5>
-                      </td> 
+                        <h5 class="product-title font-alt">${writeDate}</h5>
+                      </td>
                       <td>
-                        <h5 class="product-title font-alt">30</h5>
+                        <h5 class="product-title font-alt">${list.price}</h5>
+                      </td>
+                      <td>
+                        <h5 class="product-title font-alt">${list.productstatus}</h5>
                       </td>
                     </tr>
-                    <tr>
-                      <td class="hidden-xs">4</td>
-                      <td>
-                        <h5 class="product-title font-alt">Men’s Casual Pack</h5>
-                      </td>
-                      <td class="hidden-xs">
-                        <h5 class="product-title font-alt">man1</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">1994/02/02</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">40</h5>
-                      </td>
-                      <td>
-                        <h5 class="product-title font-alt">30</h5>
-                      </td>
-                    </tr>
+                    </c:if>
+                    </c:forEach>
                   </tbody>
                 </table>
               <div class="col-sm-12" style="text-align: center;">
                 <div class="pagination font-alt"><a href="#"><i class="fa fa-angle-left"></i></a><a class="active" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#"><i class="fa fa-angle-right"></i></a></div>
               </div>
                     </div>
-                                 	<!-- 삽니다 카테고리 --> 
-                    <div class="tab-pane" id="read">
-                    <p>주의사항</p>
+               <!-- 삽니다 카테고리 --> 
+                    <div class="tab-pane" id="read" style="font-size: 100px;">
+                    <p><b>단디 팔고 단디 사라</b></p>
                     </div>
                   </div>
                 </div>

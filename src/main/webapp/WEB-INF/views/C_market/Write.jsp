@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../inc/Top.jsp"%>    
+<%@ include file="../inc/Top.jsp"%>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
     <title>Titan | Multipurpose HTML5 Template</title>
     <script src="${contextPath}/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			
@@ -20,34 +20,41 @@
 					alert("제목을 입력해 주세요");
 					$("#title").focus();
 					return false;
-				} else if($("#jobcate > option:selected").val() == "") {
-					$("#jobcate").focus();
-					alert("구인/구직을 선택 해주세요.");
+				} else if($("#marketcate > option:selected").val() == "") {
+					alert("팝니다/삽니다를 선택 해주세요.");
+					$("#marketcate").focus();
+					return false;
+				} else if($("#price").val() == "") {
+					alert("가격을 입력해 주세요.");
+					$("#price").focus();
+					return false;
+				} else if($("#productstatus > option:selected").val() == "") {
+					alert("물품 상태를 선택해주세요.");
+					$("#productstatus").focus();
 					return false;
 				} else if(content == "") {
-					$("#content").focus();
 					alert("내용을 입력해주세요");
+					$("#content").focus();
 					CKEDITOR.instances.content.focus();
 					return false;
 				} else if(length >3000) {
-					$("#content").focus();
 					alert("3000글자 이내로 작성해주세요 ");
+					$("#content").focus();
 				} else {
-					$("#wform").attr("action", "${contextPath}/jobSearchBoard/WriteInsert");
+					$("#wform").attr("action", "${contextPath}/marketBoard/WriteInsert");
 					$("#wform").submit();
 				}
 			});
 			
 			//돌아가기 버튼
 	    	$(".back_btn").click(function() {
-	    		location.href="${contextPath}/jobSearchBoard/writeCancle";
+	    		location.href="${contextPath}/marketBoard/writeCancle";
 			});
 			
 			
 		});
 	</script>
-	
-	
+
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
       <div class="main">
@@ -55,28 +62,46 @@
           <div class="container">
             <div class="row">
               <div class="col-sm-8 col-sm-offset-2">
-                <h4 class="font-alt mb-0">구인 구직 글 작성</h4>
+                <h4 class="font-alt mb-0">중고장터 글 작성</h4>
                 <hr class="divider-w mt-10 mb-20">
-                <form class="form" id="wform" role="form" method="post">
+                <form class="form" role="form" id="wform" method="post">
                   <div class="form-group">
-                  <input type="hidden" name="communityname" value="${category}">
                   	<h5><b>제목</b></h5>
-                    <input name="title" class="form-control input-lg" type="text" id="title" placeholder="제목을 입력하세요(1~50자 사이로 입력해주세요.)"/>
+                    <input class="form-control input-lg" id="title" name="title" type="text" placeholder="제목을 입력하세요(메인 제목)"/>
                   </div>
                   <div class="form-group">
                   	<h5><b>카테고리</b></h5>
-		                <select class="form-control" name="jobcategory" id="jobcate">
-		                  <option selected="selected" disabled="disabled" value="">선택해주세요 .</option>
-		                  <option value="구인">구인</option>
-		                  <option value="구직">구직</option>
+		                <select class="form-control" id="marketcate" name="marketcategory">
+		                  <option selected="selected" id="marketcate" disabled="disabled" value="">선택해주세요 .</option>
+		                  <option value="팝니다">팝니다</option>
+		                  <option value="삽니다">삽니다</option>
 		                </select>
+                  </div>
+                  <div class="pa" style="display: flex;">
+                  <div class="form-group" style="flex: 1; margin-right: 1%;">
+                  	<h5><b>연락처</b></h5>
+                    <input class="form-control input-lg" id="phone" name="phone" type="text" placeholder="연락처"/>
+                  </div>
+                  <div class="form-group" style="flex: 1; margin-right: 1%;">
+                  	<h5><b>희망가격</b></h5>
+                    <input class="form-control input-lg" id="price" name="price" type="text" placeholder="희망가격"/>
+                  </div>
+                  <div class="form-group" style="flex: 1; margin-right: 1%;">
+                  	<h5><b>물품상태</b></h5>
+		                <select class="form-control" id="productstatus" name="productstatus" style="height: 43px;">
+		                  <option selected="selected" disabled="disabled" value="">선택해주세요 .</option>
+		                  <option value="좋음">좋음</option>
+		                  <option value="양호">양호</option>
+		                  <option value="수리요함">수리요함</option>
+		                </select>
+                  </div>
                   </div>
                   <div>
                   <textarea class="form-control" rows="10" name="content" id="content" style="width:100%; min-width:260px; height:30em; display:none;"></textarea>
                   </div>
                   <div style="float: right;">
                   <button class="btn btn-border-d btn-round wrt_btn" type="button">글쓰기</button>
-                  <button class="btn btn-border-d btn-round back_btn" type="button">돌아가기</button>
+                  <button class="btn btn-border-d btn-round" type="button">돌아가기</button>
                   </div>
                 </form>
               </div>
@@ -88,6 +113,8 @@
        
  <!-- ck에디터 관련 -->
     <script type="text/javascript">
+    
+    //ck에디터 디자인
 		CKEDITOR.on('dialogDefinition', function (ev) {
         var dialogName = ev.data.name;
         var dialog = ev.data.definition.dialog;
@@ -106,7 +133,6 @@
 			filebrowserUploadUrl: "${contextPath}/Common/imgupload",
 			enterMode:'2'
 		});
-		
 	//제목 글자 수 정규식
 	$("#title").on('blur',function(){
 		if($("#title").val() != "") {
@@ -125,13 +151,53 @@
 			
 		}
 	});
-	
+	//가격 정규식
+	$("#price").on('blur',function(){
+		if($("#price").val() != "") {
+			var title = $("#price").val();
+			var titletrim = title.trim();
+			var pattern = /^.{1,50}$/; 
+			if(!title.trim() == "") {
+				if(!title.match(pattern)) {
+					alert("가격을 1~20자 사이로 입력해주세요.");
+					$("#price").val("");
+					$("#price").focus();
+				}
+			}else {
+				alert("공백이 아닌 가격을 1~20자 사이로 입력해주세요.");
+				$("#price").val("");
+				$("#price").focus();
+			}
+			
+		}
+	});
+	//연락처 정규식
+	$("#phone").on('blur',function(){
+		if($("#phone").val() != "") {
+			var title = $("#phone").val();
+			console.log(title);
+			var titletrim = title.trim();
+			var pattern = /^\d{3}-\d{3,4}-\d{4}$/;
+			if(!title.trim() == "") {
+				if(!title.match(pattern)) {
+					alert("***-****-**** 형식으로 입력해주세요.");
+					$("#phone").val("");
+					$("#phone").focus();
+				}
+			}else {
+				alert("공백이 아닌 연락처를 ***-****-**** 형식으로 입력해주세요.");
+				$("#phone").val("");
+				$("#phone").focus();
+			}
+			
+		}
+	});
 	//글자 수 초과 감지
 	CKEDITOR.instances.content.on('key', function() {
 		var content = this.getData();
 		var length = content.length;
 		if(length > 3000) {
-		alert("3000글자 이내로 작성해 주세요");
+		alert("3000글자 이내로 작성해주세요");
 	    this.setData(content.slice(0, 2999));
 		}
 	});
