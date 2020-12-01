@@ -32,10 +32,10 @@ function changeStatus() {
 					<div class="post-images-slider" style="height: 600px;">
 	                  <ul class="slides">
 	                    <li><img class="center-block" src="${contextPath}/resources/images/Resort/thumbnail/${resortVO.num}/${resortVO.image1}"/></li>
-						<c:if test="${resortVO.image2 != null}">
+						<c:if test="${resortVO.image2 != null && resortVO.image2 != ''}">
 						<li><img class="center-block" src="${contextPath}/resources/images/Resort/thumbnail/${resortVO.num}/${resortVO.image2}"/></li>
 						</c:if>
-						<c:if test="${resortVO.image3 != null}">
+						<c:if test="${resortVO.image3 != null && resortVO.image3 != ''}">
 						<li><img class="center-block" src="${contextPath}/resources/images/Resort/thumbnail/${resortVO.num}/${resortVO.image3}"/></li>
 						</c:if>
 	                  </ul>

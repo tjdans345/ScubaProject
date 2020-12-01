@@ -27,6 +27,11 @@ public class ResortDAO {
 		if(!new File(url).exists()) new File(url).mkdirs();
 		file.transferTo(saveFile);
 	}
+	//파일 삭제
+	public void FileDel(String filename , String url) throws Exception{
+		File delfile = new File(url + filename);
+		delfile.delete();
+	}
 	//리조트 등록하기
 	public int EnterResort(ResortVO resortVO) {
 		return sqlSession.insert("mapper.resort.EnterResort", resortVO);
@@ -66,5 +71,9 @@ public class ResortDAO {
 	//리조트 리스트 가져오기
 	public List<ResortVO> getResrotList(HashMap<String,Object> map){
 		return sqlSession.selectList("mapper.resort.getResrotList",map);
+	}
+	//리조트 수정하기
+	public int ResortMod(ResortVO resortVO) {
+		return sqlSession.update("mapper.resort.ResortMod",resortVO);
 	}
 }

@@ -126,4 +126,14 @@
 			</otherwise>
 		</choose>
 	</select>
+<!-- 	리조트 수정  -->
+	<update id="ResortMod" parameterType="resortVO">
+		<![CDATA[
+		UPDATE resort SET `resortName` = #{resortName}, `phoneNumber` = #{phoneNumber}, `cacaoId` = #{cacaoId}, 
+		`homepageAddress` = #{homepageAddress}, `simpleIntroduce` = #{simpleIntroduce}, `contents` = #{contents}, 
+		`tag` = #{tag}, `image1` = #{image1}, `image2` = #{image2}, `image3` = #{image3}, 
+		`address` = #{address}, `country` = #{country}, `city` = #{city}, `enterDate` = #{enterDate}
+		 WHERE num = #{num}
+		]]>
+	</update>
 </mapper>

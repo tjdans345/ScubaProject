@@ -180,9 +180,7 @@ public class Common {
 				PrintWriter printWriter = response.getWriter();
 				String contentNum = num;
 				System.out.println("contentNum : " + contentNum);
-				// test용
-				request.getSession().setAttribute("user_id", "test3");
-				String category = "free";
+				String category = (String)request.getSession().getAttribute("category");
 				String serverFolderName = contentNum;
 				// 이미지 이름 얻어오기(실제이름)
 				String fileOriginalName = upload.getOriginalFilename();
@@ -245,7 +243,7 @@ public class Common {
 					// DB글 번호 (서버에 저장 될 폴더이름)
 					String serverFolderName = folderNum;
 					// 임시파일 경로
-					String tempPath = request.getSession().getServletContext().getRealPath("/resources/images/Temporary/" + id);
+//					String tempPath = request.getSession().getServletContext().getRealPath("/resources/images/Temporary/" + id);
 					// 서버파일업로드 경로(실제 저장 폴더)
 					String serverUploadPath = request.getSession().getServletContext().getRealPath("/resources/images/" + category + "/" + serverFolderName);
 					// 파일 업로드 폴더명

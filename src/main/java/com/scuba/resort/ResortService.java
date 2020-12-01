@@ -151,4 +151,68 @@ public class ResortService {
 		map.put("city",city);
 		return map;
 	}
+	//리조트 수정
+	public void ResortMod(ResortVO resortVO , HttpServletRequest request , HttpServletResponse response,
+						  MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+		String image1 = resortVO.getImage1();
+		String image2 = resortVO.getImage2();
+		String image3 = resortVO.getImage3();
+		if(multipartHttpServletRequest.getFile("imageA").getOriginalFilename()!="")
+		resortVO.setImage1(multipartHttpServletRequest.getFile("imageA").getOriginalFilename());
+		if(multipartHttpServletRequest.getFile("imageB").getOriginalFilename()!="")
+		resortVO.setImage2(multipartHttpServletRequest.getFile("imageB").getOriginalFilename());
+		if(multipartHttpServletRequest.getFile("imageC").getOriginalFilename()!="") {
+			if(resortVO.getImage2()=="") {
+				resortVO.setImage2(multipartHttpServletRequest.getFile("imageC").getOriginalFilename());
+			}else {
+			resortVO.setImage3(multipartHttpServletRequest.getFile("imageC").getOriginalFilename());
+			}
+		}
+		String url = request.getSession().getServletContext().getRealPath("/resources/images/Resort/thumbnail/"+resortVO.getNum()+"/");
+		if(image1 != resortVO.getImage1()) {
+			resortDAO.FileDel(image1, url);
+			resortDAO.FileUpload(multipartHttpServletRequest.getFile("imageA"), url);
+		}
+		if(image2 != resortVO.getImage2()) {
+			resortDAO.FileDel(image2, url);
+			resortDAO.FileUpload(multipartHttpServletRequest.getFile("imageB"), url);
+		}
+		if(image3 != resortVO.getImage3()) {
+			resortDAO.FileDel(image3, url);
+			resortDAO.FileUpload(multipartHttpServletRequest.getFile("imageC"), url);
+		}
+		String content = resortVO.getContents();
+		Pattern pattern = Pattern.compile("<img[^>]*src=[\\\"']?(?!https:)([^>\\\"']+)[\\\"']?[^>]*>"); 
+		Matcher matcher = pattern.matcher(content);
+		ArrayList<String> imglist = new ArrayList<String>();
+		ArrayList<String> realimglist = new ArrayList<String>();
+		int imgexists = 0 ;
+		int i = 0;
+		while(matcher.find()) {
+			if(matcher.group(1) == null) break;
+			imglist.add(matcher.group(1));
+			realimglist.add(imglist.get(i).substring(imglist.get(i).lastIndexOf("/")+1));
+			i++;
+			imgexists=1;
+		}
+		if(resortDAO.ResortMod(resortVO) == 1) {
+			if(imgexists == 1) {
+				int imgModifyResult = common.imguploadModifyServer(request, response, realimglist, "Resort", Integer.toString(resortVO.getNum()));
+				if(imgModifyResult == 1) {
+					System.out.println("이미지 처리 성공");
+				}else {
+					System.out.println("이미지 처리 실패");
+				}
+			}else {
+				if(common.DirDelete(request, response, "Resort",Integer.toString(resortVO.getNum())) == 1) {
+					System.out.println("이미지없는글 수정 성공");
+				}else {
+					System.out.println("디렉토리 삭제 실패 ");
+				}
+			}
+		}else {
+			System.out.println("글 수정 실패");
+		}
+		
+	}	
 }

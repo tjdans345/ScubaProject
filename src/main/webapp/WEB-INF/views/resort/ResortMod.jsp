@@ -26,7 +26,7 @@ CKEDITOR.on('dialogDefinition', function (ev) {
 	CKEDITOR.replace('contents', {
 		height : 500,
 		width : 750,
-		filebrowserUploadUrl: "${contextPath}/Common/imgupload",
+		filebrowserUploadUrl: "${contextPath}/Common/imguploadModify?num=${resortinfo.num}",
 		enterMode:'2'
 	});
 //에디터 관련
@@ -44,7 +44,6 @@ $.ajax({
 				tag += '<option value="'+data[i]+'">'+data[i]+'</option>';
 			}
 		}
-		console.log(tag);
 		$('#Country').append(tag);
 		//처음 지역 설정
 		var CountryName = "${resortinfo.country}";
@@ -107,9 +106,6 @@ function preView(event) {
 	var simpleIntroduce = $('#simpleIntroduce').val();
 	var contents = CKEDITOR.instances.contents.getData();
 	var tag = $('#tag').val();
-	var image1 = $('#image1').val();
-	var image2 = $('#image2').val();
-	var image3 = $('#image3').val();
 	if(resortName==""){
 		alert("리조트 이름을 입력해 주세요. ");
 		$('#resortName').focus();
@@ -136,10 +132,6 @@ function preView(event) {
 		alert("하나 이상의 태그를 입력해 주세요");
 		$('#tag').focus();
 		return false;
-	}else if(image1==""&&image2==""&&image3==""){
-		alert("하나 이상의 이미지를 등록해 주세요.");
-		$('#image1').focus();
-		return false;
 	}else{
 		$('#form').submit();
 	}
@@ -155,7 +147,15 @@ function preView(event) {
               <div class="col-sm-8 col-sm-offset-2">
                 <h4 class="font-alt mb-0">리조트 수정</h4>
                 <hr class="divider-w mt-10 mb-20">
-                <form class="form" role="form" id="form" action="${contextPath}/Resort/EnterResort" method="post" enctype="multipart/form-data">
+                <form class="form" role="form" id="form" action="${contextPath}/Resort/ResortMod" method="post" enctype="multipart/form-data">
+                  <input type="hidden" name="num" value="${resortinfo.num}">
+                  <input type="hidden" name="resortStatus" value="${resortinfo.resortStatus}">
+                  <input type="hidden" name="viewCount" value="${resortinfo.viewCount}">
+                  <input type="hidden" name="id" value="${resortinfo.id}">
+                  <input type="hidden" name="image1" value="${resortinfo.image1}">
+                  <input type="hidden" name="image2" value="${resortinfo.image2}">
+                  <input type="hidden" name="image3" value="${resortinfo.image3}">
+                  <input type="hidden" name="enterDate" value="${resortinfo.enterDate}">
                   <div class="form-group">
                   	<h5><b>리조트 이름</b></h5>
                     <input class="form-control input-lg" value="${resortinfo.resortName}" id="resortName" name="resortName" type="text" placeholder="리조트 이름" required/>
@@ -196,11 +196,18 @@ function preView(event) {
                   	<div class="row multi-columns-row" style="margin-bottom: 15px;">
 	                  <div class="col-sm-6 col-md-6 col-lg-6">
 	                    <div class="form-group">
-	                      <h3 class="alt-features-title font-alt">이미지 등록</h3>
-	                      <input class="form-control custom-file-input" id="image1" name="image1" type="file" accept="image/*" onchange="preView(event)"/>
-	                      <input class="form-control custom-file-input" id="image2" name="image2" type="file" accept="image/*" onchange="preView(event)"/>
-	                      <input class="form-control custom-file-input" id="image3" name="image3" type="file" accept="image/*" onchange="preView(event)"/>
-	                    </div>
+	                      <h3 class="alt-features-title font-alt">썸네일 이미지 변경</h3>
+	                      <input class="form-control custom-file-input" id="image1" name="imageA" type="file" accept="image/*" onchange="preView(event)"/>
+	                      <img src="${contextPath}/resources/images/Resort/thumbnail/${resortinfo.num}/${resortinfo.image1}"/>
+	                      <input class="form-control custom-file-input" id="image2" name="imageB" type="file" accept="image/*" onchange="preView(event)"/>
+	                      <c:if test='${resortinfo.image2 != ""}'>
+	                      <img src="${contextPath}/resources/images/Resort/thumbnail/${resortinfo.num}/${resortinfo.image2}"/>
+	                      </c:if>
+	                      <input class="form-control custom-file-input" id="image3" name="imageC" type="file" accept="image/*" onchange="preView(event)"/>
+	                      <c:if test="${resortinfo.image3 != ''}">
+	                      <img src="${contextPath}/resources/images/Resort/thumbnail/${resortinfo.num}/${resortinfo.image3}"/>
+	                      </c:if>	                    
+	                      </div>
 	                  </div>
                   	  <div class="col-sm-6 col-md-6 col-lg-6">
                         <div class="form-group">
@@ -211,7 +218,7 @@ function preView(event) {
                     </div>
                   </div>
                   <div class="row" style="text-align: center;">
-                  <button class="btn btn-border-d btn-round" type="button" onclick="contentsCheck()">등록하기</button>&nbsp;
+                  <button class="btn btn-border-d btn-round" type="button" onclick="contentsCheck()">수정하기</button>&nbsp;
                   <button class="btn btn-border-d btn-round" type="button" onclick="history.back()">취소하기</button>&nbsp;
                   <button class="btn btn-border-d btn-round">목록으로</button>
                   </div>

@@ -88,9 +88,18 @@ public class ResortController {
 	}
 	//리조트 수정페이지 이동
 	@RequestMapping(value = "moveResortMod")
-	public ModelAndView moveResortMod(int num) {
+	public ModelAndView moveResortMod(int num , HttpServletRequest request) {
+		request.getSession().setAttribute("category","Resort");
 		modelAndView.addObject("resortinfo",resortService.getResortInfo(num));
 		modelAndView.setViewName("resort/ResortMod");
+		return modelAndView;
+	}
+	//리조트 수정
+	@RequestMapping(value = "ResortMod" ,method = RequestMethod.POST)
+	public ModelAndView ResortMod(ResortVO resortVO , HttpServletRequest request, HttpServletResponse response,
+								  MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
+		resortService.ResortMod(resortVO, request, response , multipartHttpServletRequest);
+		modelAndView.setViewName("redirect:/Resort/moveViewResort?num="+resortVO.getNum());
 		return modelAndView;
 	}
 	

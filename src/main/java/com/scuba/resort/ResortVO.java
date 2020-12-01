@@ -10,6 +10,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @Component
 public class ResortVO {
 	private int num ,resortStatus , viewCount;
