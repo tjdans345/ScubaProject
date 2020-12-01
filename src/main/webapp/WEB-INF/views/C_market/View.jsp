@@ -1,12 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../inc/Top.jsp"%>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
     <title>Titan | Multipurpose HTML5 Template</title>
+    
+    <script type="text/javascript">
+    $(document).ready(function(){
+    	//목록 버튼
+    	$(".list_btn").click(function() {
+    		location.href="${contextPath}/marketBoard/marketBoardList";
+		});
+    	//글 삭제 버튼
+    	$(".delete_btn").click(function() {
+    		if (confirm("글을 삭제 하시겠습니까?") == true) {
+    		var num = $(this).data("num");
+    		location.href="${contextPath}/marketBoard/marketBoardDelete?num="+num;
+    		} else {
+    			return;
+    		}
+		});
+    	//글 수정 버튼
+    	$(".Modify_btn").click(function() {
+    		var num = $(this).data("num");
+    		var cate = $(this).data("cate");
+    		location.href="${contextPath}/marketBoard/marketBoardModify?num="+num+"&communityname="+cate;
+		});
+    	
+    });    
+    </script>
   </head>
+  
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
-  <jsp:include page="../inc/Top.jsp"/>
     
       <div class="main">
         <section class="module-small">
@@ -15,48 +41,75 @@
               <div class="col-sm-8 col-sm-offset-2">
                 <div class="post" style="margin-bottom: 15px;">
                   <div class="post-header font-alt">
-                    <h1 class="post-title">메인 제목</h1>
-                    <div class="post-meta"> 글쓴이   | 등록 일자
+                    <h1 class="post-title">${viewList.title}</h1>
+                    <div class="post-meta"> ${viewList.nickname}   | ${viewList.writedate}
                     </div>
                   </div>
                   <div class="post-entry">
-                    <p>글 내용</p>
+                    <p>${viewList.content}</p>
                   </div>
                    <div class="row multi-columns-row">
               <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="features-item">
                   <div class="features-icon"><i class="fa fa-fw">&#xf155;</i></div>
                   <h3 class="features-title font-alt">희망가격</h3>
-                  <p>마넌</p>
+                  <p><b>${viewList.price}</b></p>
                 </div>
               </div>
               <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="features-item">
                   <div class="features-icon"><span class="icon-phone"></span></div>
                   <h3 class="features-title font-alt">연락처</h3>
-                  <p>114</p>
+                  <c:if test="${viewList.phone ne '' || viewList.phone ne null}">
+                  <p><b>${viewList.phone}</b></p>
+                  </c:if>
+                  <c:if test="${viewList.phone eq '' || viewList.phone eq null}">
+                  <p><b>연락처 정보가 없습니다.</b></p>
+                  </c:if>
                 </div>
               </div>
               <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="features-item">
                   <div class="features-icon"><span class="icon-search"></span></div>
+                  <c:if test="${viewList.marketcategory eq '팝니다' }">
                   <h3 class="features-title font-alt">물품상태</h3>
-                  <p>죶망</p>
+                  <p><b>${viewList.productstatus}</b></p>
+                  </c:if>
+                  <c:if test="${viewList.marketcategory eq '삽니다' }">
+                  <h3 class="features-title font-alt">희망 물품상태</h3>
+                  <p><b>${viewList.productstatus}</b></p>
+                  </c:if>
                 </div>
               </div>
               <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="features-item">
                   <div class="features-icon"><i class="fa fa-fw">&#xf06b;</i></div>
+                  <c:if test="${viewList.marketcategory eq '팝니다' }">
                   <h3 class="features-title font-alt">판매상태</h3>
-                  <p>팜니다...</p>
+                  <c:if test="${viewList.dealstatus == 0}">
+                  <p><b>판매중</b></p>
+                  </c:if>
+                  <c:if test="${viewList.dealstatus == 1}">
+                  <p><b>판매 완료</b></p>
+                  </c:if>
+                  </c:if>
+                  <c:if test="${viewList.marketcategory eq '삽니다' }">
+                  <h3 class="features-title font-alt">구매상태</h3>
+                  <c:if test="${viewList.dealstatus == 0}">
+                  <p><b>구매중</b></p>
+                  </c:if>
+                  <c:if test="${viewList.dealstatus == 1}">
+                  <p><b>구매 완료</b></p>
+                  </c:if>
+                  </c:if>
                 </div>
               </div>
             </div>
                 </div>
                 <div class="row" style="padding: 0 15px;">
-               	  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">목록보기</button>
-                  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">글 삭제</button>
-                  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">글 수정</button>
+               	  <button class="btn btn-border-d btn-round list_btn" type="submit" style="float: right; margin: 5px;">목록보기</button>
+                  <button class="btn btn-border-d btn-round delete_btn" type="submit" style="float: right; margin: 5px;" data-num="${viewList.num}">글 삭제</button>
+                  <button class="btn btn-border-d btn-round Modify_btn" type="submit" style="float: right; margin: 5px;" data-num="${viewList.num}" data-cate="${viewList.communityname}">글 수정</button>
                 </div>
                 <!-- 댓글 입력창 -->
                 <div class="comment-form" style="margin-top: 0px;">

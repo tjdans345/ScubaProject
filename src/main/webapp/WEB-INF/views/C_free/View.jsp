@@ -27,7 +27,8 @@
     	//글 수정 버튼
     	$(".Modify_btn").click(function() {
     		var num = $(this).data("num");
-    		location.href="${contextPath}/freeBoard/freeboarModify?num="+num;
+    		var cate = $(this).data("cate");
+    		location.href="${contextPath}/freeBoard/freeboarModify?num="+num+"&communityname="+cate;
 		});
     	
     });
@@ -58,8 +59,8 @@
                 <div class="row" style="padding: 0 15px;">
                	  <button class="btn btn-border-d btn-round list_btn" type="button" style="float: right; margin: 5px;">목록보기</button>
                	  <c:if test="${viewList.nickname == user_nickname}">
-                  <button class="btn btn-border-d btn-round delete_btn" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}">글 삭제</button>
-                  <button class="btn btn-border-d btn-round Modify_btn" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}">글 수정</button>
+                  <button class="btn btn-border-d btn-round delete_btn" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}" data-cate="${viewList.communityname}">글 삭제</button>
+                  <button class="btn btn-border-d btn-round Modify_btn" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}" data-cate="${viewList.communityname}">글 수정</button>
                   </c:if>
                 </div>
                 <!-- 댓글 입력창 -->

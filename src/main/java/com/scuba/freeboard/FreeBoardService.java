@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,25 +27,17 @@ public class FreeBoardService {
 	}
 
 	//글 작성
-	public HashMap write(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
+	public HashMap<String, Object> write(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		// ID값 설정 지워도 됨 나중에
-		request.getSession().setAttribute("user_id", "test3");
-		// 닉네임값 설정 지워도 됨 나중에
-		request.getSession().setAttribute("user_nickname", "1");
-		// 임시 닉네임값.
-		String nickname = "1";
+		String nickname = (String) request.getSession().getAttribute("user_nickname");
 		freeboardVO.setNickname(nickname);
-		
-		System.out.println("여기확인" + freeboardVO.getContent());
-		
 		// 이미지 사용 여부
 		int imgexists = 0;
 		// 커뮤니티 이름설정 카테고리 
-		String category = (String) request.getSession().getAttribute("category");
+		String category = (String)request.getSession().getAttribute("category");
 		// 컨텐트 내용 저장후 정규식을 이용하여 src 경로만 추출
 		String content = freeboardVO.getContent();
-		// src경로 추출 정규식 ********src태그 뽑아오는 거<src=[\\\\\\\"']?([^>\\\\\\\"']+)[\\\\\\\"']?[^>]*>*******
+		// src경로 추출 정규식 ********src태그만 뽑아오는 정규식<src=[\\\\\\\"']?([^>\\\\\\\"']+)[\\\\\\\"']?[^>]*>*******
 		Pattern pattern = Pattern.compile("<img[^>]*src=[\\\"']?(?!https:)([^>\\\"']+)[\\\"']?[^>]*>");
 		Matcher matcher = pattern.matcher(content);
 		// imglist : src경로 list , realimglist : 실제 이미지(파일)명 list
@@ -69,7 +60,7 @@ public class FreeBoardService {
 			imgexists = 1;
 		}
 		//글 등록 결과 값
-		HashMap resultmap = new HashMap();
+		HashMap<String, Object> resultmap = new HashMap<String, Object>();
 		// DB 인설트 구문 성공시 1 반환 글 작성 완료시 진행
 		if (freeboardDAO.write(freeboardVO) == 1) {
 			// 최근게시글 번호 값 가져오기 새로생길 저장 폴더 이름(추가될 게시글 번호) 용도
@@ -84,7 +75,7 @@ public class FreeBoardService {
 					String beforeContent = freeboardVO.getContent();
 					String changePath = beforeContent.replace("Temporary", category);
 					String afterContent = changePath.replace("test3", folderNum);
-					HashMap map = new HashMap();
+					HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("afterContent", afterContent);
 					map.put("contentNum", folderNum);
 					//이미지 경로 수정
@@ -110,6 +101,7 @@ public class FreeBoardService {
 		}
 		return resultmap;
 	}
+	
 	//글 상세보기
 	public FreeBoardVO viewList(int contentNum) {
 		return freeboardDAO.viewList(contentNum);
@@ -117,7 +109,7 @@ public class FreeBoardService {
 	
 	//게시글 삭제 시 닉네임 일치여부 체크
 		public String idCheck(int contentNum) {
-			return freeboardDAO.idCheck(contentNum);
+			return freeboardDAO.idCheck(contentNum); 
 		}
 		
 	//게시글 삭제
@@ -143,13 +135,13 @@ public class FreeBoardService {
 		return Result;
 	}
 
-	//게시글 수정
+	//게시글 수정 페이지 이동
 	public FreeBoardVO ModifyList(int contentNum) {
 		return freeboardDAO.ModifyList(contentNum);
 	}
 	
 	//게시글 수정 등록
-	public HashMap Modify(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response) {
+	public HashMap<String, Object> Modify(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response) {
 				//수정 등록 결과값
 				int modifyResult = 0;
 				//카테고리 값 얻기 
@@ -184,7 +176,7 @@ public class FreeBoardService {
 					imgexists = 1;
 				}
 				//글 수정 결과 값
-				HashMap resultmap = new HashMap();
+				HashMap<String, Object> resultmap = new HashMap<String, Object>();
 				//수정된 글 DB 전송
 				//글 수정 성공시
 				if(freeboardDAO.Modify(freeboardVO) == 1) {
@@ -201,7 +193,7 @@ public class FreeBoardService {
 					} else { //이미지 없을 시
 						System.out.println("이미지없다 ");
 						//수정 된 글 이미지 없을 시 서버 디렉토리 삭제 해줌
-						if(common.DirDelete(request, response, category, folderNum) ==1) {
+						if(common.DirDelete(request, response, category, folderNum) ==1 || common.DirDelete(request, response, category, folderNum) == 2) {
 							resultmap.put("contentNum", folderNum);
 							resultmap.put("modifyResult", 2); //이미지 없는 글 수정 성공
 						} else { //이미지 처리 실패
@@ -214,7 +206,6 @@ public class FreeBoardService {
 					resultmap.put("modifyResult", 0);
 				}
 				return resultmap;
-		
 	}
 	
 	//글 수정 취소 시
@@ -239,7 +230,7 @@ public class FreeBoardService {
 		int i = 0;
 		// 컨텐트 전체내용에서 src경로가 나올때까지 설정한 정규식을 통하여 추출함
 		while (matcher.find()) {
-			System.out.println("정규식 추출" + matcher.group(1));
+			System.out.println("정규식 추출" +i+ matcher.group(1));
 			if (matcher.group(1) == null) {
 				break;
 			}
@@ -252,7 +243,6 @@ public class FreeBoardService {
 			//이미지 유무 확인
 			imgexists = 1;
 		}
-		
 		if(imgexists == 1) {
 			common.imguploadModifyServer(request, response, realimglist, category, folderNum);
 		} else { //이미지 없을 시

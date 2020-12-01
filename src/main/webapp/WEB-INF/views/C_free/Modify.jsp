@@ -7,11 +7,6 @@
     <title>Titan | Multipurpose HTML5 Template</title>
     <script src="${contextPath}/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<style type="text/css">
-	#smart_editor2{
-	width: 100%;
-	}
-	</style>
 	
 	<script type="text/javascript">
 	$(document).ready(function() {
@@ -38,7 +33,11 @@
 			});
 		//돌아가기(수정 취소)버튼
     	$(".back_btn").click(function() {
+    		if(confirm("글 수정을 취소 하시겠습니까 ?") == true) {
     		location.href="${contextPath}/freeBoard/modiFyCancle?num="+${modifyList.num};
+    		} else {
+    			return;
+    		}
 			});
 	});
 	</script>
@@ -84,7 +83,7 @@
         </div>
        <jsp:include page="../inc/Footer.jsp"/>
        
-       <script type="text/javascript">
+	<script type="text/javascript">
     //CKEDITOR Form 설정 부분 
 	CKEDITOR.on('dialogDefinition', function (ev) {
         var dialogName = ev.data.name;

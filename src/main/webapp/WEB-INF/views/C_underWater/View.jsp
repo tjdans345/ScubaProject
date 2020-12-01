@@ -1,34 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../inc/Top.jsp" %>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
     <title>Titan | Multipurpose HTML5 Template</title>
+    
+    <script type="text/javascript">
+    
+ 		$(document).ready(function(){
+    	
+    	//목록 버튼
+    	$(".list_btn").click(function() {
+    		location.href="${contextPath}/underWaterBoard/underWaterBoardList";
+		});
+    	
+    	//글 삭제 버튼
+    	$(".delete_btn").click(function() {
+    		if (confirm("글을 삭제 하시겠습니까?") == true) {
+    		var num = $(this).data("num");
+    		location.href="${contextPath}/underWaterBoard/underWaterBoardDelete?num="+num;
+    		} else {
+    			return;
+    		}
+		});
+    	
+    	//글 수정 버튼
+    	$(".Modify_btn").click(function() {
+    		var num = $(this).data("num");
+    		var cate = $(this).data("cate");
+    		location.href="${contextPath}/underWaterBoard/underWaterBoardModify?num="+num+"&communityname="+cate;
+		});
+    	
+    });
+    
+    
+    </script>
+    
+    
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
-  <jsp:include page="../inc/Top.jsp"/>
       <div class="main">
         <section class="module-small">
           <div class="container">
             <div class="row">
               <div class="col-sm-8">
                 <div class="post">
-				  <div class="post-thumbnail">
-  					<img src="../assets/images/post-4.jpg" alt="Blog Featured Image"/>
-  				  </div>     
                   <div class="post-header font-alt">
-                    <h1 class="post-title">메인 제목</h1>
-                    <div class="post-meta">작성자 | 등록일자 | 좋아요 
-                   </div>
+                    <h1 class="post-title">${viewList.title}</h1>
+                    <fmt:formatDate var="writeDate" pattern="yyyy-MM-dd" value="${viewList.writedate}"/>
+                    <div class="post-meta"> ${viewList.nickname}  | ${writeDate} | ${viewList.likecount}
+                   	</div>
                   </div>
                   <div class="post-entry">
-                    <p>글 내용</p>
+                    <p>${viewList.content}</p>
                     </div>
                 </div>
                 <div class="row" style="padding: 0 15px;">
-               	  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">목록보기</button>
-                  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">글 삭제</button>
-                  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">글 수정</button>
+                <script type="text/javascript">
+                 	console.log("${viewList.communityname}");
+                </script>
+                
+               	  <button class="btn btn-border-d btn-round list_btn" type="submit" style="float: right; margin: 5px;">목록보기</button>
+                   <c:if test="${viewList.nickname == user_nickname}">
+                  <button class="btn btn-border-d btn-round delete_btn" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}" data-cate="${viewList.communityname}">글 삭제</button>
+                  <button class="btn btn-border-d btn-round Modify_btn" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}" data-cate="${viewList.communityname}">글 수정</button>
+                  </c:if>
                 </div>
                                 <!-- 댓글 입력창 -->
                 <div class="comment-form" style="margin-top: 0px;">
@@ -72,28 +109,28 @@
                   <h5 class="widget-title font-alt">해당 스쿠버의 다른글</h5>
                   <ul class="widget-posts">
                     <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-1.jpg" alt="Post Thumbnail"/></a></div>
+                      <div class="widget-posts-image"><a href="#"><img src="${contextPath}/resources/assets/images/rp-1.jpg" alt="Post Thumbnail"/></a></div>
                       <div class="widget-posts-body">
                         <div class="widget-posts-title"><a href="#">Designer Desk Essentials</a></div>
                         <div class="widget-posts-meta">23 january</div>
                       </div>
                     </li>
                     <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-2.jpg" alt="Post Thumbnail"/></a></div>
+                      <div class="widget-posts-image"><a href="#"><img src="${contextPath}/resources/assets/images/rp-2.jpg" alt="Post Thumbnail"/></a></div>
                       <div class="widget-posts-body">
                         <div class="widget-posts-title"><a href="#">Realistic Business Card Mockup</a></div>
                         <div class="widget-posts-meta">15 February</div>
                       </div>
                     </li>
                     <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-3.jpg" alt="Post Thumbnail"/></a></div>
+                      <div class="widget-posts-image"><a href="#"><img src="${contextPath}/resources/assets/images/rp-3.jpg" alt="Post Thumbnail"/></a></div>
                       <div class="widget-posts-body">
                         <div class="widget-posts-title"><a href="#">Eco bag Mockup</a></div>
                         <div class="widget-posts-meta">21 February</div>
                       </div>
                     </li>
                     <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-4.jpg" alt="Post Thumbnail"/></a></div>
+                      <div class="widget-posts-image"><a href="#"><img src="${contextPath}/resources/assets/images/rp-4.jpg" alt="Post Thumbnail"/></a></div>
                       <div class="widget-posts-body">
                         <div class="widget-posts-title"><a href="#">Bottle Mockup</a></div>
                         <div class="widget-posts-meta">2 March</div>

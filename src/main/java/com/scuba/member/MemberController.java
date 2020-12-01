@@ -45,7 +45,7 @@ public class MemberController {
 								HttpServletRequest request) throws Exception {
 		memberService.joinMember(memberVO);
 		request.getSession().setAttribute("user_id",memberVO.getId());
-		modelAndView.setViewName("redirect:/index.scu");
+		modelAndView.setViewName("redirect:/index/main");
 		return modelAndView;
 	}
 //로그인
@@ -112,7 +112,7 @@ public class MemberController {
 									HttpServletRequest request) throws Exception{
 		memberService.findPwdChage(memberVO);
 		request.getSession().setAttribute("id",memberVO.getId());
-		modelAndView.setViewName("redirect:/index.scu");
+		modelAndView.setViewName("redirect:/index/main");
 		return modelAndView;
 	}
 	//회원정보 페이지 이동
@@ -126,7 +126,7 @@ public class MemberController {
 	@RequestMapping(value = "logout")
 	public ModelAndView logout(HttpServletRequest request) {
 		request.getSession().removeAttribute("user_id");
-		modelAndView.setViewName("redirect:/index.scu");
+		modelAndView.setViewName("redirect:/index/main");
 		return modelAndView;
 	}
 	//회원정보 수정
@@ -134,7 +134,7 @@ public class MemberController {
 	public ModelAndView memberChange(MultipartHttpServletRequest multipartHttpServletRequest,
 									HttpSession session) throws Exception{
 		memberService.memberChange(multipartHttpServletRequest , session);
-		modelAndView.setViewName("redirect:/index.scu");
+		modelAndView.setViewName("redirect:/index/main");
 		return modelAndView;
 	}
 	//비밀번호 확인

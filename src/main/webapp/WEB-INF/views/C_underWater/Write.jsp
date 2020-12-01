@@ -12,9 +12,41 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//썸네일 미리보기
-			$("#filename").on("change", function() {
+			$("#filename").on("change", function(event) {
+				var formData = new FormData();
+				var inputFile = this.files;
+				
+				for(var i=0; i<inputFile.length; i++) {
+					formData.append("imgfile", inputFile[i]);
+				}
+				//썸네일 이미지 유효성 체크
+				$.ajax({
+					contentType : false,
+					processData : false,
+					url : "${contextPath}/Common/imgCheck",
+					data : formData,
+					type : "post",
+					success : function (data) {
+						var check = data;
+						if(check == 1 ) {
+							alert("파일 형식을 확인해주세요");
+							$("#filename").val("");
+							$("#preimg").empty();
+						} else if(check == 2) {
+							alert("파일 크기를 확인해주세요");
+							$("#filename").val("");
+							$("#preimg").empty();
+						} else if(check == 3) {
+							
+						}
+					},
+					error : function(data) {
+						alert("통신 실패");
+					}
+				});
 				readURL(this);
 			});
+			
 			
 			//썸네일 미리보기 태그 삽입
 			function readURL(input) {
@@ -29,6 +61,8 @@
 					}
 				}
 			}
+			
+			
 			
 			//전송 버튼 클릭 시
 			$(".wrt_btn").click(function() {
@@ -84,15 +118,16 @@
               <div class="col-sm-8 col-sm-offset-2">
                 <h4 class="font-alt mb-0">수중 갤러리 글 작성</h4>
                 <hr class="divider-w mt-10 mb-20">
-                <form class="form" role="form" id="wform" method="post">
+                <form class="form" role="form" id="wform" method="post" enctype="multipart/form-data">
                   <div class="form-group">
+                  	<input type="hidden" name="communityname" value="${category}">
                   	<h5><b>제목</b></h5>
                     <input class="form-control input-lg" name="title" type="text" id="title" placeholder="제목을 입력하세요(메인 제목)"/>
                   </div>
                   <div class="form-group">
                   	<h5><b>썸네일 이미지 등록</b></h5>
                   	<input type="text" hidden="hidden" />
-                    <input type="file" accept="image/jpeg, .jpg, .png, .gif" class="form-control input-lg custom-file-input" name="thumbnail" id="filename" name="filename">
+                    <input type="file" accept="image/jpeg, .jpg, .png, .gif" class="form-control input-lg custom-file-input" name="file" id="filename">
                   </div>
                   <!-- 썸 네일 미리보기 -->
                   <div class="form-group" id="preimg">
