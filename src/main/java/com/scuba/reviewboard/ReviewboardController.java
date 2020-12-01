@@ -85,9 +85,8 @@ public class ReviewboardController {
 	//후기 게시판 글 수정 페이지 이동
 	@RequestMapping(value = "reviewBoardModify")
 	public ModelAndView reviewBoardModify(ReviewboardVO reviewboardVO, HttpServletRequest request, HttpServletResponse response) {
-//		System.out.println(freeboardVO.getNum());
 		request.getSession().setAttribute("category",reviewboardVO.getCommunityname());
-		reviewboardCheckVO.setNum(reviewboardVO.getNum());
+		request.getSession().setAttribute("modifyCheck", reviewboardVO.getNum());
 		mav.addObject("modifyList", reviewboardService.ModifyList(reviewboardVO.getNum()));
 		
 		mav.setViewName("C_review/Modify");
@@ -98,7 +97,7 @@ public class ReviewboardController {
 	@RequestMapping(value = "Modifyinsert", method = RequestMethod.POST)
 	public ModelAndView Modifyinsert(ReviewboardVO reviewboardVO, @RequestParam MultipartFile file, HttpServletRequest request, HttpServletResponse response)
 				throws Exception {
-			int originalNum = reviewboardCheckVO.getNum();
+			int originalNum = (Integer)request.getSession().getAttribute("modifyCheck");
 			int nowNum = reviewboardVO.getNum();
 			System.out.println("썸네일 임지 : " + reviewboardVO.getThumbnail());
 			//뷰페이지 악의적인 조작 검증

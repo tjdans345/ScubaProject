@@ -34,6 +34,7 @@ public class InformationService {
 		if(mutirequest.getParameter("Season"+i) != null) Season += mutirequest.getParameter("Season"+i)+"월 ";
 		}
 		informationVO.setSeason(Season);
+		System.out.println("시즌 :" + Season);
 		if(mutirequest.getParameter("CountryImageAlread")==null) {
 			//파일 업로드
 			MultipartFile file = mutirequest.getFile("CountryImage");

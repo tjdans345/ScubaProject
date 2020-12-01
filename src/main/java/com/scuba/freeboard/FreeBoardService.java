@@ -29,13 +29,12 @@ public class FreeBoardService {
 	//글 작성
 	public HashMap<String, Object> write(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		
 		String nickname = (String) request.getSession().getAttribute("user_nickname");
 		freeboardVO.setNickname(nickname);
 		// 이미지 사용 여부
 		int imgexists = 0;
 		// 커뮤니티 이름설정 카테고리 
-		String category = freeboardVO.getCommunityname();
+		String category = (String)request.getSession().getAttribute("category");
 		// 컨텐트 내용 저장후 정규식을 이용하여 src 경로만 추출
 		String content = freeboardVO.getContent();
 		// src경로 추출 정규식 ********src태그만 뽑아오는 정규식<src=[\\\\\\\"']?([^>\\\\\\\"']+)[\\\\\\\"']?[^>]*>*******
@@ -102,6 +101,7 @@ public class FreeBoardService {
 		}
 		return resultmap;
 	}
+	
 	//글 상세보기
 	public FreeBoardVO viewList(int contentNum) {
 		return freeboardDAO.viewList(contentNum);
@@ -109,7 +109,7 @@ public class FreeBoardService {
 	
 	//게시글 삭제 시 닉네임 일치여부 체크
 		public String idCheck(int contentNum) {
-			return freeboardDAO.idCheck(contentNum);
+			return freeboardDAO.idCheck(contentNum); 
 		}
 		
 	//게시글 삭제

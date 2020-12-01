@@ -55,12 +55,7 @@ public class JobSearchboardController {
 	//구인 구직 게시판 글 등록
 	@RequestMapping(value = "WriteInsert", method = RequestMethod.POST)
 	public ModelAndView WriteInsert(JobSearchboardVO jobsearchboardVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		System.out.println(jobsearchboardVO.getCommunityname());
-		System.out.println(jobsearchboardVO.getContent());
-		System.out.println(jobsearchboardVO.getJobcategory());
-		System.out.println(jobsearchboardVO.getTitle());
-		
+
 		HashMap<String, Object> resultMap = jobsearchboardService.WriteInsert(jobsearchboardVO,request, response);
 		int writeResult = (Integer) resultMap.get("writeResult");
 		// 글 등록 성공시 (1:이미지o 2:이미지x)
@@ -87,7 +82,7 @@ public class JobSearchboardController {
 	// 글 수정 페이지 이동
 	@RequestMapping(value = "jobSearchBoardModify")
 	public ModelAndView jobSearchBoardModify(JobSearchboardVO jobsearchboardVO, HttpServletRequest request, HttpServletResponse response) {
-		jobsearchboardCheckVO.setNum(jobsearchboardVO.getNum());
+		request.getSession().setAttribute("modifyCheck", jobsearchboardVO.getNum());
 		request.getSession().setAttribute("category",jobsearchboardVO.getCommunityname());
 		mav.addObject("modifyList", jobsearchboardService.ModifyList(jobsearchboardVO.getNum()));
 		mav.setViewName("C_jobSearch/Modify");
@@ -98,7 +93,7 @@ public class JobSearchboardController {
 	@RequestMapping(value = "Modifyinsert", method = RequestMethod.POST)
 	public ModelAndView Modifyinsert(JobSearchboardVO jobsearchboardVO, HttpServletRequest request, HttpServletResponse response)
 				throws Exception {
-			int originalNum = jobsearchboardCheckVO.getNum();
+			int originalNum = (Integer)request.getSession().getAttribute("modifyCheck");
 			int nowNum = jobsearchboardVO.getNum(); 
 			//뷰페이지 악의적인 조작 검증
 			if(originalNum == nowNum) {

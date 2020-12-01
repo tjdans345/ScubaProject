@@ -76,8 +76,6 @@ public class Common {
 		String id = (String) request.getSession().getAttribute("user_id");
 		// 이미지 이름 얻어오기(실제이름)
 		String fileOriginalName = upload.getOriginalFilename();
-		System.out.println("업로드 겟사이즈 : "+upload.getSize()); 
-		System.out.println("컨텐트타입 : "+upload.getContentType()); 
 		
 		// 파일 확장자 얻기
 		String ext = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
@@ -115,8 +113,6 @@ public class Common {
 				File file = new File(uploadPath, fileSaveName);
 				upload.transferTo(file);
 				// 서버 업로드
-				// write메소드의 매개값으로 파일의 총 바이트를 매개값으로 줌
-//				String callback = request.getParameter("CKEditorFuncNum");
 				// 서버 => 클라이언트로 텍스트 전송(자바스크립트 실행)
 				String fileUrl = request.getContextPath() + "/resources/images/Temporary/" + id + "/" + fileSaveName;
 				printWriter.println("{\"filename\" : \""+fileSaveName+"\", \"uploaded\" : 1, \"url\":\""+fileUrl+"\"}");
@@ -131,7 +127,6 @@ public class Common {
 		// result = 0:실패 / 1:성공
 		System.out.println("이미지 업로드 서버 찍힘요ㅕ ~ ");
 		int result = 0, dfr = 0, dfm = 0;
-		
 		
 		// 세션영역에서 유저아이디 얻어옴 (for 임시폴더 path설정)
 		String id = (String)request.getSession().getAttribute("user_id");
@@ -211,7 +206,6 @@ public class Common {
 				System.out.println("file Origin Name : " + fileOriginalName);
 				// 파일 확장자 얻기
 				String ext = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
-				System.out.println("ext : " + ext);
 				//파일 확자자명 체크
 				if(!(".gif".equalsIgnoreCase(ext) || ".jpg".equalsIgnoreCase(ext) || ".png".equalsIgnoreCase(ext))) {
 					printWriter.println("{\"uploaded\": 0,"
@@ -235,7 +229,6 @@ public class Common {
 						UUID uuid = UUID.randomUUID();
 						// 업로드 될 파일 이름
 						String fileSaveName = uuid.toString() + ext;
-						System.out.println("fileSaveName : " + fileSaveName);
 						// 서버파일업로드 경로(실제 저장 폴더)
 						String serverUploadPath = request.getSession().getServletContext().getRealPath("/resources/images/" + category + "/" + serverFolderName);
 						// 서버파일업로드 경로(폴더가 없을시 만들어줌)
@@ -249,7 +242,6 @@ public class Common {
 						// 서버 업로드
 						// 서버 => 클라이언트로 텍스트 전송(자바스크립트 실행)
 						String fileUrl = request.getContextPath() + "/resources/images/" + category + "/" + serverFolderName + "/" + fileSaveName;
-						System.out.println("fileUrl : " + fileUrl);
 						printWriter.println("{\"filename\" : \""+fileSaveName+"\", \"uploaded\" : 1, \"url\":\""+fileUrl+"\"}");
 						printWriter.flush();
 					}

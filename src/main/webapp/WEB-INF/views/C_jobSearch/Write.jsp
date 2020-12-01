@@ -10,7 +10,6 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
 			//전송 버튼 클릭 시
 			$(".wrt_btn").click(function() {
 				var content = CKEDITOR.instances.content.getData();

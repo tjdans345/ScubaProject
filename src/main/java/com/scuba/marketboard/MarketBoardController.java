@@ -23,7 +23,6 @@ public class MarketBoardController {
 
 	ModelAndView mav = new ModelAndView();
 	Common common = new Common();
-	MarketBoardVO marketBoardCheckVO = new MarketBoardVO();
 
 	// 중고장터 게시판 이동
 	@RequestMapping(value = "marketBoardList")
@@ -56,15 +55,7 @@ public class MarketBoardController {
 	@RequestMapping(value = "WriteInsert", method = RequestMethod.POST)
 	public ModelAndView WriteInsert(MarketBoardVO marketboardVO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
-		System.out.println(marketboardVO.getCommunityname());
-		System.out.println(marketboardVO.getContent());
-		System.out.println(marketboardVO.getPhone());
-		System.out.println(marketboardVO.getTitle());
-		System.out.println(marketboardVO.getPrice());
-		System.out.println(marketboardVO.getMarketcategory());
-		System.out.println(marketboardVO.getProductstatus());
-
+		
 		HashMap<String, Object> resultMap = marketboardService.WriteInsert(marketboardVO, request, response);
 		int writeResult = (Integer) resultMap.get("writeResult");
 		// 글 등록 성공시 (1:이미지o 2:이미지x)
@@ -84,9 +75,92 @@ public class MarketBoardController {
 	@RequestMapping(value = "marketBoardView")
 	public ModelAndView marketBoardView(MarketBoardVO marketboardVO) {
 		mav.addObject("viewList", marketboardService.viewList(marketboardVO.getNum()));
-		System.out.println("호호호 : "+marketboardService.viewList(marketboardVO.getNum()).toString());
 		mav.setViewName("C_market/View");
 		return mav;
 	}
-
+	
+	// 글 수정 페이지 이동
+	@RequestMapping(value = "marketBoardModify")
+	public ModelAndView marketBoardModify(MarketBoardVO marketboardVO, HttpServletRequest request, HttpServletResponse response) {
+		//수정 시 임의적인 글 번호 변경 방지를 위한 체크 값
+		request.getSession().setAttribute("modifyCheck", marketboardVO.getNum());
+		request.getSession().setAttribute("category",marketboardVO.getCommunityname());
+		mav.addObject("modifyList", marketboardService.ModifyList(marketboardVO.getNum()));
+		mav.setViewName("C_market/Modify");
+		return mav;
+		}	
+	
+	// 글 수정 등록
+	@RequestMapping(value = "Modifyinsert", method = RequestMethod.POST)
+	public ModelAndView Modifyinsert(MarketBoardVO marketboardVO, HttpServletRequest request, HttpServletResponse response)
+				throws Exception {
+			int originalNum = (Integer)request.getSession().getAttribute("modifyCheck");
+			int nowNum = marketboardVO.getNum(); 
+			//뷰페이지 악의적인 조작 검증
+			if(originalNum == nowNum) {
+				// Service 글 수정
+				HashMap<String, Object> resultMap = marketboardService.Modify(marketboardVO, request, response);
+				// 글 수정 결과 리턴값 
+				int modifyResult = (Integer)resultMap.get("modifyResult");
+				// 글 수정 성공시 (1:이미지o 2:이미지x)
+				if(modifyResult == 1 || modifyResult == 2) {
+					mav.addObject("num", resultMap.get("contentNum"));
+					mav.setViewName("redirect:/marketBoard/marketBoardView");
+				} else {
+					String notice = "글 수정 실패";
+					common.noticeMethod(request, response, notice);
+					mav.setViewName("member/Login");
+				}
+			} else { // 사용자의 악의적인 조작이 있을 시
+				String notice = "경고 : 잘못된 데이터 요청 (악의적인 데이터 수정)";
+				common.noticeMethod(request, response, notice);
+				mav.setViewName("member/Login");
+			}
+			return mav;
+		}		
+	
+	// 글 삭제
+	@RequestMapping(value = "marketBoardDelete")
+	public ModelAndView marketBoardDelete(MarketBoardVO marketboardVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String user_nickname = (String)request.getSession().getAttribute("user_nickname");
+		String write_nickname = marketboardService.idCheck(marketboardVO.getNum());
+		//유저아이디와 작성자 아이디 체크
+		if(write_nickname.equals(user_nickname)){
+			int deleteResult = marketboardService.condelete(request, response, marketboardVO.getNum());
+			if(deleteResult == 1 || deleteResult == 2) {
+				mav.setViewName("redirect:/marketBoard/marketBoardList");
+			} else {
+				String notice = "글 삭제에 실패 하였습니다.";
+				common.noticeMethod(request, response, notice);
+				mav.setViewName("member/Login");
+			}
+		} else {
+			String notice = "본인이 작성한 글이 아닙니다.";
+			common.noticeMethod(request, response, notice);
+			mav.setViewName("member/Login");
+		}
+		
+		return mav;
+	}
+	
+	// 글쓰기 취소
+	@RequestMapping(value = "writeCancle")
+	public ModelAndView writeCancle() {
+		mav.setViewName("redirect:/marketBoard/marketBoardList");
+		return mav;
+	}	
+	
+	// 글수정 취소
+	@RequestMapping(value = "modiFyCancle")
+	public ModelAndView modiFyCancle(MarketBoardVO marketboardVO, HttpServletRequest request, HttpServletResponse response) {
+		//글 수정 취소 시 필요한 vo객체 들고옴
+		marketboardVO = marketboardService.ModifyList(marketboardVO.getNum());
+		//글 수정 취소 서비스
+		marketboardService.modiFyCancle(marketboardVO, request, response);
+		mav.setViewName("redirect:/marketBoard/marketBoardList");
+		return mav;
+	}	
+	
+	
+	
 }

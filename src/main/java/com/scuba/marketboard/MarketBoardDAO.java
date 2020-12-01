@@ -42,4 +42,24 @@ public class MarketBoardDAO {
 		return sqlsession.selectList("mapper.Marketboard.allBoardList");
 	}
 
+	//게시글 수정페이지 이동
+	public MarketBoardVO ModifyList(int contentNum) {
+		return sqlsession.selectOne("mapper.Marketboard.ModifyList", contentNum);
+	}
+	
+	//게시글 수정
+	public int Modify(MarketBoardVO marketboardVO) {
+		return sqlsession.update("mapper.Marketboard.Modify", marketboardVO);
+	}
+
+	//게시글 삭제 시 닉네임 일치여부 체크
+	public String idCheck(int contentNum) {
+		return sqlsession.selectOne("mapper.Marketboard.idCheck", contentNum);
+	}
+
+	//게시글 삭제
+	public int condelete(int contentNum) {
+		return sqlsession.delete("mapper.Marketboard.condelete", contentNum);
+	}
+
 }

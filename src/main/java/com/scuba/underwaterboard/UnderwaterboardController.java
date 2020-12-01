@@ -87,7 +87,7 @@ public class UnderwaterboardController {
 	public ModelAndView underWaterBoardModify(UnderwaterboardVO underwaterboardVO, HttpServletRequest request, HttpServletResponse response) {
 //		System.out.println(freeboardVO.getNum());
 		request.getSession().setAttribute("category",underwaterboardVO.getCommunityname());
-		underwaterboardCheckVO.setNum(underwaterboardVO.getNum());
+		request.getSession().setAttribute("modifyCheck", underwaterboardVO.getNum());
 		mav.addObject("modifyList", underwaterboardService.ModifyList(underwaterboardVO.getNum()));
 		
 		mav.setViewName("C_underWater/Modify");
@@ -98,7 +98,7 @@ public class UnderwaterboardController {
 	@RequestMapping(value = "Modifyinsert", method = RequestMethod.POST)
 	public ModelAndView Modifyinsert(UnderwaterboardVO underwaterboardVO, @RequestParam MultipartFile file, HttpServletRequest request, HttpServletResponse response)
 				throws Exception {
-			int originalNum = underwaterboardCheckVO.getNum();
+			int originalNum = (Integer)request.getSession().getAttribute("modifyCheck");
 			int nowNum = underwaterboardVO.getNum();
 			System.out.println("썸네일 임지 : " + underwaterboardVO.getThumbnail());
 			//뷰페이지 악의적인 조작 검증

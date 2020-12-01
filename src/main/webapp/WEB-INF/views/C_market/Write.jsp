@@ -50,8 +50,6 @@
 	    	$(".back_btn").click(function() {
 	    		location.href="${contextPath}/marketBoard/writeCancle";
 			});
-			
-			
 		});
 	</script>
 
@@ -133,6 +131,7 @@
 			filebrowserUploadUrl: "${contextPath}/Common/imgupload",
 			enterMode:'2'
 		});
+		
 	//제목 글자 수 정규식
 	$("#title").on('blur',function(){
 		if($("#title").val() != "") {
@@ -148,9 +147,9 @@
 			}else {
 				alert("공백이 아닌 제목을 1~50자 사이로 입력해주세요.");
 			}
-			
 		}
 	});
+	
 	//가격 정규식
 	$("#price").on('blur',function(){
 		if($("#price").val() != "") {

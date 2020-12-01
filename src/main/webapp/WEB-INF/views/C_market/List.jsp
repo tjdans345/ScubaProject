@@ -14,6 +14,11 @@
 				location.href="${contextPath}/marketBoard/marketBoardWrite"
 			});
     		
+    		//상세글 보기위해 글 번호 전달
+	    	$(".title_btn").click(function() {
+				var num = $(this).data("num");
+				location.href="${contextPath}/marketBoard/marketBoardView?num="+num;
+			});
     		
 		});
     	
@@ -61,13 +66,14 @@
                   <tbody>
                     <tr>
                       <th class="hidden-xs" width="7%">글번호</th>
-                      <th width="7%">판매 상태</th>
+                      <th width="10%">판매 상태</th>
                       <th width="41%">제목</th>
-                      <th class="hidden-xs" width="10%">작성자</th>
-                      <th width="10%">작성일</th>
-                      <th width="15%">희망가격</th>
+                      <th class="hidden-xs" width="8%">작성자</th>
+                      <th width="12%">작성일</th>
+                      <th width="12%">희망가격</th>
                       <th width="10%">상태</th>
                     </tr>
+                    
                     <!-- 글 리스트 -->
                     <c:forEach var="list" items="${marketBoardList}">
                     <fmt:formatDate var="writeDate" value="${list.writedate}"/>
@@ -83,7 +89,7 @@
                         </c:if>
                       </td>
                       <td class="hidden-xs">
-                        <h5 class="product-title font-alt">${list.title}</h5>
+                        <h5 class="product-title font-alt"><a href="javascript:;" class="title_btn" data-num="${list.num}">${list.title}</a></h5>
                       </td>
                       <td>
                         <h5 class="product-title font-alt">${list.nickname}</h5>
@@ -114,12 +120,12 @@
                   <tbody>
                     <tr>
                       <th class="hidden-xs" width="7%">글번호</th>
-                      <th width="20%">판매 상태</th>
+                      <th width="10%">판매 상태</th>
                       <th width="41%">제목</th>
                       <th class="hidden-xs" width="10%">작성자</th>
-                      <th width="10%">작성일</th>
-                      <th width="15%">희망가격</th>
-                      <th width="10%">상태</th>
+                      <th width="15%">작성일</th>
+                      <th width="12%">희망가격</th>
+                      <th width="17%">상태</th>
                     </tr>
                     <c:forEach var="list" items="${marketBoardList}">
                     <fmt:formatDate var="writeDate" value="${list.writedate}"/>
@@ -135,7 +141,7 @@
                         </c:if>
                       </td>
                       <td class="hidden-xs">
-                        <h5 class="product-title font-alt">${list.title}</h5>
+                        <h5 class="product-title font-alt"><a href="javascript:;" class="title_btn" data-num="${list.num}">${list.title}</a></h5>
                       </td>
                       <td>
                         <h5 class="product-title font-alt">${list.nickname}</h5>

@@ -61,8 +61,7 @@ public class FreeBoardController {
 	// 글 수정 페이지 이동
 	@RequestMapping(value = "freeboarModify")
 	public ModelAndView freeboarModify(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response) {
-//		System.out.println(freeboardVO.getNum());
-		freeboardCheckVO.setNum(freeboardVO.getNum());
+		request.getSession().setAttribute("modifyCheck", freeboardVO.getNum());
 		request.getSession().setAttribute("category",freeboardVO.getCommunityname());
 		mav.addObject("modifyList", freeboardService.ModifyList(freeboardVO.getNum()));
 		mav.setViewName("C_free/Modify");
@@ -93,7 +92,7 @@ public class FreeBoardController {
 	@RequestMapping(value = "Modifyinsert", method = RequestMethod.POST)
 	public ModelAndView Modifyinsert(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
 				throws Exception {
-			int originalNum = freeboardCheckVO.getNum();
+			int originalNum = (Integer)request.getSession().getAttribute("modifyCheck");
 			int nowNum = freeboardVO.getNum(); 
 			
 			//뷰페이지 악의적인 조작 검증

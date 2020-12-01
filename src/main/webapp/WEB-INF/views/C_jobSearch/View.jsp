@@ -8,7 +8,6 @@
     
     <script type="text/javascript">
     $(document).ready(function(){
-    	
     	//목록 버튼
     	$(".list_btn").click(function() {
     		location.href="${contextPath}/jobSearchBoard/jobSearchBoardList";
@@ -32,11 +31,9 @@
 		});
     	
     });    
-    
     </script>
-    
-    
   </head>
+  
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
 
       <div class="main">
@@ -57,7 +54,7 @@
                 <div class="row">
                	  <button class="btn btn-border-d btn-round list_btn" type="submit" style="float: right; margin: 5px;">목록보기</button>
                	  <c:if test="${viewList.nickname == user_nickname}">
-                  <button class="btn btn-border-d btn-round delete_btn" type="submit" style="float: right; margin: 5px;" data-num="${viewList.num}" data-cate="${viewList.communityname}">글 삭제</button>
+                  <button class="btn btn-border-d btn-round delete_btn" type="submit" style="float: right; margin: 5px;" data-num="${viewList.num}">글 삭제</button>
                   <button class="btn btn-border-d btn-round Modify_btn" type="submit" style="float: right; margin: 5px;" data-num="${viewList.num}" data-cate="${viewList.communityname}">글 수정</button>
                   </c:if>
                 </div>

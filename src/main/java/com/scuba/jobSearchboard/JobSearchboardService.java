@@ -128,8 +128,6 @@ public class JobSearchboardService {
 
 	//게시글 수정 등록
 	public HashMap<String, Object> Modify(JobSearchboardVO jobsearchboardVO, HttpServletRequest request, HttpServletResponse response) {
-		//수정 등록 결과값
-		int modifyResult = 0;
 		//카테고리 값 얻기 
 		String category = (String)request.getSession().getAttribute("category");
 		//폴더 명 얻기
