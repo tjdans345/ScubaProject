@@ -20,6 +20,7 @@
 	select * from freeboard order by num desc;
 	]]>
 	</select>
+	
 	<!-- 게시글 작성 -->
 	<insert id="write" parameterType="freeboardVO">
 	<![CDATA[
@@ -34,7 +35,7 @@
 	]]>
 	</update>
 	
-	<!-- 최대 게시글 다음 번호 조회 -->
+	<!-- 최근 게시글 번호 조회 -->
 	<select id="getMaxNum" resultType="_int">
 	<![CDATA[
 	select max(num) from freeboard;
@@ -62,7 +63,7 @@
 	]]>
 	</delete>
 	
-	<!-- 게시글 상세보기 -->
+	<!-- 게시글 수정페이지 이동 -->
 	<select id="ModifyList" parameterType="_int" resultType="freeboardVO">
 	<![CDATA[
 	select * from freeboard where num = #{contentNum};

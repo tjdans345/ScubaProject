@@ -4,12 +4,13 @@ import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Component
-@Getter
-@Setter
+@Data
 public class UnderwaterboardVO {
 	private int num;
 	private String nickname;
@@ -24,4 +25,5 @@ public class UnderwaterboardVO {
 	private String country;
 	private String area;
 	private String hashtag;
+	private int status;
 }

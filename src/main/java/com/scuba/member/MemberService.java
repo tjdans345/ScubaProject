@@ -34,7 +34,7 @@ public class MemberService {
 			if(pwdchange(memberVO.getPwd()).equals(memberDAO.getPwd(memberVO.getId()))) {
 				memberVO = memberDAO.getuserinfo(memberVO.getId());
 				request.getSession().setAttribute("user_id",memberVO.getId());
-				request.getSession().setAttribute("user_nickname", memberVO.getNickname());
+				request.getSession().setAttribute("user_nickname",memberVO.getNickname());
 				nextPage = "redirect:/index/main";
 			}else {
 				msg = "비밀번호가 틀렸습니다 .";

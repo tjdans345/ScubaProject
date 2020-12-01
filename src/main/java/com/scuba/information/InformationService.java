@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +36,7 @@ public class InformationService {
 		if(mutirequest.getParameter("Season"+i) != null) Season += mutirequest.getParameter("Season"+i)+"월 ";
 		}
 		informationVO.setSeason(Season);
+		System.out.println("시즌 :" + Season);
 		if(mutirequest.getParameter("CountryImageAlread")==null) {
 			//파일 업로드
 			MultipartFile file = mutirequest.getFile("CountryImage");
