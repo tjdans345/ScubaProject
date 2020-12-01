@@ -61,7 +61,7 @@ $(document).ready(function() {
     <c:forEach items="${FishList}" var="informationVO">
       <div class="col-sm-6 col-md-3 col-lg-3">
         <div class="post">
-          <div class="post-thumbnail"><a href="#"><img src="${contextPath}/resources/upload/information/Fish/${informationVO.getFishImage()}"/></a></div>
+          <div class="post-thumbnail"><a href="#"><img src="${contextPath}/resources/upload/admin/information/Fish/${informationVO.getFishImage()}"/></a></div>
           <div class="post-header font-alt">
             <h2 class="post-title"><a onclick="addCity('${informationVO.getFishName()}')" style="cursor: pointer;">${informationVO.getFishName()}</a></h2>
           </div>

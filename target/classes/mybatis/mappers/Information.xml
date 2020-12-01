@@ -39,7 +39,7 @@
 <!-- 	국가카테고리 변경시 도시 리스트가져오기 -->
 	<select id="getCityList" parameterType="String" resultType="String">
 	<![CDATA[
-	select distinct CityName from city where CountryName = #{CountryName}; 
+	select distinct CityName from city where CountryName = #{CountryName}
 	]]>
 	</select>
 <!-- 	도시 정보 가져오기 -->
@@ -119,5 +119,10 @@
 	SELECT distinct cityName FROM city order by rand() limit 1;
 	]]>
 	</select>
-	
+<!-- 	시티 리스트 가져오기 -->
+	<select id="getAllCityList" resultType="String">
+	<![CDATA[
+	select distinct cityname from city
+	]]>
+	</select>
 </mapper>

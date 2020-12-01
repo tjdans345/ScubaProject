@@ -111,7 +111,7 @@ function CityChange() {
                   </c:forEach>
                 </select>
               </div>
-              <div class="col-sm-12" id="preView"><img src="${contextPath}/resources/upload/information/City/${CityImage}" alt="Title of Image"/></div>
+              <div class="col-sm-12" id="preView"><img src="${contextPath}/resources/upload/admin/information/City/${CityImage}" alt="Title of Image"/></div>
             </div>
 <!--             이미지 -->
 <!-- 			메인 설명 -->
@@ -143,7 +143,7 @@ function CityChange() {
                 <c:forEach items="${FishList}" var="Fish">
 	                <div class="owl-item">
 	                  <div class="col-sm-12" title="${Fish.FishExp}">
-	                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/upload/information/Fish/${Fish.FishImage}"/></a>
+	                    <div class="ex-product"><a href="#"><img src="${contextPath}/resources/upload/admin/information/Fish/${Fish.FishImage}"/></a>
 	                      <h4 class="shop-item-title font-alt"><a href="#">${Fish.FishName}</a></h4>
 	                    </div>
 	                  </div>
@@ -220,66 +220,24 @@ function CityChange() {
 	                      <th width="10%">연락처</th>
 	                      <th width="50%">인사말</th>
 	                    </tr>
-	                    <tr>
-	                      <td class="hidden-xs"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
-	                      <td>
-	                        <h5 class="product-title font-alt">코랄그랜드</h5>
-	                      </td>
-	                      <td class="hidden-xs">
-	                        <h5 class="product-title font-alt">google.com</h5>
-	                      </td>
-	                      <td>
-	                        <h5 class="product-title font-alt">01043349422</h5>
-	                      </td>
-	                      <td>
-	                        <h5 class="product-title font-alt">안녕하세요 </h5>
-	                      </td>
-	                    </tr>
-	                    <tr>
-	                      <td class="hidden-xs"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
-	                      <td>
-	                        <h5 class="product-title font-alt">코랄그랜드</h5>
-	                      </td>
-	                      <td class="hidden-xs">
-	                        <h5 class="product-title font-alt">google.com</h5>
-	                      </td>
-	                      <td>
-	                        <h5 class="product-title font-alt">01043349422</h5>
-	                      </td>
-	                      <td>
-	                        <h5 class="product-title font-alt">안녕하세요 </h5>
-	                      </td>
-	                    </tr>
-	                    <tr>
-	                      <td class="hidden-xs"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
-	                      <td>
-	                        <h5 class="product-title font-alt">코랄그랜드</h5>
-	                      </td>
-	                      <td class="hidden-xs">
-	                        <h5 class="product-title font-alt">google.com</h5>
-	                      </td>
-	                      <td>
-	                        <h5 class="product-title font-alt">01043349422</h5>
-	                      </td>
-	                      <td>
-	                        <h5 class="product-title font-alt">안녕하세요 </h5>
-	                      </td>
-	                    </tr>
-	                    <tr>
-	                      <td class="hidden-xs"><a href="#"><img src="${contextPath}/resources/assets/images/shop/product-14.jpg" alt="Accessories Pack"/></a></td>
-	                      <td>
-	                        <h5 class="product-title font-alt">코랄그랜드</h5>
-	                      </td>
-	                      <td class="hidden-xs">
-	                        <h5 class="product-title font-alt">google.com</h5>
-	                      </td>
-	                      <td>
-	                        <h5 class="product-title font-alt">01043349422</h5>
-	                      </td>
-	                      <td>
-	                        <h5 class="product-title font-alt">안녕하세요 </h5>
-	                      </td>
-	                    </tr>
+	                    <c:forEach items="${resortList}" var="resortVO">
+		                    <tr>
+		                      <td class="hidden-xs"><a href="#"><img src="${contextPath}/resources/images/Resort/thumbnail/${resortVO.num}/${resortVO.image1}"/></a></td>
+		                      <td>
+		                        <h5 class="font-alt"><a href="${contextPath}/Resort/moveViewResort?num=${resortVO.num}">${resortVO.resortName}</a></h5>
+		                      </td>
+		                      <td class="hidden-xs">
+		                        <h5 class="font-alt">${resortVO.homepageAddress}</h5>
+		                      </td>
+		                      <td>
+		                        <h5 class="font-alt">${resortVO.phoneNumber}</h5>
+		                        <h5 class="font-alt"><img src="${contextPath}/resources/assets/images/kakaoIcon.png" alt="kakaologo" width="13px">&nbsp;${resortVO.cacaoId}</h5>
+		                      </td>
+		                      <td>
+		                        <h5 class="font-alt">${resortVO.simpleIntroduce}</h5>
+		                      </td>
+		                    </tr>
+	                    </c:forEach>
 	                  </tbody>
 	                </table>
 <!-- 2번 카테고리 -->

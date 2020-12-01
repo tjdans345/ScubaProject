@@ -29,7 +29,12 @@ public class FreeBoardService {
 	//글 작성
 	public HashMap<String, Object> write(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
-		String nickname = (String) request.getSession().getAttribute("user_nickname");
+		// ID값 설정 지워도 됨 나중에
+//		request.getSession().setAttribute("user_id", "test3");
+		// 닉네임값 설정 지워도 됨 나중에
+//		request.getSession().setAttribute("user_nickname", "1");
+		// 임시 닉네임값.
+		String nickname = (String)request.getSession().getAttribute("user_nickname");
 		freeboardVO.setNickname(nickname);
 		// 이미지 사용 여부
 		int imgexists = 0;
@@ -148,6 +153,10 @@ public class FreeBoardService {
 				String category = freeboardVO.getCommunityname();
 				//폴더 명 얻기
 				String folderNum = Integer.toString(freeboardVO.getNum());
+				
+				
+				
+				
 				// 컨텐트 내용 저장후 정규식을 이용하여 src 경로만 추출
 				String content = freeboardVO.getContent();
 				// src경로 추출 정규식 ********src태그 뽑아오는 거<src=[\\\\\\\"']?([^>\\\\\\\"']+)[\\\\\\\"']?[^>]*>*******

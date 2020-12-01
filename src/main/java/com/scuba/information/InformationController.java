@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.scuba.resort.ResortVO;
+
 @Controller
 @RequestMapping(value = "/informations/*")
 public class InformationController{
@@ -46,7 +48,7 @@ public class InformationController{
 	public ModelAndView sendCountry(MultipartHttpServletRequest mutirequest,
 									HttpSession session) throws Exception {
 		informationService.enterCountry(mutirequest, session);
-		modelAndView.setViewName("redirect:/EnterCountry.info");
+		modelAndView.setViewName("redirect:/informations/EnterCountry");
 		return modelAndView;
 	}
 	//국가 등록시 카테고리 변경
@@ -54,7 +56,7 @@ public class InformationController{
 	@RequestMapping(value = "getCountryinfo", method = RequestMethod.POST)
 	public JSONObject getCountryinfo(String CountryName,HttpSession session,
 									HttpServletRequest request) {
-		String url = request.getContextPath()+"/resources/upload/information/Country/";
+		String url = request.getContextPath()+"/resources/upload/admin/information/Country/";
 		InformationVO informationVO = informationService.getCountryinfo(CountryName);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("CountryName",informationVO.getCountryName());
@@ -74,7 +76,7 @@ public class InformationController{
 	public ModelAndView sendCity(MultipartHttpServletRequest multirequest,
 									HttpSession session) throws Exception {
 		informationService.enterCity(multirequest, session);
-		modelAndView.setViewName("redirect:/EnterCity.info");
+		modelAndView.setViewName("redirect:/informations/EnterCity");
 		return modelAndView;
 	}
 	//국가 카테고리 변경
@@ -88,7 +90,7 @@ public class InformationController{
 	@RequestMapping(value = "getCityinfo", method = RequestMethod.POST)
 	public JSONObject getCityinfo(String CityName,HttpSession session,
 									HttpServletRequest request) {
-		String url = request.getContextPath()+"/resources/upload/information/City/";
+		String url = request.getContextPath()+"/resources/upload/admin/information/City/";
 		InformationVO informationVO = informationService.getCityinfo(CityName);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("CityName",informationVO.getCityName());
@@ -101,7 +103,7 @@ public class InformationController{
 	@RequestMapping(value = "getCountryPointinfo", method = RequestMethod.POST)
 	public JSONArray getCountryPointinfo(String CountryName,HttpSession session,
 									HttpServletRequest request) {
-		String url = request.getContextPath()+"/resources/upload/information/Country/";
+		String url = request.getContextPath()+"/resources/upload/admin/information/Country/";
 		List<HashMap<String,Object>> list = informationService.getCountryPointinfo(CountryName);
 		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonObject = new JSONObject();
@@ -126,6 +128,7 @@ public class InformationController{
 		modelAndView.addObject("nowCountryName",list.get(0).getCountryName());
 		modelAndView.addObject("CityList", informationService.getCityList(list.get(0).getCountryName()));
 		modelAndView.addObject("FishList",informationService.getFishinCity(CityName));
+		modelAndView.addObject("resortList",informationService.getCityResortList(CityName));
 		modelAndView.setViewName("information/I-DivingInfo");
 		return modelAndView;
 	}
@@ -215,5 +218,29 @@ public class InformationController{
 	@RequestMapping(value = "indexCity")
 	public List<InformationVO> indexCity(){
 		return informationService.indexCity();
+	}
+	//도시 페이지 리조트 뿌려주기
+	@ResponseBody
+	@RequestMapping(value = "getCountryNameList")
+	public List<String> getCountryNameList(){
+		return informationService.getCountryName();
+	}
+	//인덱스페이지 리조트 뿌려주기
+	@ResponseBody
+	@RequestMapping(value = "getIndexCityResortList" , method = RequestMethod.POST)
+	public List<ResortVO> getIndexCityResortList(String CityName){
+		return informationService.getIndexCityResortList(CityName);
+	}
+	//도시 체크
+	@ResponseBody
+	@RequestMapping(value = "CityCheck" , method = RequestMethod.POST)
+	public int CityCheck(String CityName , String CountryName){
+		return informationService.CityCheck(CityName, CountryName);
+	}
+	//시티 리스트 가져오기
+	@ResponseBody
+	@RequestMapping(value = "getAllCityList" , method = RequestMethod.POST)
+	public List<String> getAllCityList(){
+		return informationService.getAllCityList();
 	}
 }

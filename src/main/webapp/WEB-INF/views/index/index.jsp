@@ -22,7 +22,7 @@ window.onload = function() {
 		url : '${contextPath}/informations/indexCity',
 		success : function (data) {
 		var html = '<div class="post-thumbnail" id="preView">';
-			html += '<img src="${contextPath}/resources/upload/information/City/'+data[0].cityImage+'" alt="Blog Featured Image" />';
+			html += '<img src="${contextPath}/resources/upload/admin/information/City/'+data[0].cityImage+'" alt="Blog Featured Image" />';
 		 	html += '</div><div class="post-header font-alt">';
 			html += '<h1 class="post-title">'+data[0].cityName+'</h1>';
 			html += '<div class="post-meta"><p>'+data[0].cityExp+'</p></div></div>';
@@ -74,6 +74,23 @@ window.onload = function() {
 				 		document.getElementById('preView').appendChild(img);
 				 		}
 				});
+				$.ajax({
+					url:'${contextPath}/informations/getIndexCityResortList',
+					type : 'POST',
+					data : {CityName : data[0].cityName},
+					success : function(data2) {
+					    var html = "";
+					    for (var i = 0; i < data2.length; i++) {
+							html += '<li class="clearfix">';
+							html +='<div class="widget-posts-image">';
+							html +='<a href="#"><img src="${contextPath}/resources/images/Resort/thumbnail/'+data2[i].num+'/'+data2[i].image1+'"/></a>';
+							html +='</div><div class="widget-posts-body"><div class="widget-posts-title">';
+							html +='<a href="${contextPath}/Resort/moveViewResort?num='+data2[i].num+'">'+data2[i].resortName+'</a></div></div></li>';	
+						}
+					    $('#aroundResort').append(html);
+					}
+				});
+				
 		}
 	});
 }
@@ -255,74 +272,7 @@ window.onload = function() {
 				<div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
 					<div class="widget">
 						<h5 class="widget-title font-alt">근처 리조트 정보</h5>
-						<ul class="widget-posts">
-							<li class="clearfix">
-								<div class="widget-posts-image">
-									<a href="#"><img src="${contextPath}/resources/assets/images/rp-1.jpg"
-										alt="Post Thumbnail" /></a>
-								</div>
-								<div class="widget-posts-body">
-									<div class="widget-posts-title">
-										<a href="#">샾 이름</a>
-									</div>
-									<div class="widget-posts-meta">평점</div>
-								</div>
-							</li>
-							<li class="clearfix">
-								<div class="widget-posts-image">
-									<a href="#"><img src="${contextPath}/resources/assets/images/rp-2.jpg"
-										alt="Post Thumbnail" /></a>
-								</div>
-								<div class="widget-posts-body">
-									<div class="widget-posts-title">
-										<a href="#">샾 이름</a>
-									</div>
-								</div>
-							</li>
-							<li class="clearfix">
-								<div class="widget-posts-image">
-									<a href="#"><img src="${contextPath}/resources/assets/images/rp-3.jpg"
-										alt="Post Thumbnail" /></a>
-								</div>
-								<div class="widget-posts-body">
-									<div class="widget-posts-title">
-										<a href="#">샾 이름</a>
-									</div>
-								</div>
-							</li>
-							<li class="clearfix">
-								<div class="widget-posts-image">
-									<a href="#"><img src="${contextPath}/resources/assets/images/rp-4.jpg"
-										alt="Post Thumbnail" /></a>
-								</div>
-								<div class="widget-posts-body">
-									<div class="widget-posts-title">
-										<a href="#">샾 이름</a>
-									</div>
-								</div>
-							</li>
-							<li class="clearfix">
-								<div class="widget-posts-image">
-									<a href="#"><img src="${contextPath}/resources/assets/images/rp-4.jpg"
-										alt="Post Thumbnail" /></a>
-								</div>
-								<div class="widget-posts-body">
-									<div class="widget-posts-title">
-										<a href="#">샾 이름</a>
-									</div>
-								</div>
-							</li>
-							<li class="clearfix">
-								<div class="widget-posts-image">
-									<a href="#"><img src="${contextPath}/resources/assets/images/rp-4.jpg"
-										alt="Post Thumbnail" /></a>
-								</div>
-								<div class="widget-posts-body">
-									<div class="widget-posts-title">
-										<a href="#">샾 이름</a>
-									</div>
-								</div>
-							</li>
+						<ul class="widget-posts" id="aroundResort">
 						</ul>
 					</div>
 				</div>

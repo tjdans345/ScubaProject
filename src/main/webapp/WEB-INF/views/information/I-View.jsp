@@ -40,7 +40,7 @@ $(window).resize(function() {
 		<section class="module">
           <div class="container">
             <div class="row">
-              <div class="col-sm-6 col-md-8 col-lg-8" id="preView"><img src="${contextPath}/resources/upload/information/City/${CityImage}" alt="Title of Image"/></div>
+              <div class="col-sm-6 col-md-8 col-lg-8" id="preView"><img src="${contextPath}/resources/upload/admin/information/City/${CityImage}" alt="Title of Image"/></div>
               <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="work-details">
                   <h5 class="work-details-title font-alt">${CityName}</h5>

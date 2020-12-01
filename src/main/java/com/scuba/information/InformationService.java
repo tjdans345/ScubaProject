@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.scuba.resort.ResortVO;
 @Service
 public class InformationService {
 	@Autowired
@@ -38,7 +40,7 @@ public class InformationService {
 		if(mutirequest.getParameter("CountryImageAlread")==null) {
 			//파일 업로드
 			MultipartFile file = mutirequest.getFile("CountryImage");
-			String url = session.getServletContext().getRealPath("/resources/upload/information/Country/");
+			String url = session.getServletContext().getRealPath("/resources/upload/admin/information/Country/");
 			informationDAO.FileUpload(file, url);
 		}
 		//DB입력 
@@ -75,7 +77,7 @@ public class InformationService {
 		//파일 업로드
 		if(multirequest.getParameter("CityImageAlread")==null) {
 		MultipartFile file = multirequest.getFile("CityImage");
-		String url = session.getServletContext().getRealPath("/resources/upload/information/City/");
+		String url = session.getServletContext().getRealPath("/resources/upload/admin/information/City/");
 		informationDAO.FileUpload(file, url);
 		}
 	}
@@ -113,7 +115,7 @@ public class InformationService {
 		informationVO.setHauntingCity(multirequest.getParameter("HauntingCity"));
 		informationDAO.SendFish(informationVO);
 		MultipartFile file = multirequest.getFile("FishImage");
-		String url = session.getServletContext().getRealPath("/resources/upload/information/Fish/");
+		String url = session.getServletContext().getRealPath("/resources/upload/admin/information/Fish/");
 		informationDAO.FileUpload(file, url);
 	}
 	//어류리스트 가져오기
@@ -140,5 +142,26 @@ public class InformationService {
 	public List<InformationVO> indexCity() {
 		String CityName = informationDAO.getRandomCityName();
 		return informationDAO.getDivinglist(CityName);
+	}
+	//도시명으로 리조트 리스트 가져오기
+	public List<ResortVO> getCityResortList(String CityName){
+		return informationDAO.getCityResortList(CityName);
+	}
+	//인덱스 도시명으로 리조트 리스트 가져오기
+	public List<ResortVO> getIndexCityResortList(String CityName){
+		return informationDAO.getIndexCityResortList(CityName);
+	}
+	//도시가 나라에 있는지 확인
+	public int CityCheck(String CityName , String CountryName) {
+		int check = 1 ;
+		List<String> list = informationDAO.getCityList(CountryName);
+		for(int i = 0 ; i < list.size(); i++) {
+			if(list.get(i).equals(CityName)) check = 0;
+		}
+		return check;
+	}
+	//시티 리스트 가져오기
+	public List<String> getAllCityList(){
+		return informationDAO.getAllCityList();
 	}
 }
