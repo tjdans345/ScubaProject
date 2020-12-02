@@ -154,6 +154,8 @@ public class ResortService {
 	//리조트 수정
 	public void ResortMod(ResortVO resortVO , HttpServletRequest request , HttpServletResponse response,
 						  MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+		//카테고리 이름
+		String category = (String)request.getSession().getAttribute("category");
 		String image1 = resortVO.getImage1();
 		String image2 = resortVO.getImage2();
 		String image3 = resortVO.getImage3();
@@ -197,7 +199,7 @@ public class ResortService {
 		}
 		if(resortDAO.ResortMod(resortVO) == 1) {
 			if(imgexists == 1) {
-				int imgModifyResult = common.imguploadModifyServer(request, response, realimglist, "Resort", Integer.toString(resortVO.getNum()));
+				int imgModifyResult = common.imguploadModifyServer(request, response, realimglist, category, Integer.toString(resortVO.getNum()));
 				if(imgModifyResult == 1) {
 					System.out.println("이미지 처리 성공");
 				}else {

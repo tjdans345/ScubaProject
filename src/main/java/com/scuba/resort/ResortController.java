@@ -25,7 +25,8 @@ public class ResortController {
 	public ModelAndView moveResortList(@RequestParam(defaultValue = "") String search,
 									   @RequestParam(defaultValue = "") String city,
 									   @RequestParam(defaultValue = "enterDate") String order,
-									   @RequestParam(defaultValue = "1") int nowpage) {
+									   @RequestParam(defaultValue = "1") int nowpage, HttpServletRequest request) {
+		request.getSession().setAttribute("category", "resort");
 		modelAndView.addObject("map",resortService.getResrotList(search, city, order, nowpage));
 		modelAndView.setViewName("resort/ResortList");
 		return modelAndView;
