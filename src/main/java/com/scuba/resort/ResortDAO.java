@@ -76,4 +76,16 @@ public class ResortDAO {
 	public int ResortMod(ResortVO resortVO) {
 		return sqlSession.update("mapper.resort.ResortMod",resortVO);
 	}
+	//리뷰 등록
+	public void ReviewsWrite(ResortVO resortVO) {
+		sqlSession.insert("mapper.resort.ReviewsWrite",resortVO);
+	}
+	//리뷰 리스트 가져오기
+	public List<ResortVO> getReviewsList(int num){
+		return sqlSession.selectList("mapper.resort.getReviewsList",num);
+	}
+	//리뷰 썻는지 확인
+	public int reviewCheck(HashMap<String,Object> map) {
+		return sqlSession.selectOne("mapper.resort.reviewCheck",map);
+	}
 }

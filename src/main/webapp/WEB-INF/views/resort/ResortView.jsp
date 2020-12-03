@@ -18,7 +18,25 @@ function changeStatus() {
 		}
 	});
 }
-
+function reviewWrite() {
+	var grade = $("#grade option:selected").val();
+	$.ajax({
+		url:'${contextPath}/Resort/reviewCheck',
+		type:'POST',
+		data: {num:'${resortVO.num}' , id : '${user_id}'},
+		success: function (data) {
+	if(grade == 0){
+		alert("별점을 선택해주세요 . ");
+	}else if($('#contents').val()==""){
+		alert("내용을 입력 해주세요 .");
+	}else if(data==1){
+		alert("이미 리뷰를 등록하셧습니다.");
+	}else{
+		$('#form').submit();
+	}
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -156,12 +174,13 @@ function changeStatus() {
                   <div class="tab-pane" id="reviews">
                     <div class="comments reviews" style="margin-top: -3%;">
                     <div class="comment-form mt-30">
-                      <form method="post">
+                      <form id="form" method="post" action="${contextPath}/Resort/ReviewsWrite">
+                      <input type="hidden" name="num" value="${resortVO.num}">
                         <div class="row">
                           <div class="col-sm-2" style="float: right;">
                             <div class="form-group" style="width: 132.5px; float: right;">
-                              <select class="form-control">
-                                <option selected="selected" disabled="disabled">별점</option>
+                              <select class="form-control" id="grade" name="grade">
+                                <option selected="selected" disabled="disabled" value="0">별점</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -174,38 +193,39 @@ function changeStatus() {
                           <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
-                              <textarea class="form-control" id="" name="" rows="4" placeholder="Review" style="resize: none;"></textarea>
+                              <textarea class="form-control" id="contents" name="contents" rows="4" placeholder="Review" style="resize: none;"></textarea>
                             </div>
                           </div>
                           <div class="col-sm-12">
-                            <button class="btn btn-border-d btn-round" type="submit" style="float: right;">댓글 등록</button>
+                            <button class="btn btn-border-d btn-round" type="button" onclick="reviewWrite()" style="float: right;">댓글 등록</button>
                           </div>
                         </div>
                       </form>
                     </div>
-                      <div class="comment clearfix">
-                        <div class="comment-avatar"><img src="" alt="../avatar"/></div>
+                    
+                    <c:forEach items="${reviews}" var="review">
+                   	  <div class="comment clearfix">
+                        <div class="comment-avatar"><img src="${contextPath}/resources/upload/member/${review.image1}"/></div>
                         <div class="comment-content clearfix">
-                          <div class="comment-author font-alt"><a href="#">John Doe</a></div>
+                          <div class="comment-author font-alt">${review.id}</div>
                           <div class="comment-body">
-                            <p>The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The European languages are members of the same family. Their separate existence is a myth.</p>
+                            <p>${review.contents}</p>
                           </div>
-                          <div class="comment-meta font-alt">Today, 14:55 -<span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star-off"></i></span>
+                          <div class="comment-meta font-alt">${review.enterDate} -
+                          <c:forEach begin="1" end="5" var="i">
+							<c:choose>
+								<c:when test="${i<=review.grade}">
+									<span><i class="fa fa-star star"></i></span>
+								</c:when>
+								<c:otherwise>
+									<span><i class="fa fa-star star-off"></i></span>
+								</c:otherwise>
+							</c:choose>
+                          </c:forEach>
                           </div>
                         </div>
-                      </div>
-                      <div class="comment clearfix">
-                      
-                        <div class="comment-avatar"><img src="" alt="../avatar"/></div>
-                        <div class="comment-content clearfix">
-                          <div class="comment-author font-alt"><a href="#">Mark Stone</a></div>
-                          <div class="comment-body">
-                            <p>Europe uses the same vocabulary. The European languages are members of the same family. Their separate existence is a myth.</p>
-                          </div>
-                          <div class="comment-meta font-alt">Today, 14:59 -<span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star"></i></span><span><i class="fa fa-star star-off"></i></span><span><i class="fa fa-star star-off"></i></span>
-                          </div>
-                        </div>
-                      </div>
+                     </div>
+                    </c:forEach>
                     </div>
                     
                   </div>

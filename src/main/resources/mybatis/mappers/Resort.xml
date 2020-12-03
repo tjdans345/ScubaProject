@@ -23,6 +23,14 @@
 		<result column="enterDate" property="enterDate"/>
 		<result column="viewCount" property="viewCount"/>
 	</resultMap>
+	<resultMap type="resortVO" id="reviewList">
+		<result column="num" property="num"/>
+		<result column="id" property="id"/>
+		<result column="contents" property="contents"/>
+		<result column="grade" property="grade"/>
+		<result column="enterDate" property="enterDate"/>
+		<result column="image" property="image1"/>
+	</resultMap>
 <!-- 	리조트  글 존재여부 확인 -->
 	<select id="CheckNum" resultType="int">
 		<![CDATA[
@@ -136,4 +144,23 @@
 		 WHERE num = #{num}
 		]]>
 	</update>
+<!-- 	리뷰 등록  -->
+	<update id="ReviewsWrite" parameterType="resortVO">
+		<![CDATA[
+		INSERT INTO review (`num`, `id`, `contents`, `grade`) 
+		VALUES (#{num},#{id},#{contents},#{grade});
+		]]>
+	</update>
+	<select id="getReviewsList" parameterType="int" resultMap="reviewList">
+		<![CDATA[
+		select r.num , r.id , m.image , r.contents , r.grade , r.enterDate 
+		from review r join member m on r.id = m.id 
+		where num = #{num} order by enterDate desc;
+		]]>
+	</select>
+	<select id="reviewCheck" parameterType="hashmap" resultType="int">
+		<![CDATA[
+		select count(num) from review where num = #{num} and id = #{id}
+		]]>
+	</select>
 </mapper>

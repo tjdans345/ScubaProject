@@ -214,5 +214,23 @@ public class ResortService {
 			System.out.println("글 수정 실패");
 		}
 		
-	}	
+	}
+	//리뷰 등록하기
+	public void ReviewsWrite(ResortVO resortVO , HttpServletRequest request) {
+		resortVO.setId((String)request.getSession().getAttribute("user_id"));
+		resortDAO.ReviewsWrite(resortVO);
+	}
+	//리뷰 리스트
+	public List<ResortVO> getReviewsList(int num){
+		return resortDAO.getReviewsList(num);
+	}
+	//리뷰 썻는지 확인
+	public int reviewCheck(int num , String id) {
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("num",num);
+		map.put("id",id);
+		int check = 0;
+		check = resortDAO.reviewCheck(map);
+		return check;
+	}
 }

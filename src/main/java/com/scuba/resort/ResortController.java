@@ -58,6 +58,7 @@ public class ResortController {
 	@RequestMapping(value = "moveViewResort")
 	public ModelAndView moveViewResort(int num) {
 		modelAndView.addObject("resortVO",resortService.getResortInfo(num));
+		modelAndView.addObject("reviews",resortService.getReviewsList(num));
 		modelAndView.setViewName("resort/ResortView");
 		return modelAndView;
 	}
@@ -101,6 +102,21 @@ public class ResortController {
 		resortService.ResortMod(resortVO, request, response , multipartHttpServletRequest);
 		modelAndView.setViewName("redirect:/Resort/moveViewResort?num="+resortVO.getNum());
 		return modelAndView;
+	}
+	//리뷰 작성
+	@RequestMapping(value = "ReviewsWrite" , method = RequestMethod.POST)
+	public ModelAndView ReviewsWrite(ResortVO resortVO,
+									HttpServletRequest request) {
+		resortService.ReviewsWrite(resortVO, request);
+		modelAndView.setViewName("redirect:/Resort/moveViewResort?num="+resortVO.getNum());
+		return modelAndView;
+	}
+	//리뷰 글  썻는지 확인
+	@ResponseBody
+	@RequestMapping(value = "reviewCheck" , method = RequestMethod.POST)
+	public int reviewCheck(int num , String id) {
+		int check = resortService.reviewCheck(num, id);
+		return check;
 	}
 	
 }
