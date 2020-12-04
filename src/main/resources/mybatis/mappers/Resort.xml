@@ -163,4 +163,9 @@
 		select count(num) from review where num = #{num} and id = #{id}
 		]]>
 	</select>
+	<delete id="delReviews" parameterType="hashmap">
+		<![CDATA[
+		DELETE FROM resort WHERE num = #{num} and id = #{id};
+		]]>
+	</delete>
 </mapper>

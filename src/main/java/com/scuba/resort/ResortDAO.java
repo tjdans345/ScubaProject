@@ -88,4 +88,8 @@ public class ResortDAO {
 	public int reviewCheck(HashMap<String,Object> map) {
 		return sqlSession.selectOne("mapper.resort.reviewCheck",map);
 	}
+	//리뷰 삭제 
+	public void delReviews(HashMap<String,Object> map) {
+		sqlSession.delete("mapper.resort.delReviews",map);
+	}
 }

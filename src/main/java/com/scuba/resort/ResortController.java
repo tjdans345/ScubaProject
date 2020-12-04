@@ -118,5 +118,11 @@ public class ResortController {
 		int check = resortService.reviewCheck(num, id);
 		return check;
 	}
+	//리뷰 삭제
+	public ModelAndView delReviews(int num , HttpServletRequest request) {
+		resortService.delReviews(num, (String)request.getSession().getAttribute("user_id"));
+		modelAndView.setViewName("redirect:/Resort/moveViewResort?num="+num);
+		return modelAndView;
+	}
 	
 }

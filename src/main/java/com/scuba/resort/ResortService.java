@@ -233,4 +233,11 @@ public class ResortService {
 		check = resortDAO.reviewCheck(map);
 		return check;
 	}
+	//리뷰 삭제
+	public void delReviews(int num , String id) {
+		HashMap<String,Object> map = new HashMap<String, Object>();
+		map.put("num",num);
+		map.put("id",id);
+		resortDAO.delReviews(map);
+	}
 }
