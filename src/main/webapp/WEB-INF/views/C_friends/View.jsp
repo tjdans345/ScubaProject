@@ -1,26 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../inc/Top.jsp"%>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
   <head>
     <title>Titan | Multipurpose HTML5 Template</title>
+    
+    <script type="text/javascript">
+    $(document).ready(function(){
+    	//목록 버튼
+    	$(".list_btn").click(function() {
+    		location.href="${contextPath}/friendsBoard/friendsBoardList";
+		});
+    	//글 삭제 버튼
+    	$(".delete_btn").click(function() {
+    		if (confirm("글을 삭제 하시겠습니까?") == true) {
+    		var num = $(this).data("num");
+    		location.href="${contextPath}/friendsBoard/friendsBoardDelete?num="+num;
+    		} else {
+    			return;
+    		}
+		});
+    	//글 수정 버튼
+    	$(".Modify_btn").click(function() {
+    		var num = $(this).data("num");
+    		var cate = $(this).data("cate");
+    		location.href="${contextPath}/friendsBoard/friendsBoardModify?num="+num+"&communityname="+cate;
+		});
+    	
+    });    
+    </script>
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
-  <jsp:include page="../inc/Top.jsp"/>
     
       <div class="main">
         <section class="module-small">
           <div class="container">
             <div class="row">
-              <div class="col-sm-8">
+              <div class="col-sm-12">
                 <div class="post">
                   <div class="post-header font-alt">
-                    <h1 class="post-title">메인 제목</h1>
-                    <div class="post-meta"> 글쓴이  | 좋아요  | 등록 일자
+                    <h1 class="post-title">${viewList.title}</h1>
+                    <div class="post-meta"> ${viewList.nickname}  | ${viewList.likecount }  | ${viewList.writedate}
                     </div>
                   </div>
                   <div class="post-entry">
-                    <p>글 내용</p>
+                    <p>${viewList.content}</p>
                   </div>
                 </div>
               <div class="row mt-70" style="padding: 0 15px;">
@@ -31,39 +56,53 @@
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="description">
-					<p>인사말</p>
+					<p>${viewList.introduction}</p>
                   </div>
                   <div class="tab-pane" id="data-sheet">
                     <table class="table table-striped ds-table table-responsive">
                       <tbody>
                         <tr>
                           <th width="20%">목적지</th>
-                          <td>요기 ?</td>
+                          <td>${viewList.state}</td>
                           <th>휴대폰</th>
-                          <td>01012341234</td>
+                          <c:choose>
+                          	<c:when test="${viewList.phone != '' || viewList.phone != null}">
+                          		<td>${viewList.phone}</td>
+                          	</c:when>
+                          	<c:otherwise>
+                          		<td>-</td>
+                          	</c:otherwise>
+                          </c:choose>
                         </tr>
                         <tr>
                           <th>출발일</th>
-                          <td>지금?</td>
-                          <th><img src="../assets/images/kakaoIcon.png" width="19px" alt="kakaoIcon"></th>
-                          <td>KaKaOId</td>
+                          <td>${viewList.startdate}</td>
+                          <th><img src="${contextPath}/resources/assets/images/kakaoIcon.png" width="19px" alt="kakaoIcon"></th>
+                          <c:choose>
+                          	<c:when test="${viewList.kakao != '' || viewList.kakao != null}">
+                          		<td>${viewList.kakao}</td>
+                          	</c:when>
+                          	<c:otherwise>
+                          		<td>-</td>
+                          	</c:otherwise>
+                          </c:choose>
                         </tr>
                         <tr>
                           <th>도착일</th>
-                          <td>내일</td>
+                          <td>${viewList.enddate}</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                   <div class="tab-pane" id="call">
-					<p>신청 방법</p>
+					<p>${viewList.appmethod}</p>
                   </div>
                 </div>
               </div>
                 <div class="row" style="padding: 0 15px;">
-               	  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">목록보기</button>
-                  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">글 삭제</button>
-                  <button class="btn btn-border-d btn-round" type="submit" style="float: right; margin: 5px;">글 수정</button>
+               	  <button class="btn btn-border-d btn-round list_btn" type="submit" style="float: right; margin: 5px;">목록보기</button>
+                  <button class="btn btn-border-d btn-round delete_btn" type="submit" style="float: right; margin: 5px;" data-num="${viewList.num}">글 삭제</button>
+                  <button class="btn btn-border-d btn-round Modify_btn" type="submit" style="float: right; margin: 5px;" data-num="${viewList.num}" data-cate="${viewList.communityname}">글 수정</button>
                 </div>
                                 <!-- 댓글 입력창 -->
                 <div class="comment-form" style="margin-top: 0px;">
@@ -87,7 +126,6 @@
                       <div class="comment-meta font-alt">Today, 14:55 - <a href="#">Reply</a>
                       </div>
                     </div>
-                   
                   </div>
                   <div class="comment clearfix">
                     <div class="comment-avatar"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/pixeliris/128.jpg" alt="avatar"/></div>
@@ -99,42 +137,6 @@
                       <div class="comment-meta font-alt">Today, 14:59 - <a href="#">Reply</a>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4 col-md-3 col-md-offset-1 sidebar">
-                <div class="widget">
-                  <h5 class="widget-title font-alt">현재 인원</h5>
-                  <ul class="widget-posts" style="margin-left: -13px;">
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-1.jpg" alt="Post Thumbnail" style="margin-left:15px; width:60%; border-radius: 100%;"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title" style="margin-top: 7px;"><a href="#">김태훈</a></div>
-                      </div>
-                    </li>
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-2.jpg" alt="Post Thumbnail" style="margin-left:15px; width:60%; border-radius: 100%;"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title" style="margin-top: 7px;"><a href="#">엄성문</a></div>
-                      </div>
-                    </li>
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-3.jpg" alt="Post Thumbnail" style="margin-left:15px; width:60%; border-radius: 100%;"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title" style="margin-top: 7px;"><a href="#">김태훈</a></div>
-                      </div>
-                    </li>
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="../assets/images/rp-4.jpg" alt="Post Thumbnail" style="margin-left:15px; width:60%; border-radius: 100%;"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title" style="margin-top: 7px;"><a href="#">엄성문</a></div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="widget">
-                  <h5 class="widget-title font-alt">해쉬 태그(검색 용도)</h5>
-                  <div class="tags font-serif"><a href="#" rel="tag">Blog</a><a href="#" rel="tag">Photo</a><a href="#" rel="tag">Video</a><a href="#" rel="tag">Image</a><a href="#" rel="tag">Minimal</a><a href="#" rel="tag">Post</a><a href="#" rel="tag">Theme</a><a href="#" rel="tag">Ideas</a><a href="#" rel="tag">Tags</a><a href="#" rel="tag">Bootstrap</a><a href="#" rel="tag">Popular</a><a href="#" rel="tag">English</a>
                   </div>
                 </div>
               </div>

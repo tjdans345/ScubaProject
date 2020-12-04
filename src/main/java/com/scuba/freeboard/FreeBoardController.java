@@ -1,6 +1,7 @@
 package com.scuba.freeboard;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
@@ -33,11 +36,17 @@ public class FreeBoardController {
 		mav.setViewName("C_free/List");
 		return mav;
 	}
-
+	
+	// 자유게시판 정렬값으로 리스트 뿌려주기
+	@RequestMapping(value = "freeBoardSort", method = RequestMethod.POST)
+	@ResponseBody
+	public List<FreeBoardVO> freeBoardSort(HttpServletRequest request, @RequestParam(value="sort") String sort) {
+		return freeboardService.freeBoardSort(sort);
+	}
+	
 	// 글쓰기 페이지 이동
 	@RequestMapping(value = "writeboard")
 	public ModelAndView writeboard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.getSession().setAttribute("user_id", "test3");
 		String user_id = (String)request.getSession().getAttribute("user_id");
 		//로그인 유무 확인
 		if(user_id == null) {

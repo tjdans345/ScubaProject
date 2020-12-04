@@ -85,7 +85,7 @@
                 <ul class="dropdown-menu" style="background-color: #c4dffb;">
                   <li><a href="${contextPath}/freeBoard/freeBoardList">자유 게시판</a></li>
                   <li><a href="${contextPath}/jobSearchBoard/jobSearchBoardList">구인 구직</a></li>
-                  <li><a href="index_op_fullscreen_gradient_overlay.html">동료 모집</a></li>
+                  <li><a href="${contextPath}/friendsBoard/friendsBoardList">동료 모집</a></li>
                   <li><a href="${contextPath}/reviewBoard/reviewBoardList">후기 게시판</a></li>
                   <li><a href="${contextPath}/underWaterBoard/underWaterBoardList">수중 사진</a></li>
                   <li><a href="${contextPath}/marketBoard/marketBoardList">중고 장터</a></li>
