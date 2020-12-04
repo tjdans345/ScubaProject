@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/Resort/*")
 public class ResortController {
-
 	@Autowired
 	private ResortService resortService;
 	private ModelAndView modelAndView = new ModelAndView();
@@ -33,7 +32,7 @@ public class ResortController {
 	}
 	//리조트 등록 이동
 	@RequestMapping(value = "moveResortWriter" )
-	public ModelAndView moveResortWriter() {
+	public ModelAndView moveResortWriter(HttpServletRequest request) {
 		modelAndView.setViewName("resort/ResortWriter");
 		return modelAndView;
 	}
@@ -57,7 +56,8 @@ public class ResortController {
 	}
 	//리조트 상세보기 이동
 	@RequestMapping(value = "moveViewResort")
-	public ModelAndView moveViewResort(int num) {
+	public ModelAndView moveViewResort(int num,HttpServletRequest request) {
+		request.getSession().setAttribute("category", "resort");
 		modelAndView.addObject("resortVO",resortService.getResortInfo(num));
 		modelAndView.addObject("reviews",resortService.getReviewsList(num));
 		modelAndView.setViewName("resort/ResortView");
