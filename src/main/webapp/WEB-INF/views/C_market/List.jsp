@@ -5,7 +5,6 @@
 <html lang="en-US" dir="ltr">
   <head>
     <title>Titan | Multipurpose HTML5 Template</title>
-    
     <script type="text/javascript">
     	$(document).ready(function() {
 			
@@ -21,12 +20,8 @@
 			});
     		
 		});
-    	
-    	
-    	
-    	
-    	
     </script>
+    
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
       <div class="main">
@@ -76,7 +71,6 @@
                     
                     <!-- 글 리스트 -->
                     <c:forEach var="list" items="${marketBoardList}">
-                    <fmt:formatDate var="writeDate" value="${list.writedate}"/>
                     <c:if test="${list.marketcategory eq '팝니다' }">
                     <tr>
                       <td class="hidden-xs">${list.num}</td>
@@ -95,7 +89,7 @@
                         <h5 class="product-title font-alt">${list.nickname}</h5>
                       </td>
                       <td>
-                        <h5 class="product-title font-alt">${writeDate}</h5>
+                        <h5 class="product-title font-alt">${list.writedate}</h5>
                       </td>
                       <td>
                         <h5 class="product-title font-alt">${list.price}</h5>

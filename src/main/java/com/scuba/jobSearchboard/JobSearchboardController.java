@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
-import com.scuba.freeboard.FreeBoardVO;
 
 @Controller
 @RequestMapping("/jobSearchBoard/*")

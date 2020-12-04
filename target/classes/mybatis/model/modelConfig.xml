@@ -13,5 +13,6 @@
  		<typeAlias type="com.scuba.reviewboard.ReviewboardVO" alias="reviewboardVO"/>
  		<typeAlias type="com.scuba.jobSearchboard.JobSearchboardVO" alias="jobsearchboardVO"/>
  		<typeAlias type="com.scuba.marketboard.MarketBoardVO" alias="marketboardVO"/>
+ 		<typeAlias type="com.scuba.friendsboard.FriendsBoardVO" alias="friendsboardVO"/>
 	</typeAliases>
 </configuration>

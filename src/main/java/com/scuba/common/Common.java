@@ -30,7 +30,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/Common/*")
 public class Common {
 
-	
 	ModelAndView mav = new ModelAndView();
 	//이미지 유효성 체크
 	@ResponseBody

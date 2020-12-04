@@ -209,7 +209,7 @@ function reviewWrite() {
                         <div class="comment-content clearfix">
                           <div class="comment-author font-alt">${review.id}
                           <c:if test="${review.id == user_id }">
-                          <a href="${contextPath}/Resort/delReviews?num=${resortVO.num}">삭제</a>
+                          <a href="${contextPath}/Resort/delReviews?num=${resortVO.num}" style="color: red; float: right;">삭제</a>
                           </c:if>
                           </div>
                           <div class="comment-body">

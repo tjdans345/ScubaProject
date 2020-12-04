@@ -39,7 +39,11 @@
 			
 			//돌아가기 버튼
 	    	$(".back_btn").click(function() {
-	    		location.href="${contextPath}/jobSearchBoard/writeCancle";
+	    		if(confirm("글 작성을 취소 하시겠습니까 ?") == true) {
+	    			location.href="${contextPath}/jobSearchBoard/writeCancle";
+		    		} else {
+		    			return false;
+		    		}
 			});
 			
 			

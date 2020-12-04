@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scuba.common.Common;
-import com.scuba.reviewboard.ReviewboardVO;
 
 @Service
 public class JobSearchboardService {
@@ -223,7 +222,7 @@ public class JobSearchboardService {
 	//글 수정 취소 시
 	public void modiFyCancle(JobSearchboardVO jobsearchboardVO, HttpServletRequest request, HttpServletResponse response) {
 		//수정 취소 결과 값 0: 실패 / 1: 성공
-				int modiFyCancleResult = 0;
+//				int modiFyCancleResult = 0;
 				//카테고리 값 얻기 
 				String category = jobsearchboardVO.getCommunityname();
 				//폴더 명 얻기
