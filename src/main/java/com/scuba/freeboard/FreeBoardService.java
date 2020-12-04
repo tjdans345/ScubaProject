@@ -1,7 +1,9 @@
 package com.scuba.freeboard;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -10,6 +12,8 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -260,6 +264,11 @@ public class FreeBoardService {
 			common.DirDelete(request, response, category, folderNum);
 			
 		}
+	}
+
+	//정렬순 리스트 다시뿌려주기
+	public List<FreeBoardVO> freeBoardSort(String sort) {
+		return freeboardDAO.freeBoardSort(sort);
 	}
 	
 	

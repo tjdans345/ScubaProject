@@ -57,7 +57,11 @@ public class FreeBoardDAO {
 	//게시글 수정
 	public int Modify(FreeBoardVO freeBoardVO) {
 		return sqlsession.update("mapper.Freeboard.Modify", freeBoardVO);
-		
+	}
+
+	//정렬순 리스트
+	public List<FreeBoardVO> freeBoardSort(String sort) {
+		return sqlsession.selectList("mapper.Freeboard.freeBoardSort", sort);
 	}
 
 	

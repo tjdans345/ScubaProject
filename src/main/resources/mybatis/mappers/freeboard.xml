@@ -21,6 +21,13 @@
 	]]>
 	</select>
 	
+	<!-- 정렬순 전체 게시글 조회 -->
+	<select id="freeBoardSort" resultMap="FreeBoardResult">
+	<![CDATA[
+	select * from freeboard order by ${value} desc;
+	]]>
+	</select>
+	
 	<!-- 게시글 작성 -->
 	<insert id="write" parameterType="freeboardVO">
 	<![CDATA[
@@ -31,7 +38,7 @@
 	<!-- 임시폴더에서 서버폴더 이동 후 파일 경로 변경 -->
 	<update id="contentChange" parameterType="hashmap">
 	<![CDATA[
-	update freeboard set content = #{afterContent} where num = ${contentNum};
+	update freeboard set content = #{afterContent} where num = #{contentNum};
 	]]>
 	</update>
 	

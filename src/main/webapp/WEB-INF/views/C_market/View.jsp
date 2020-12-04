@@ -5,7 +5,6 @@
 <html lang="en-US" dir="ltr">
   <head>
     <title>Titan | Multipurpose HTML5 Template</title>
-    
     <script type="text/javascript">
     $(document).ready(function(){
     	//목록 버튼
