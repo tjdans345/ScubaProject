@@ -30,7 +30,110 @@ CKEDITOR.on('dialogDefinition', function (ev) {
 		enterMode:'2'
 	});
 //에디터 관련
-
+$(document).ready(function() {
+$("#image1").on("change", function(event) {
+	var formData = new FormData();
+	var inputFile = this.files;
+	console.log(1);
+	for(var i=0; i<inputFile.length; i++) {
+		formData.append("imgfile", inputFile[i]);
+	}
+	//썸네일 이미지 유효성 체크
+	$.ajax({
+		contentType : false,
+		processData : false,
+		url : "${contextPath}/Common/imgCheck",
+		data : formData,
+		type : "post",
+		success : function (data) {
+			var check = data;
+			if(check == 1 ) {
+				alert("파일 형식을 확인해주세요");
+				$("#image1").val("");
+				$("#preView").empty();
+			} else if(check == 2) {
+				alert("파일 크기를 확인해주세요");
+				$("#image1").val("");
+				$("#preView").empty();
+			} else if(check == 3) {
+				
+			}
+		},
+		error : function(data) {
+			alert("통신 실패");
+		}
+	});
+	readURL(this);
+});
+$("#image2").on("change", function(event) {
+	var formData = new FormData();
+	var inputFile = this.files;
+	console.log(1);
+	for(var i=0; i<inputFile.length; i++) {
+		formData.append("imgfile", inputFile[i]);
+	}
+	//썸네일 이미지 유효성 체크
+	$.ajax({
+		contentType : false,
+		processData : false,
+		url : "${contextPath}/Common/imgCheck",
+		data : formData,
+		type : "post",
+		success : function (data) {
+			var check = data;
+			if(check == 1 ) {
+				alert("파일 형식을 확인해주세요");
+				$("#image2").val("");
+				$("#preView").empty();
+			} else if(check == 2) {
+				alert("파일 크기를 확인해주세요");
+				$("#image2").val("");
+				$("#preView").empty();
+			} else if(check == 3) {
+				
+			}
+		},
+		error : function(data) {
+			alert("통신 실패");
+		}
+	});
+	readURL(this);
+});
+$("#image3").on("change", function(event) {
+	var formData = new FormData();
+	var inputFile = this.files;
+	console.log(1);
+	for(var i=0; i<inputFile.length; i++) {
+		formData.append("imgfile", inputFile[i]);
+	}
+	//썸네일 이미지 유효성 체크
+	$.ajax({
+		contentType : false,
+		processData : false,
+		url : "${contextPath}/Common/imgCheck",
+		data : formData,
+		type : "post",
+		success : function (data) {
+			var check = data;
+			if(check == 1 ) {
+				alert("파일 형식을 확인해주세요");
+				$("#image3").val("");
+				$("#preView").empty();
+			} else if(check == 2) {
+				alert("파일 크기를 확인해주세요");
+				$("#image3").val("");
+				$("#preView").empty();
+			} else if(check == 3) {
+				
+			}
+		},
+		error : function(data) {
+			alert("통신 실패");
+		}
+	});
+	readURL(this);
+});
+});
 //지역 가져오기
 $.ajax({
 	url:'${contextPath}/informations/getCountryNameList',
