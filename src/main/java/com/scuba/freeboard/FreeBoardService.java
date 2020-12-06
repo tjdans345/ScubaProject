@@ -27,10 +27,12 @@ public class FreeBoardService {
 
 	Common common = new Common();
 	// 자유게시판 모든(글)리스트 조회
-	public Map<String, Object> allBoardList() {
+	public Map<String, Object> allBoardList(String search) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		//페이징 관련(초기 페이지)
-		map = (common.paging(1, getTotal(), 5, 5));
+		map = (common.paging(1, getTotal(search), 20, 5));
+		//검색 값 저장
+		map.put("search", "%"+search+"%");
 		//자유게시판 전체 리스트
 		map.put("freeBoardList", freeboardDAO.allBoardList(map));
 		return map;
@@ -273,20 +275,22 @@ public class FreeBoardService {
 	}
 
 	//정렬순 리스트 다시뿌려주기
-	public Map<String, Object> SortList(String sort, int nowpage) {
+	public Map<String, Object> SortList(String sort, int nowpage, String search) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		//전체글 개수 조회
-		int total = getTotal();
-		map = (common.paging(nowpage, total, 5, 5));
+		int total = getTotal(search);
+		map = (common.paging(nowpage, total, 20, 5));
 		map.put("sort", sort);
+		map.put("search", search);
 		map.put("list", freeboardDAO.SortList(map));
 		return map;
 	}
 	
 	//전체글 개수 조회
-	public int getTotal() {
+	public int getTotal(String search) {
+		String searchvalue = "%"+search+"%";
 		//전체글 조회
-		return freeboardDAO.getTotal();
+		return freeboardDAO.getTotal(searchvalue);
 	}
 	
 	

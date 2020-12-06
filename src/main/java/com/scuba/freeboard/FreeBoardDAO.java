@@ -65,8 +65,8 @@ public class FreeBoardDAO {
 	}
 
 	//리스트 토탈 구하기
-	public int getTotal() {
-		return sqlsession.selectOne("mapper.Freeboard.getTotal");
+	public int getTotal(String search) {
+		return sqlsession.selectOne("mapper.Freeboard.getTotal", search);
 	}
 
 	
