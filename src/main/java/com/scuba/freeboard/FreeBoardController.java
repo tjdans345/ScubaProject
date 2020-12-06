@@ -38,10 +38,10 @@ public class FreeBoardController {
 	}
 	
 	// 자유게시판 정렬값으로 리스트 뿌려주기
-	@RequestMapping(value = "freeBoardSort", method = RequestMethod.POST)
+	@RequestMapping(value = "SortList", method = RequestMethod.POST)
 	@ResponseBody
-	public List<FreeBoardVO> freeBoardSort(HttpServletRequest request, @RequestParam(value="sort") String sort) {
-		return freeboardService.freeBoardSort(sort);
+	public List<FreeBoardVO> SortList(HttpServletRequest request, @RequestParam(value="sort") String sort) {
+		return freeboardService.SortList(sort);
 	}
 	
 	// 글쓰기 페이지 이동

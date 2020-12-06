@@ -58,7 +58,7 @@
 			var sort = $("#sort > option:selected").val();
 			
 			$.ajax({
-				url : "${contextPath}/freeBoard/freeBoardSort",
+				url : "${contextPath}/freeBoard/SortList",
 				type : "post",
 				data : {"sort":sort},
 				success : function(data) {

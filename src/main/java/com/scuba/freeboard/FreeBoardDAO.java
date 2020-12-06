@@ -60,8 +60,8 @@ public class FreeBoardDAO {
 	}
 
 	//정렬순 리스트
-	public List<FreeBoardVO> freeBoardSort(String sort) {
-		return sqlsession.selectList("mapper.Freeboard.freeBoardSort", sort);
+	public List<FreeBoardVO> SortList(String sort) {
+		return sqlsession.selectList("mapper.Freeboard.SortList", sort);
 	}
 
 	

@@ -267,8 +267,8 @@ public class FreeBoardService {
 	}
 
 	//정렬순 리스트 다시뿌려주기
-	public List<FreeBoardVO> freeBoardSort(String sort) {
-		return freeboardDAO.freeBoardSort(sort);
+	public List<FreeBoardVO> SortList(String sort) {
+		return freeboardDAO.SortList(sort);
 	}
 	
 	
