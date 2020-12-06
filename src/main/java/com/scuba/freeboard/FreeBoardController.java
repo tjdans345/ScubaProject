@@ -2,6 +2,7 @@ package com.scuba.freeboard;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +33,7 @@ public class FreeBoardController {
 	public ModelAndView freeBoardList(HttpServletRequest request) {
 		request.getSession().setAttribute("category", "free");
 		// 자유게시판 전체 글 조회
-		mav.addObject("freeBoardList", freeboardService.allBoardList());
+		mav.addObject("map", freeboardService.allBoardList());
 		mav.setViewName("C_free/List");
 		return mav;
 	}
@@ -40,8 +41,8 @@ public class FreeBoardController {
 	// 자유게시판 정렬값으로 리스트 뿌려주기
 	@RequestMapping(value = "SortList", method = RequestMethod.POST)
 	@ResponseBody
-	public List<FreeBoardVO> SortList(HttpServletRequest request, @RequestParam(value="sort") String sort) {
-		return freeboardService.SortList(sort);
+	public Map<String, Object> SortList(HttpServletRequest request, @RequestParam(defaultValue = "writedate") String sort, @RequestParam(defaultValue = "1")int nowpage) {
+		return freeboardService.SortList(sort, nowpage);
 	}
 	
 	// 글쓰기 페이지 이동

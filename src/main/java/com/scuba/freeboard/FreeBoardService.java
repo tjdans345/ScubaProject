@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,8 +27,13 @@ public class FreeBoardService {
 
 	Common common = new Common();
 	// 자유게시판 모든(글)리스트 조회
-	public List<FreeBoardVO> allBoardList() {
-		return freeboardDAO.allBoardList();
+	public Map<String, Object> allBoardList() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		//페이징 관련(초기 페이지)
+		map = (common.paging(1, getTotal(), 5, 5));
+		//자유게시판 전체 리스트
+		map.put("freeBoardList", freeboardDAO.allBoardList(map));
+		return map;
 	}
 
 	//글 작성
@@ -267,8 +273,20 @@ public class FreeBoardService {
 	}
 
 	//정렬순 리스트 다시뿌려주기
-	public List<FreeBoardVO> SortList(String sort) {
-		return freeboardDAO.SortList(sort);
+	public Map<String, Object> SortList(String sort, int nowpage) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		//전체글 개수 조회
+		int total = getTotal();
+		map = (common.paging(nowpage, total, 5, 5));
+		map.put("sort", sort);
+		map.put("list", freeboardDAO.SortList(map));
+		return map;
+	}
+	
+	//전체글 개수 조회
+	public int getTotal() {
+		//전체글 조회
+		return freeboardDAO.getTotal();
 	}
 	
 	

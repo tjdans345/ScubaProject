@@ -3,9 +3,6 @@
 <%@ include file="../inc/Top.jsp" %>
 <!DOCTYPE html>
 <html lang="en-US" dir="ltr">
-<%
-	request.getSession().setAttribute("category", "free");
-%>
   <head>
   	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   	<link href="${contextPath}/ckeditor/contents.css" rel="stylesheet">
@@ -54,45 +51,64 @@
 		}
     	
     	//정렬 Ajax
-    	$(document).on("change", "#sort", function() {
+    	$(document).on("change", ".sort", function() {
 			var sort = $("#sort > option:selected").val();
-			
+			var page = $(".pagenum").data("now");
 			$.ajax({
 				url : "${contextPath}/freeBoard/SortList",
 				type : "post",
-				data : {"sort":sort},
+				data : {"sort":sort,
+					   	"nowpage":page
+				       },
 				success : function(data) {
 					var str = "";
 					$("#Ltbody").empty();
-					$.each(data, function(i) {
-						var num = data[i].num;
-						var title = data[i].title;
-						var nickname = data[i].nickname;
-						var writedate = data[i].writedate;
-						var viewcount = data[i].viewcount;
-						var likecount = data[i].likecount;
-						console.log(writedate);
+					$.each(data.list, function(i) {
+						var num = data.list[i].num;
+						var title = data.list[i].title;
+						var nickname = data.list[i].nickname;
+						var writedate = data.list[i].writedate;
+						var viewcount = data.list[i].viewcount;
+						var likecount = data.list[i].likecount;
 						//list 뿌려주는 메소드 호출
 						str += list(num, title, nickname, writedate, viewcount, likecount);
 						
-// 						str += "<tr>";
-// 						str += "<td class='hidden-xs'>"+num+"</td>";
-// 						str += "<td>"
-// 						str += "<h5 class='product-title font-alt'><a href='javascript:;' class='title_btn' data-num='"+num+"'>"+title+"</a></h5>";
-// 						str += "</td>"
-// 						str += "<td class='hidden-xs'>"
-// 						str += "<h5 class='product-title font-alt'>"+nickname+"</h5>";
-// 						str += "</td>";
-// 						str += "<td class='hidden-xs'>";
-// 						str += "<h5 class='product-title font-alt'>"+writedate+"</h5>";
-// 						str += "</td>";
-// 						str += "<td>";
-// 						str += "<h5 class='product-title font-alt'>"+viewcount+"</h5>";
-// 						str += "</td>";
-// 						str += "<td class='pr-remove'>"+likecount+"</td>";
-// 						str += "</tr>";
 					});
 					$("#Ltbody").append(str);
+				},
+				error : function() {
+					alert("통신 실패");
+				}
+			});
+			
+		});
+    	
+    	//페이징 Ajax
+    	$(document).on("click", ".page", function() {
+			var page = $(this).data("num");
+			var sort = $("#sort > option:selected").val();
+			$.ajax({
+				url : "${contextPath}/freeBoard/SortList",
+				type : "post",
+				data : {"nowpage":page,
+						"sort":sort
+					   },
+				success : function(data) {
+					var str = "";
+					$("#Ltbody").empty();
+					$.each(data.list, function(i) {
+						var num = data.list[i].num;
+						var title = data.list[i].title;
+						var nickname = data.list[i].nickname;
+						var writedate = data.list[i].writedate;
+						var viewcount = data.list[i].viewcount;
+						var likecount = data.list[i].likecount;
+						//list 뿌려주는 메소드 호출
+						str += list(num, title, nickname, writedate, viewcount, likecount);
+						
+					});
+					$("#Ltbody").append(str);
+					$("#pagenum").data("now", data.nowpage);
 				},
 				error : function() {
 					alert("통신 실패");
@@ -121,7 +137,7 @@
               </div>
             </div>
             <div class="row" style="margin: 10px 0;">
-                <select class="form-control" id="sort" name="sort" style="width: 100px; float: left;">
+                <select class="form-control sort" id="sort" name="sort" style="width: 100px; float: left;">
                   <option value="writedate" selected="selected">등록순</option>
                   <option value="likecount">좋아요순</option>
                   <option value="viewcount">조회순</option>
@@ -141,7 +157,7 @@
                       <th width="10%">좋아요</th>
                     </tr>
                     <tbody id="Ltbody">
-                 	<c:forEach var="list" items="${freeBoardList}">
+                 	<c:forEach var="list" items="${map.freeBoardList}">
                  	<fmt:formatDate var="writeDate" pattern="yyyy-MM-dd" value="${list.writedate}"/>
                     <tr>
                       <td class="hidden-xs">${list.num}</td>
@@ -165,7 +181,17 @@
               </div>
             </div>
               <div class="col-sm-12" style="text-align: center;">
-                <div class="pagination font-alt"><a href="#"><i class="fa fa-angle-left"></i></a><a class="active" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#"><i class="fa fa-angle-right"></i></a></div>
+                <div class="pagination font-alt">
+                <c:if test="${map.blockfirst!=1}">
+                <a href="javascript:;"><i class="fa fa-angle-left page" data-num="${map.blockfirst-1}"></i></a>
+                </c:if>
+                <c:forEach begin="${map.blockfirst}" end="${map.blocklast}" var="i">
+                <a class="active page pagenum" href="javascript:;" id="pagenum" data-now="${map.nowpage}" data-num="${i}">${i}</a>
+                </c:forEach>
+                <c:if test="${map.blocklast != map.totalpage}">
+                <a href="javascript:;"><i class="fa fa-angle-right page" data-num="${map.blocklast+1}"></i></a>
+                </c:if>
+                </div>
               </div>
           </div>
         </section>

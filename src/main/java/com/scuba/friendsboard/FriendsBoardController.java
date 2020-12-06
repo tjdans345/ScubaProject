@@ -42,7 +42,6 @@ public class FriendsBoardController {
 		@RequestMapping(value = "SortList", method = RequestMethod.POST)
 		@ResponseBody
 		public List<FriendsBoardVO> SortList(HttpServletRequest request, @RequestParam(value="sort") String sort) {
-			System.out.println("프렌드~");
 			return friendsboardService.SortList(sort);
 		}
 

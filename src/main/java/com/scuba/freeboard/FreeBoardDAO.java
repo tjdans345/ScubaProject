@@ -13,8 +13,8 @@ public class FreeBoardDAO {
 	private SqlSession sqlsession;
 
 	// 자유게시판 모든(글)리스트 조회
-	public List<FreeBoardVO> allBoardList() {
-		return sqlsession.selectList("mapper.Freeboard.allBoardList");
+	public List<FreeBoardVO> allBoardList(HashMap<String, Object> map) {
+		return sqlsession.selectList("mapper.Freeboard.allBoardList", map);
 	}
 
 	// 글 작성
@@ -60,8 +60,13 @@ public class FreeBoardDAO {
 	}
 
 	//정렬순 리스트
-	public List<FreeBoardVO> SortList(String sort) {
-		return sqlsession.selectList("mapper.Freeboard.SortList", sort);
+	public List<FreeBoardVO> SortList(HashMap<String, Object> map) {
+		return sqlsession.selectList("mapper.Freeboard.SortList", map);
+	}
+
+	//리스트 토탈 구하기
+	public int getTotal() {
+		return sqlsession.selectOne("mapper.Freeboard.getTotal");
 	}
 
 	

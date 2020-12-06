@@ -368,6 +368,8 @@ public class Common {
 		map.put("blockfirst",blockfirst);
 		map.put("blocklast",blocklast);
 		map.put("blocksize",blocksize);
+		map.put("nowpage", nowpage);
+		System.out.println("나우페이지 : " + nowpage);
 		return map;
 		//페이징 예시
 //        <c:if test="${map.blockfirst!=1}">
