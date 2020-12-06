@@ -48,7 +48,7 @@
 		<![CDATA[
 		INSERT INTO resort (`num`, `id`, `resortName`, `phoneNumber`, `cacaoId`,
 		`homepageAddress`, `simpleIntroduce`, `contents`, `tag`, `image1`,
-		`image2`, `image3`, `address`, `country`, `city`) 
+		`image2`, `image3`, `address`, `country`, `city`)
 		VALUES (#{num},#{id},#{resortName},#{phoneNumber},
 		#{cacaoId},#{homepageAddress},#{simpleIntroduce},#{contents},#{tag},
 		#{image1},#{image2},#{image3},#{address},#{country},#{city})
