@@ -76,6 +76,111 @@ function CountryChange() {
 		}
 	});
 }
+//썸네일 이미지 유효성 체크
+$(document).ready(function() {
+$("#image1").on("change", function(event) {
+	var formData = new FormData();
+	var inputFile = this.files;
+	console.log(1);
+	for(var i=0; i<inputFile.length; i++) {
+		formData.append("imgfile", inputFile[i]);
+	}
+	//썸네일 이미지 유효성 체크
+	$.ajax({
+		contentType : false,
+		processData : false,
+		url : "${contextPath}/Common/imgCheck",
+		data : formData,
+		type : "post",
+		success : function (data) {
+			var check = data;
+			if(check == 1 ) {
+				alert("파일 형식을 확인해주세요");
+				$("#image1").val("");
+				$("#preView").empty();
+			} else if(check == 2) {
+				alert("파일 크기를 확인해주세요");
+				$("#image1").val("");
+				$("#preView").empty();
+			} else if(check == 3) {
+				
+			}
+		},
+		error : function(data) {
+			alert("통신 실패");
+		}
+	});
+	readURL(this);
+});
+$("#image2").on("change", function(event) {
+	var formData = new FormData();
+	var inputFile = this.files;
+	console.log(1);
+	for(var i=0; i<inputFile.length; i++) {
+		formData.append("imgfile", inputFile[i]);
+	}
+	//썸네일 이미지 유효성 체크
+	$.ajax({
+		contentType : false,
+		processData : false,
+		url : "${contextPath}/Common/imgCheck",
+		data : formData,
+		type : "post",
+		success : function (data) {
+			var check = data;
+			if(check == 1 ) {
+				alert("파일 형식을 확인해주세요");
+				$("#image2").val("");
+				$("#preView").empty();
+			} else if(check == 2) {
+				alert("파일 크기를 확인해주세요");
+				$("#image2").val("");
+				$("#preView").empty();
+			} else if(check == 3) {
+				
+			}
+		},
+		error : function(data) {
+			alert("통신 실패");
+		}
+	});
+	readURL(this);
+});
+$("#image3").on("change", function(event) {
+	var formData = new FormData();
+	var inputFile = this.files;
+	console.log(1);
+	for(var i=0; i<inputFile.length; i++) {
+		formData.append("imgfile", inputFile[i]);
+	}
+	//썸네일 이미지 유효성 체크
+	$.ajax({
+		contentType : false,
+		processData : false,
+		url : "${contextPath}/Common/imgCheck",
+		data : formData,
+		type : "post",
+		success : function (data) {
+			var check = data;
+			if(check == 1 ) {
+				alert("파일 형식을 확인해주세요");
+				$("#image3").val("");
+				$("#preView").empty();
+			} else if(check == 2) {
+				alert("파일 크기를 확인해주세요");
+				$("#image3").val("");
+				$("#preView").empty();
+			} else if(check == 3) {
+				
+			}
+		},
+		error : function(data) {
+			alert("통신 실패");
+		}
+	});
+	readURL(this);
+});
+});
 //미리보기
 function preView(event) {
 	var reader = new FileReader();
@@ -188,9 +293,9 @@ function preView(event) {
 	                  <div class="col-sm-6 col-md-6 col-lg-6">
 	                    <div class="form-group">
 	                      <h3 class="alt-features-title font-alt">이미지 등록</h3>
-	                      <input class="form-control custom-file-input" id="image1" name="image1" type="file" accept="image/*" onchange="preView(event)"/>
-	                      <input class="form-control custom-file-input" id="image2" name="image2" type="file" accept="image/*" onchange="preView(event)"/>
-	                      <input class="form-control custom-file-input" id="image3" name="image3" type="file" accept="image/*" onchange="preView(event)"/>
+	                      <input class="form-control custom-file-input file" id="image1" name="image1" type="file" accept="image/*" onchange="preView(event)"/>
+	                      <input class="form-control custom-file-input file" id="image2" name="image2" type="file" accept="image/*" onchange="preView(event)"/>
+	                      <input class="form-control custom-file-input file" id="image3" name="image3" type="file" accept="image/*" onchange="preView(event)"/>
 	                    </div>
 	                  </div>
                   	  <div class="col-sm-6 col-md-6 col-lg-6">
