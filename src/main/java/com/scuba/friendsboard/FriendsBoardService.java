@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scuba.common.Common;
+import com.scuba.freeboard.FreeBoardVO;
 import com.scuba.marketboard.MarketBoardVO;
 
 @Service
@@ -371,4 +372,10 @@ public class FriendsBoardService {
         resultmap.put("writeResult", 0); // 글 등록 실패
         return resultmap;
     }
+	
+	//정렬순 리스트 다시뿌려주기
+		public List<FriendsBoardVO> SortList(String sort) {
+			return friendsboardDAO.SortList(sort);
+		}
+	
 }
