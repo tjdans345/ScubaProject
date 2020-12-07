@@ -54,15 +54,12 @@ public class DeclarationService {
 			declarationDAO.addDecCount(user_id);
 			
 			//피신고자 decCount 체크후 상태 변경
-			if(declarationDAO.CheckDecCount(user_id) >= 5)
+			if(declarationDAO.CheckDecCount(user_id) >= 10)
 				//현제 1로 변경 중 필요시 수정요망
 				declarationDAO.changeMemberStatus(user_id);
 			
-			//신고당한 글 신고당한 횟수 가져오기
-			int decCount = declarationDAO.getDecCount(map);
-			
 			//신고횟수 일정량 이상시 글 상태 변경
-			if(decCount >= 5)
+			if(declarationDAO.getDecCount(map) >= 5)
 				//현제 1로 변경 중 수정 요망
 				if(category=="resort") {
 					declarationDAO.changeResortStatus(num);

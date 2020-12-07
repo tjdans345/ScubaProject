@@ -139,13 +139,13 @@ function cityChange() {
 			  <div class="col-sm-12" style="text-align: center;">
                 <div class="pagination font-alt">
 			        <c:if test="${map.blockfirst!=1}">
-			        	<a href="${contextPath}/Resort/moveResortList?nowpage=${map.blockfirst-1}&city=${map.city}&search=${map.search}$order=${map.order}"><i class="fa fa-angle-left"></i></a>
+			        	<a href="${contextPath}/Resort/moveResortList?nowpage=${map.blockfirst-1}&city=${map.city}&search=${map.search}&order=${map.order}"><i class="fa fa-angle-left"></i></a>
 			        </c:if>
 			        <c:forEach begin="${map.blockfirst}" end="${map.blocklast}" var="i">
-			        	<a href="${contextPath}/Resort/moveResortList?nowpage=${i}&city=${map.city}&search=${map.search}$order=${map.order}">${i}</a>
+			        	<a href="${contextPath}/Resort/moveResortList?nowpage=${i}&city=${map.city}&search=${map.search}&order=${map.order}">${i}</a>
 			        </c:forEach>
 			        <c:if test="${map.totalpage != map.blocklast }">
-			        	<a href="${contextPath}/Resort/moveResortList?nowpage=${map.blocklast+1}&city=${map.city}&search=${map.search}$order=${map.order}"><i class="fa fa-angle-right"></i></a>
+			        	<a href="${contextPath}/Resort/moveResortList?nowpage=${map.blocklast+1}&city=${map.city}&search=${map.search}&order=${map.order}"><i class="fa fa-angle-right"></i></a>
 			        </c:if>
                 </div>
               </div>

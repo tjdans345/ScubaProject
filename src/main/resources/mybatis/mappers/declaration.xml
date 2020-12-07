@@ -34,22 +34,22 @@
 	select  m.id from 
 	<choose>
 		<when test="category == free">
-		freeboard
+		freeboard 
 		</when>
 		<when test="category == friends">
-		friendsboard
+		friendsboard 
 		</when>
 		<when test="category == jobSearch">
-		jobsearch
+		jobsearch 
 		</when>
 		<when test="category == market">
-		marketboard
+		marketboard 
 		</when>
 		<when test="category == review">
 		reviewboard
 		</when>
 		<when test="category == underwater">
-		underwaterboard
+		underwaterboard 
 		</when>
 	</choose>
 	b join member m on b.nickname=m.nickname where num=#{num} ;
