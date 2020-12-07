@@ -80,6 +80,11 @@ public class FriendsBoardDAO {
 		return sqlsession.delete("mapper.FriendsBoard.condelete", contentNum);
 	}
 
+	//정렬순 리스트
+	public List<FriendsBoardVO> SortList(String sort) {
+		return sqlsession.selectList("mapper.FriendsBoard.SortList", sort);
+	}
+
 
 
 }

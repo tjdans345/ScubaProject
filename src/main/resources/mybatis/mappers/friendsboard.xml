@@ -25,6 +25,13 @@
 	select * from friendsboard order by num desc;
 	]]>
 	</select>	
+	
+	<!-- 정렬순 전체 게시글 조회 -->
+	<select id="SortList" resultMap="friendsboardResult">
+	<![CDATA[
+	select * from friendsboard order by ${value} desc;
+	]]>
+	</select>
 
 	<!-- 게시글 작성 kakao아이디만 입력시-->
 	<insert id="writekakao" parameterType="friendsboardVO">

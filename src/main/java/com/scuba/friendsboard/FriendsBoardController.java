@@ -1,6 +1,7 @@
 package com.scuba.friendsboard;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
+import com.scuba.freeboard.FreeBoardVO;
 import com.scuba.marketboard.MarketBoardVO;
 
 @Controller
@@ -32,8 +36,14 @@ public class FriendsBoardController {
 		mav.addObject("friendsBoardList", friendsboardService.allBoardList());
 		mav.setViewName("C_friends/List");
 		return mav;
-
 	}
+	
+	// 동료 모집 게시판 정렬값으로 리스트 뿌려주기
+		@RequestMapping(value = "SortList", method = RequestMethod.POST)
+		@ResponseBody
+		public List<FriendsBoardVO> SortList(HttpServletRequest request, @RequestParam(value="sort") String sort) {
+			return friendsboardService.SortList(sort);
+		}
 
 	// 중고장터 게시판 글 쓰기 페이지 이동
 	@RequestMapping(value = "friendsBoardWrite")

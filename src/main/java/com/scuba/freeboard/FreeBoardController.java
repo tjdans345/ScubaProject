@@ -2,6 +2,7 @@ package com.scuba.freeboard;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,20 +29,22 @@ public class FreeBoardController {
 	FreeBoardVO freeboardCheckVO = new FreeBoardVO();
 	
 	// 자유게시판 이동 , 자유게시판 전체 리스트 조회
-	@RequestMapping(value = "freeBoardList")
-	public ModelAndView freeBoardList(HttpServletRequest request) {
+	@RequestMapping(value = "freeBoardList", method = RequestMethod.GET)
+	public ModelAndView freeBoardList(HttpServletRequest request, @RequestParam(defaultValue = "")String search) {
 		request.getSession().setAttribute("category", "free");
 		// 자유게시판 전체 글 조회
-		mav.addObject("freeBoardList", freeboardService.allBoardList());
+		mav.addObject("map", freeboardService.allBoardList(search));
 		mav.setViewName("C_free/List");
 		return mav;
 	}
 	
 	// 자유게시판 정렬값으로 리스트 뿌려주기
-	@RequestMapping(value = "freeBoardSort", method = RequestMethod.POST)
+	@RequestMapping(value = "SortList", method = RequestMethod.POST)
 	@ResponseBody
-	public List<FreeBoardVO> freeBoardSort(HttpServletRequest request, @RequestParam(value="sort") String sort) {
-		return freeboardService.freeBoardSort(sort);
+	public Map<String, Object> SortList(HttpServletRequest request, @RequestParam(defaultValue = "writedate") String sort, 
+										 @RequestParam(defaultValue = "1")int nowpage,
+										 @RequestParam(defaultValue = "")String search) {
+		return freeboardService.SortList(sort, nowpage, search);
 	}
 	
 	// 글쓰기 페이지 이동
