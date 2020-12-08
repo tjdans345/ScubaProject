@@ -18,8 +18,9 @@
     	//상세글 보기위해 글 번호 전달
     	$(document).on("click", ".title_btn", function() {
 			var num = $(this).data("num");
-			location.href="${contextPath}/freeBoard/freeBoardView?num="+num;
-		});
+			var nowpage = ${map.nowpage};
+			location.href="${contextPath}/freeBoard/freeBoardView?num="+num+"&nowpage=${map.nowpage}&sort=${map.sort}&search=${map.search}";
+    	});
     	
     	//검색 기능
     	$(".sbutton").click(function() {
@@ -61,13 +62,18 @@
     	function paging(data) {
     		var pstr = "";
     		if(data.blockfirst != 1) {
-    			pstr += "<a href='javascript:;'><i class='fa fa-angle-left page' data-num='"+(data.blockfirst-1)+"'></i></a>";
+    			pstr += "<a href='${contextPath}/freeBoard/freeBoardList?nowpage="+data.blockfirst-1+"&search="+data.search+"'"+"><i class='fa fa-angle-left page' data-num='"+(data.blockfirst-1)+"'></i></a>";
     		}
     		for(var i= data.blockfirst; i<=data.blocklast; i++) {
-    				pstr += "<a class='active page pagenum' href='javascript:;' data-now='"+data.nowpage+"' data-num='"+i+"'>"+i+"</a> "; 
+    			if(data.nowpage == i) {
+    				pstr += "<a class='active page pagenum' href='${contextPath}/freeBoard/freeBoardList?nowpage="+i+"&search="+data.search+"&sort="+data.sort+"'"+" style='background: #cdebfa;' data-now='"+data.nowpage+"' data-num='"+i+"'>"+i+"</a> "; 
+    			} else {
+    				pstr += "<a class='active page pagenum' href='${contextPath}/freeBoard/freeBoardList?nowpage="+i+"&search="+data.search+"&sort="+data.sort+"'"+ "data-now='"+data.nowpage+"' data-num='"+i+"'>"+i+"</a> "; 
+    			}
+    				
     		}
 			if(data.blocklast != data.totalpage) {
-				pstr += "<a href='javascript:;'><i class='fa fa-angle-right page' data-num='"+(data.blocklast+1)+"'></i></a>";
+				pstr += "<a href='${contextPath}/freeBoard/freeBoardList?nowpage="+data.nowpage+"&search="+data.search+"&sort="+data.sort+"'>"+"<i class='fa fa-angle-right page' data-num='"+(data.blocklast+1)+"'></i></a>";
 			}
 			
 			//메소드로 빼버릴까 ;;;
@@ -82,6 +88,7 @@
 			var sort = $("#sort > option:selected").val();
 			var page = $(".pagenum").data("now");
 			var search = "${map.search}";
+			$("#sSort").val(sort);
 			$.ajax({
 				url : "${contextPath}/freeBoard/SortList",
 				type : "post",
@@ -89,42 +96,6 @@
 					   	"nowpage":1, //page변수로 사용해도 됨 운영방법 논의하고 추후 변경
 					   	"search":search
 				       },
-				success : function(data) {
-					var str = "";
-					var pstr = "";
-					$("#Ltbody").empty();
-					$.each(data.list, function(i) {
-						var num = data.list[i].num;
-						var title = data.list[i].title;
-						var nickname = data.list[i].nickname;
-						var writedate = data.list[i].writedate;
-						var viewcount = data.list[i].viewcount;
-						var likecount = data.list[i].likecount;
-						//list 뿌려주는 메소드 호출
-						str += list(num, title, nickname, writedate, viewcount, likecount);
-					});
-					paging(data);
-					$("#Ltbody").append(str);
-				},
-				error : function() {
-					alert("통신 실패");
-				}
-			});
-			
-		});
-    	
-    	//페이징 Ajax
-    	$(document).on("click", ".page", function() {
-			var sort = $("#sort > option:selected").val();
-			var page = $(this).data("num");
-			var search = "${map.search}";
-			$.ajax({
-				url : "${contextPath}/freeBoard/SortList",
-				type : "post",
-				data : {"nowpage":page,
-						"sort":sort,
-						"search":search
-					   },
 				success : function(data) {
 					var str = "";
 					var pstr = "";
@@ -141,10 +112,8 @@
 						str += list(num, title, nickname, writedate, viewcount, likecount);
 					});
 					pstr = paging(data);
-					$("#Ltbody").append(str);
-					$(".pagenum").data("now", data.nowpage);
 					$("#pagelist").append(pstr);
-					$(window).scrollTop(300);
+					$("#Ltbody").append(str);
 				},
 				error : function() {
 					alert("통신 실패");
@@ -152,6 +121,45 @@
 			});
 			
 		});
+    	
+    	//페이징 Ajax
+//     	$(document).on("click", ".page", function() {
+// 			var sort = $("#sort > option:selected").val();
+// 			var page = $(this).data("num");
+// 			var search = "${map.search}";
+// 			$.ajax({
+// 				url : "${contextPath}/freeBoard/SortList",
+// 				type : "post",
+// 				data : {"nowpage":page,
+// 						"sort":sort,
+// 						"search":search
+// 					   },
+// 				success : function(data) {
+// 					var str = "";
+// 					var pstr = "";
+// 					$("#Ltbody").empty();
+// 					$("#pagelist").empty();
+// 					$.each(data.list, function(i) {
+// 						var num = data.list[i].num;
+// 						var title = data.list[i].title;
+// 						var nickname = data.list[i].nickname;
+// 						var writedate = data.list[i].writedate;
+// 						var viewcount = data.list[i].viewcount;
+// 						var likecount = data.list[i].likecount;
+// 						//list 뿌려주는 메소드 호출
+// 						str += list(num, title, nickname, writedate, viewcount, likecount);
+// 					});
+// 					pstr = paging(data);
+// 					$("#Ltbody").append(str);
+// 					$(".pagenum").data("now", data.nowpage);
+// 					$("#pagelist").append(pstr);
+// 					$(window).scrollTop(300);
+// 				},
+// 				error : function() {
+// 					alert("통신 실패");
+// 				}
+// 			});
+// 		});
     	
     	
 	});
@@ -167,6 +175,7 @@
                 <form role="form" id="sform" style="text-align:-webkit-center;">
                   <div class="search-box" style="width: 60%;">
                     <input class="form-control search" name="search" type="text" placeholder="Search..."/>
+                    <input id="sSort" type="hidden" name=sort>
                     <button class="search-btn sbutton" type="button"><i class="fa fa-search sbutton"></i></button>
                   </div>
                 </form>
@@ -174,9 +183,28 @@
             </div>
             <div class="row" style="margin: 10px 0;">
                 <select class="form-control sort" id="sort" name="sort" style="width: 100px; float: left;">
-                  <option value="writedate" selected="selected">등록순</option>
-                  <option value="likecount">좋아요순</option>
-                  <option value="viewcount">조회순</option>
+               	  <c:choose>
+               	  	<c:when test="${map.sort == 'writedate'}">
+               	  		<option value="writedate" selected="selected">등록순</option>
+                 	 	<option value="likecount">좋아요순</option>
+                  		<option value="viewcount">조회순</option>
+               	  	</c:when>
+               	  	<c:when test="${map.sort == 'likecount'}">
+               	  		<option value="writedate">등록순</option>
+                 	 	<option value="likecount" selected="selected">좋아요순</option>
+                  		<option value="viewcount">조회순</option>
+               	  	</c:when>
+               	  	<c:when test="${map.sort == 'viewcount'}">
+               	  		<option value="writedate">등록순</option>
+                 	 	<option value="likecount">좋아요순</option>
+                  		<option value="viewcount" selected="selected">조회순</option>
+               	  	</c:when>
+               	  	<c:otherwise>
+               	  		<option value="writedate" selected="selected">등록순</option>
+		                <option value="likecount">좋아요순</option>
+		                <option value="viewcount">조회순</option>
+               	  	</c:otherwise>
+               	  </c:choose>
                 </select>
               <button id="writebtn" class="btn btn-border-d btn-round" style="float: right;">글쓰기</button>
             </div>
@@ -220,13 +248,18 @@
               <div class="col-sm-12" style="text-align: center;">
                 <div class="pagination font-alt" id="pagelist">
                 <c:if test="${map.blockfirst!=1}">
-                <a href="javascript:;"><i class="fa fa-angle-left page" data-num="${map.blockfirst-1}"></i></a>
+                <a href="${contextPath}/freeBoard/freeBoardList?nowpage=${map.blockfirst-1}&search=${map.search}&sort=${map.sort}"><i class="fa fa-angle-left page" data-num="${map.blockfirst-1}"></i></a>
                 </c:if>
                 <c:forEach begin="${map.blockfirst}" end="${map.blocklast}" var="i">
-                <a class="active page pagenum" href="javascript:;" data-now="${map.nowpage}" data-num="${i}">${i}</a>
+                <c:if test="${map.nowpage == i }">
+                <a class="active page pagenum" style="background: #cdebfa;" href="${contextPath}/freeBoard/freeBoardList?nowpage=${i}&search=${map.search}&sort=${map.sort}" data-now="${map.nowpage}" data-num="${i}">${i}</a>
+                </c:if>
+                <c:if test="${map.nowpage != i }">
+                <a class="active page pagenum" href="${contextPath}/freeBoard/freeBoardList?nowpage=${i}&search=${map.search}&sort=${map.sort}" data-now="${map.nowpage}" data-num="${i}">${i}</a>
+                </c:if>
                 </c:forEach>
                 <c:if test="${map.blocklast != map.totalpage}">
-                <a href="javascript:;"><i class="fa fa-angle-right page" data-num="${map.blocklast+1}"></i></a>
+                <a href="${contextPath}/freeBoard/freeBoardList?nowpage=${map.blocklast+1}&search=${map.search}&sort=${map.sort}"><i class="fa fa-angle-right page" data-num="${map.blocklast+1}"></i></a>
                 </c:if>
                 </div>
               </div>

@@ -30,10 +30,13 @@ public class FreeBoardController {
 	
 	// 자유게시판 이동 , 자유게시판 전체 리스트 조회
 	@RequestMapping(value = "freeBoardList", method = RequestMethod.GET)
-	public ModelAndView freeBoardList(HttpServletRequest request, @RequestParam(defaultValue = "")String search) {
+	public ModelAndView freeBoardList(HttpServletRequest request, @RequestParam(defaultValue = "")String search 
+									  ,@RequestParam(defaultValue = "writedate")String sort,
+									   @RequestParam(defaultValue = "1")int nowpage) {
 		request.getSession().setAttribute("category", "free");
 		// 자유게시판 전체 글 조회
-		mav.addObject("map", freeboardService.allBoardList(search));
+		//cck <<<검색 여부 확인 값
+		mav.addObject("map", freeboardService.allBoardList(request,nowpage, search, sort));
 		mav.setViewName("C_free/List");
 		return mav;
 	}
@@ -64,8 +67,12 @@ public class FreeBoardController {
 
 	// 상세보기 페이지 이동
 	@RequestMapping(value = "freeBoardView")
-	public ModelAndView freeboardView(FreeBoardVO freeboardVO) {
+	public ModelAndView freeboardView(FreeBoardVO freeboardVO, @RequestParam(defaultValue = "1")int nowpage
+									  , @RequestParam(defaultValue = "")String search, @RequestParam(defaultValue = "writedate")String sort) {
 		mav.addObject("viewList", freeboardService.viewList(freeboardVO.getNum()));
+		mav.addObject("nowpage", nowpage);
+		mav.addObject("search", search);
+		mav.addObject("sort", sort);
 		mav.setViewName("C_free/View");
 		return mav;
 	}

@@ -16,9 +16,22 @@
 
 	<!-- 전체 게시글 조회 -->
 	<select id="allBoardList" parameterType="hashmap" resultMap="FreeBoardResult">
-	<![CDATA[
-	select * from freeboard where title like #{search} order by num desc limit #{pagefirst},#{pagesize};
-	]]>
+	select * from freeboard where title like #{search} order by 
+	<choose>
+		<when test="sort == 'viewcount'">
+		viewcount desc, writedate desc 
+		</when>
+		<when test="sort == 'writedate'">
+		writedate desc 
+		</when>
+		<when test="sort == 'likecount'">
+		likecount desc, writedate desc 
+		</when>
+		<otherwise>
+		writedate desc 
+		</otherwise>
+	</choose>
+	limit #{pagefirst},#{pagesize};
 	</select>
 	
 	<!-- 정렬순 전체 게시글 조회 -->

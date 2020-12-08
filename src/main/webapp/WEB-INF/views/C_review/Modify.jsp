@@ -7,13 +7,7 @@
     <title>Titan | Multipurpose HTML5 Template</title>
     <script src="${contextPath}/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<!-- 	<script src="./editor.js"></script> -->
-	<style type="text/css">
-	#smart_editor2{
-	width: 100%;
-	}
-	</style>
-	
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//썸네일 미리보기

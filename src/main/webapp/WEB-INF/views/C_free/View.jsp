@@ -11,7 +11,7 @@
     	
     	//목록 버튼
     	$(".list_btn").click(function() {
-    		location.href="${contextPath}/freeBoard/freeBoardList";
+    		location.href="${contextPath}/freeBoard/freeBoardList?nowpage=${nowpage}&search=${search}&sort=${sort}";
 		});
     	//글 삭제 버튼
     	$(".delete_btn").click(function() {
