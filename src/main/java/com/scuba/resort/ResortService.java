@@ -142,7 +142,7 @@ public class ResortService {
 		map.put("search","%"+search+"%");
 		map.put("city","%"+city+"%");
 		int total = resortDAO.gettotal(map);
-		map = common.paging(nowpage, total, 5, 5);
+		map = common.paging(nowpage, total, 3, 5);
 		map.put("search","%"+search+"%");
 		map.put("city","%"+city+"%");
 		map.put("order",order);

@@ -33,9 +33,14 @@ public class MemberService {
 		if(1 == memberDAO.idCheck(memberVO.getId())) {
 			if(pwdchange(memberVO.getPwd()).equals(memberDAO.getPwd(memberVO.getId()))) {
 				memberVO = memberDAO.getuserinfo(memberVO.getId());
-				request.getSession().setAttribute("user_id",memberVO.getId());
-				request.getSession().setAttribute("user_nickname",memberVO.getNickname());
-				nextPage = "redirect:/index/main";
+				if(memberVO.getStatus()==1) {
+					msg = "정지된 이용자 입니다 . 고객센터에 문의해 주세요";
+					nextPage = "member/Login";
+				}else {
+					request.getSession().setAttribute("user_id",memberVO.getId());
+					request.getSession().setAttribute("user_nickname",memberVO.getNickname());
+					nextPage = "redirect:/index/main";
+				}
 			}else {
 				msg = "비밀번호가 틀렸습니다 .";
 				nextPage = "member/Login";
