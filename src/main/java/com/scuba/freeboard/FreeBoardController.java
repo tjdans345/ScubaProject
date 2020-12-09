@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
+import com.scuba.reply.ReplyService;
+import com.scuba.reply.ReplyVO;
 
 @Controller
 @RequestMapping("/freeBoard/*")
@@ -23,7 +25,9 @@ public class FreeBoardController {
 
 	@Autowired
 	FreeBoardService freeboardService;
-
+	@Autowired
+	ReplyService replyservice;
+	
 	private ModelAndView mav = new ModelAndView();
 	Common common = new Common();
 	FreeBoardVO freeboardCheckVO = new FreeBoardVO();
@@ -67,9 +71,17 @@ public class FreeBoardController {
 
 	// 상세보기 페이지 이동
 	@RequestMapping(value = "freeBoardView")
-	public ModelAndView freeboardView(FreeBoardVO freeboardVO, @RequestParam(defaultValue = "1")int nowpage
-									  , @RequestParam(defaultValue = "")String search, @RequestParam(defaultValue = "writedate")String sort) {
+	public ModelAndView freeboardView(ReplyVO replyVO, FreeBoardVO freeboardVO, @RequestParam(defaultValue = "1")int nowpage
+									  , @RequestParam(defaultValue = "")String search, HttpServletRequest request
+									  , @RequestParam(defaultValue = "writedate")String sort) {
 		mav.addObject("viewList", freeboardService.viewList(freeboardVO.getNum()));
+		//게시글 번호 저정(댓글)
+		replyVO.setPostnum(freeboardVO.getNum());
+		//커뮤니티 카테고리 저장
+		replyVO.setCommunityname((String)request.getSession().getAttribute("category"));
+		//댓글 리스트
+		mav.addObject("replyList", replyservice.replyList(replyVO));
+		mav.addObject("rereplyList", replyservice.replyList2(replyVO));
 		mav.addObject("nowpage", nowpage);
 		mav.addObject("search", search);
 		mav.addObject("sort", sort);

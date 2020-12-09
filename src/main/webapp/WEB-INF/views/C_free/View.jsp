@@ -15,7 +15,6 @@
 		});
     	//글 삭제 버튼
     	$(".delete_btn").click(function() {
-    		
     		if (confirm("글을 삭제 하시겠습니까?") == true) {
     		var num = $(this).data("num");
     		location.href="${contextPath}/freeBoard/freeBoardDelete?num="+num;
@@ -31,8 +30,120 @@
     		location.href="${contextPath}/freeBoard/freeboarModify?num="+num+"&communityname="+cate;
 		});
     	
+    	//댓글 리스트
+    	function ReplyList(data) {
+    		var str = "";
+    		
+    		str += "<div class='comment clearfix'>";
+			$.each(data.replyList, function(i) {
+				var num = data.replyList[i].num;
+				var img = data.replyList[i].image;
+				var nickname = data.replyList[i].nickname;
+				var replycontent = data.replyList[i].replycontent;
+				var replygroup_num = data.replyList[i].replygroup_num;
+				var replytype = data.replyList[i].replytype;
+				var status = data.replyList[i].status;
+				var writeDate = Timestampformat(data.replyList[i].writedate);
+				
+				str += "<div class='comment-avatar'>";
+				str += " <img src='${contextPath}/resources/upload/member/"+img+"' alt='avatar'>";
+				str += " </div>";
+				str += "<div class='comment-content clearfix'>";
+				str += " <div class='comment-author font-alt'>"+nickname+"</div>";
+				str += "  <div class='comment-body'>";
+				str += "	<p>"+replycontent+"</p>";
+				str += "  </div>";
+				str += " <div class='comment-meta font-alt'>"+writeDate+" - ";
+				if("${user_nickname}"==nickname) {
+					str += "<a href='javascript:;''>수정</a> ㅣ <a href='javascript:;''>삭제</a> ㅣ";
+				}
+				str += "<a class='reply' href='javascript:;' data-num='"+num+"'>댓글</a>";
+				str += " </div>";
+				str += "</div>";
+					$.each(data.rereplyList, function(j) {
+						var num2 = data.rereplyList[j].num;
+						var img2 = data.rereplyList[j].image;
+						var nickname2 = data.rereplyList[j].nickname;
+						var replycontent2 = data.rereplyList[j].replycontent;
+						var replygroup_num2 = data.rereplyList[j].replygroup_num;
+						var replytype2 = data.rereplyList[j].replytype;
+						var status2 = data.rereplyList[j].status;
+						var writeDate2 = Timestampformat(data.rereplyList[j].writedate);
+						if(num == replygroup_num2) {
+							str += "<div class='comment clearfix rep2'>";
+							str += " <div class='comment-avatar'>";
+							str += " <img src='${contextPath}/resources/upload/member/"+img2+"' alt='avatar'>";
+							str += " </div>";
+							str += "<div class='comment-content clearfix'>";
+							str += " <div class='comment-author font-alt'>"+nickname2+"</div>";
+							str += "<div class='comment-body'>";
+							str += "<p>"+replycontent2+"</p>";
+							str += "</div>";
+							str += " <div class='comment-meta font-alt'>"+writeDate2+" - ";
+							if("${user_nickname}"==nickname2) {
+								str += "<a href='javascript:;''>수정</a> ㅣ <a href='javascript:;''>삭제</a> ㅣ";
+							}
+							str += "<a class='rereply' href='javascript:;' data-num='"+num+"'>댓글</a>";
+							str += "</div>";
+							str += "</div>";
+							str += "</div>";
+						}
+					});
+				});
+				str += "</div>";
+				return str;
+		}
+    	
+    	//날짜 포맷
+    	function Timestampformat(writedate) {
+    		//날짜 포맷	//timestamp 포맷
+    		const timestamp = writedate;
+    		var date = new Date(timestamp);
+    		var year = date.getFullYear();
+    		var month = (date.getMonth()+1);
+    		var day = date.getDate();
+    		return year+"-"+(("00"+month.toString()).slice(-2))+"-"+(("00"+day.toString()).slice(-2));
+		}
+    	
+    	//댓글 등록 버튼
+    	$(document).on("click", ".reply_btn", function() {
+			var replycontent = $("#replycontent").val();
+			var postnum = ${viewList.num};
+			
+			$.ajax({
+				url : "${contextPath}/reply/replywrite",
+				type : "post",
+				data : {"replycontent":replycontent, "postnum":postnum},
+				success : function(data) {
+					var str = "";
+					$("#repList").empty();
+					$("#replycontent").val("");
+					str = ReplyList(data);
+					$("#repList").append(str);
+					
+				},
+				error : function(data) {
+					alert("댓글 등록 실패");
+					$("#replycontent").val("");
+					location.href="${contextPath}/freeBoard/freeBoardView?num=${viewList.num}&nowpage=${nowpage}&search=${search}&sort=${sort}";
+					
+				}
+			});
+			
+		});
+    	
+    	//댓글의 댓글 버튼
+    	$(document).on("click", ".reply", function() {
+			var num = $(this).data("num");
+			var str = "";
+			$("#replyform"+num).empty();
+			str += "<textarea class='form-control' id='replybox' name='replycontent' rows='4' placeholder='댓글을 입력하세요' style='resize: none;'></textarea>";
+			str += "<button class='btn btn-border-d btn-round replybox_btn' type='button' style='float: right; margin-top: 2%;'>댓글 등록</button>"
+			$("#replyform"+num).append(str);
+		});
+    	
+    	
     });
-    
     </script>
     
     
@@ -66,39 +177,64 @@
                 <!-- 댓글 입력창 -->
                 <div class="comment-form" style="margin-top: 0px;">
                   <h6 class="comment-form-title font-alt">댓글</h6>
-                  <form method="post">
+                  <form id="replyform" method="post">
                     <div class="form-group">
-                      <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="댓글을 입력하세요" style="resize: none;"></textarea>
+                      <textarea class="form-control" id="replycontent" name="content" rows="4" placeholder="댓글을 입력하세요" style="resize: none;"></textarea>
                     </div>
-                    <button class="btn btn-border-d btn-round" type="submit" style="float: right;">댓글 등록</button>
+                    <button class="btn btn-border-d btn-round reply_btn" type="button" style="float: right;">댓글 등록</button>
                   </form>
                 </div>
                 <!-- 댓글 입력창 -->
-                <div class="comments">
+                
+                <!-- 댓글 리스트 -->
+                <div id="repList" class="comments">
                   <div class="comment clearfix">
-                    <div class="comment-avatar"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/ryanbattles/128.jpg" alt="avatar"/></div>
+                  <c:forEach var="reply_list" items="${replyList}" varStatus="status">
+                  <fmt:formatDate var="wrtDate" pattern="yyyy-MM-dd" value="${reply_list.writedate}"/>
+                    <div class="comment-avatar">
+                    <img src="${contextPath}/resources/upload/member/${reply_list.image}" alt="avatar"/>
+                    </div>
                     <div class="comment-content clearfix">
-                      <div class="comment-author font-alt"><a href="#">John Doe</a></div>
+                      <div class="comment-author font-alt"><a href="javascript:;">${reply_list.nickname}</a></div>
                       <div class="comment-body">
-                        <p style="margin-bottom: 5px;">The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The European languages are members of the same family. Their separate existence is a myth.</p>
+                        <p>${reply_list.replycontent}</p>
                       </div>
-                      <div class="comment-meta font-alt">Today, 14:55 - <a href="#">Reply</a>
+                   	  <div id="replyform${reply_list.num}" class="comment-meta font-alt">${wrtDate} - 
+                   	  <c:if test="${user_nickname == reply_list.nickname}">
+                   	  	<a href="javascript:;">수정</a> ㅣ <a href="javascript:;">삭제</a> ㅣ
+                   	  </c:if>
+                   	  <a class="reply" href="javascript:;" data-num="${reply_list.num}">댓글</a>
                       </div>
                     </div>
-                   
-                  </div>
-                  <div class="comment clearfix">
-                    <div class="comment-avatar"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/pixeliris/128.jpg" alt="avatar"/></div>
-                    <div class="comment-content clearfix">
-                      <div class="comment-author font-alt"><a href="#">Andy</a></div>
-                      <div class="comment-body">
-                        <p style="margin-bottom: 5px;">The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The European languages are members of the same family. Their separate existence is a myth.</p>
+                   <c:forEach var="rereplyList_list2" items="${rereplyList}">
+                   <fmt:formatDate var="wrtDate2" pattern="yyyy-MM-dd" value="${rereplyList_list2.writedate}"/>
+                   <c:if test="${reply_list.num == rereplyList_list2.replygroup_num}">
+                    <div class="comment clearfix rep2">
+                      <div class="comment-avatar">
+                      <img src="${contextPath}/resources/upload/member/${rereplyList_list2.image}" alt="avatar"/>
                       </div>
-                      <div class="comment-meta font-alt">Today, 14:59 - <a href="#">Reply</a>
+                      <div class="comment-content clearfix">
+                        <div class="comment-author font-alt"><a href="javascript:;">${rereplyList_list2.nickname}</a></div>
+                        <div class="comment-body">
+                          <p>${rereplyList_list2.replycontent}</p>
+                        </div>
+                        <div class="comment-meta font-alt">${wrtDate2} - 
+                        <c:if test="${user_nickname == reply_list.nickname}">
+                   	  		<a href="javascript:;">수정</a> ㅣ <a href="javascript:;">삭제</a> ㅣ
+                   	    </c:if>
+                   	  	<a class="rereply" href="javascript:;" data-num="${reply_list.num}">
+                   	  	 	댓글 <!-- 대댓글 -->
+                   	    </a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                   </c:if>
+                    </c:forEach>
+                   </c:forEach>
+               </div>
+               
+              </div>
+              <!-- 댓글 리스트 -->
               </div>
             </div>
           </div>

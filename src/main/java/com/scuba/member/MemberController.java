@@ -127,6 +127,7 @@ public class MemberController {
 	@RequestMapping(value = "logout")
 	public ModelAndView logout(HttpServletRequest request) {
 		request.getSession().removeAttribute("user_id");
+		request.getSession().removeAttribute("user_nickname");
 		modelAndView.setViewName("redirect:/index/main");
 		return modelAndView;
 	}
