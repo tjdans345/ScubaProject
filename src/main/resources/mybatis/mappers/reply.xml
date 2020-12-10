@@ -27,17 +27,27 @@
 	<select id="replyList2" parameterType="replyVO" resultMap="replyResult">
 		select re.num, re.postnum, re.communityname , re.replycontent, re.writedate, re.nickname, 
 			   re.replygroup_num, re.replytype, re.status, mem.image from reply as re left outer join member as mem on re.nickname = mem.nickname 
-			   where re.communityname = #{communityname} and re.postnum = #{postnum} and re.replytype = 1 order by writedate desc;
+			   where re.communityname = #{communityname} and re.postnum = #{postnum} and re.replytype = 1 order by writedate asc;
 	</select>
 	
 	<!-- 댓글 등록 -->
 	<insert id="replywrite" parameterType="replyVO">
-		<selectKey resultType="int" keyProperty="replygroup_num" order="BEFORE">
-			SELECT IFNULL(MAX(num+1),1) FROM reply;
+		<selectKey resultType="int" keyProperty="replygroup_num" order="AFTER">
+			SELECT IFNULL(MAX(num),1) FROM reply;
 		</selectKey>
-		insert into reply (postnum, communityname, replycontent, nickname, replygroup_num, replytype)
-		values (#{postnum}, #{communityname}, #{replycontent}, #{nickname}, #{replygroup_num}, #{replytype});
+		insert into reply (postnum, communityname, replycontent, nickname, replytype)
+		values (#{postnum}, #{communityname}, #{replycontent}, #{nickname}, #{replytype});
 	</insert>
 	
+	<!-- 댓글 그룹넘버 설정 -->
+	<update id="replygroup_num" parameterType="replyVO">
+		update reply set replygroup_num = #{replygroup_num} where num = #{replygroup_num};
+	</update>
+	
+	<!-- 대댓글 등록 -->
+	<insert id="rereplywrite" parameterType="replyVO">
+		insert into reply (postnum, communityname, replycontent, nickname, replytype, replygroup_num)
+		values (#{postnum}, #{communityname}, #{replycontent}, #{nickname}, #{replytype}, #{replygroup_num});
+	</insert>
 
 </mapper>

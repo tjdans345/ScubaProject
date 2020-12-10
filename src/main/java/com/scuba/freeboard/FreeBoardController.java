@@ -74,13 +74,15 @@ public class FreeBoardController {
 	public ModelAndView freeboardView(ReplyVO replyVO, FreeBoardVO freeboardVO, @RequestParam(defaultValue = "1")int nowpage
 									  , @RequestParam(defaultValue = "")String search, HttpServletRequest request
 									  , @RequestParam(defaultValue = "writedate")String sort) {
+		//해당 게시글 정보
 		mav.addObject("viewList", freeboardService.viewList(freeboardVO.getNum()));
-		//게시글 번호 저정(댓글)
+		//게시글 번호 저장(댓글)
 		replyVO.setPostnum(freeboardVO.getNum());
 		//커뮤니티 카테고리 저장
 		replyVO.setCommunityname((String)request.getSession().getAttribute("category"));
 		//댓글 리스트
 		mav.addObject("replyList", replyservice.replyList(replyVO));
+		//대댓글 리스트
 		mav.addObject("rereplyList", replyservice.replyList2(replyVO));
 		mav.addObject("nowpage", nowpage);
 		mav.addObject("search", search);

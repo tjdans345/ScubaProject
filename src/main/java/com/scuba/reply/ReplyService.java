@@ -24,6 +24,11 @@ public class ReplyService {
 	//댓글 등록
 	public void replywrite(ReplyVO replyVO) {
 		replyDAO.replywrite(replyVO);
+	}
+	
+	//대댓글 등록
+	public void rereplywrite(ReplyVO replyVO) {
+		replyDAO.rereplywrite(replyVO);
 		
 	}
 	

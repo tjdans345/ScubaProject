@@ -19,7 +19,8 @@
     	$(document).on("click", ".title_btn", function() {
 			var num = $(this).data("num");
 			var nowpage = ${map.nowpage};
-			location.href="${contextPath}/freeBoard/freeBoardView?num="+num+"&nowpage=${map.nowpage}&sort=${map.sort}&search=${map.search}";
+			var sort = $("#sort > option:selected").val();
+			location.href="${contextPath}/freeBoard/freeBoardView?num="+num+"&nowpage=${map.nowpage}&sort="+sort+"&search=${map.search}";
     	});
     	
     	//검색 기능
@@ -171,11 +172,10 @@
           <div class="container">
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
-                <h1 class="module-title font-alt free" style="margin-bottom: 5%">자유 게시판</h1>
+                <h1 class="module-tditle font-alt free" style="margin-bottom: 5%">자유 게시판</h1>
                 <form role="form" id="sform" style="text-align:-webkit-center;">
                   <div class="search-box" style="width: 60%;">
                     <input class="form-control search" name="search" type="text" placeholder="Search..."/>
-                    <input id="sSort" type="hidden" name=sort>
                     <button class="search-btn sbutton" type="button"><i class="fa fa-search sbutton"></i></button>
                   </div>
                 </form>

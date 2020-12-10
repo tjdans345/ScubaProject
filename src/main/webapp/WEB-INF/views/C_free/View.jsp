@@ -33,9 +33,9 @@
     	//댓글 리스트
     	function ReplyList(data) {
     		var str = "";
-    		
     		str += "<div class='comment clearfix'>";
 			$.each(data.replyList, function(i) {
+				var thereis = 0;
 				var num = data.replyList[i].num;
 				var img = data.replyList[i].image;
 				var nickname = data.replyList[i].nickname;
@@ -44,7 +44,7 @@
 				var replytype = data.replyList[i].replytype;
 				var status = data.replyList[i].status;
 				var writeDate = Timestampformat(data.replyList[i].writedate);
-				
+				//댓글
 				str += "<div class='comment-avatar'>";
 				str += " <img src='${contextPath}/resources/upload/member/"+img+"' alt='avatar'>";
 				str += " </div>";
@@ -53,13 +53,24 @@
 				str += "  <div class='comment-body'>";
 				str += "	<p>"+replycontent+"</p>";
 				str += "  </div>";
-				str += " <div class='comment-meta font-alt'>"+writeDate+" - ";
+				str += " <div id='replyform"+num+"' class='comment-meta font-alt'>"+writeDate+" - ";
 				if("${user_nickname}"==nickname) {
 					str += "<a href='javascript:;''>수정</a> ㅣ <a href='javascript:;''>삭제</a> ㅣ";
 				}
-				str += "<a class='reply' href='javascript:;' data-num='"+num+"'>댓글</a>";
+				str += "<a class='reply' href='javascript:;' data-groupnum='"+num+"' data-sort='0' data-num='"+num+"'>댓글</a>";
 				str += " </div>";
+					//댓글 리스트 보기
+					$.each(data.rereplyList, function(z) {
+						var replygroup_num3 = data.rereplyList[z].replygroup_num;
+						if(num == replygroup_num3){ ++thereis; };
+					});
+					if(thereis >= 1) {
+						str += "<a href='javascript:;' class='listshow' id='listshow"+num+"' data-repnum='"+num+"'>";
+						str += "댓글 보기";
+						str += "</a>";
+					}
 				str += "</div>";
+					//대댓글
 					$.each(data.rereplyList, function(j) {
 						var num2 = data.rereplyList[j].num;
 						var img2 = data.rereplyList[j].image;
@@ -70,7 +81,7 @@
 						var status2 = data.rereplyList[j].status;
 						var writeDate2 = Timestampformat(data.rereplyList[j].writedate);
 						if(num == replygroup_num2) {
-							str += "<div class='comment clearfix rep2'>";
+							str += "<div class='comment clearfix rep2"+num+"' style='display: none;'>";
 							str += " <div class='comment-avatar'>";
 							str += " <img src='${contextPath}/resources/upload/member/"+img2+"' alt='avatar'>";
 							str += " </div>";
@@ -79,11 +90,11 @@
 							str += "<div class='comment-body'>";
 							str += "<p>"+replycontent2+"</p>";
 							str += "</div>";
-							str += " <div class='comment-meta font-alt'>"+writeDate2+" - ";
+							str += " <div id='rereplyform"+num2+"' class='comment-meta font-alt'>"+writeDate2+" - ";
 							if("${user_nickname}"==nickname2) {
 								str += "<a href='javascript:;''>수정</a> ㅣ <a href='javascript:;''>삭제</a> ㅣ";
 							}
-							str += "<a class='rereply' href='javascript:;' data-num='"+num+"'>댓글</a>";
+							str += "<a class='reply' href='javascript:;' data-nname='"+nickname2+"' data-sort='1' data-groupnum='"+num+"' data-num='"+num2+"'>댓글</a>";
 							str += "</div>";
 							str += "</div>";
 							str += "</div>";
@@ -105,22 +116,23 @@
     		return year+"-"+(("00"+month.toString()).slice(-2))+"-"+(("00"+day.toString()).slice(-2));
 		}
     	
-    	//댓글 등록 버튼
+    	//댓글 등록
     	$(document).on("click", ".reply_btn", function() {
 			var replycontent = $("#replycontent").val();
+			//해당 게시글 번호
 			var postnum = ${viewList.num};
 			
 			$.ajax({
 				url : "${contextPath}/reply/replywrite",
 				type : "post",
-				data : {"replycontent":replycontent, "postnum":postnum},
+				data : {"replycontent":replycontent, 
+						"postnum":postnum},
 				success : function(data) {
 					var str = "";
 					$("#repList").empty();
 					$("#replycontent").val("");
 					str = ReplyList(data);
 					$("#repList").append(str);
-					
 				},
 				error : function(data) {
 					alert("댓글 등록 실패");
@@ -129,19 +141,87 @@
 					
 				}
 			});
-			
 		});
     	
     	//댓글의 댓글 버튼
     	$(document).on("click", ".reply", function() {
+    		//부모글 번호
+    		var groupnum = $(this).data("groupnum");
+    		// 대댓글 , 대대댓글 구분
+    		var sort = $(this).data("sort"); 
+    		//해당 댓글 번호
 			var num = $(this).data("num");
 			var str = "";
-			$("#replyform"+num).empty();
-			str += "<textarea class='form-control' id='replybox' name='replycontent' rows='4' placeholder='댓글을 입력하세요' style='resize: none;'></textarea>";
-			str += "<button class='btn btn-border-d btn-round replybox_btn' type='button' style='float: right; margin-top: 2%;'>댓글 등록</button>"
-			$("#replyform"+num).append(str);
+			//대댓글일때
+    		if (sort == 0) {
+    			$("#replyform"+num).empty();
+    			str += "<textarea class='form-control' id='replybox"+num+"' name='replycontent' rows='4' placeholder='댓글을 입력하세요' style='resize: none;'></textarea>";
+    			str += "<button class='btn btn-border-d btn-round replybox_btn' data-groupnum='"+groupnum+"' data-num='"+num+"' type='button' style='float: right; margin-top: 2%;'>댓글 등록</button>"
+    			$("#replyform"+num).append(str);
+    		} else if (sort == 1) { //대대댓글일때
+    			var name = $(this).data("nname"); 
+    			$("#rereplyform"+num).empty();
+    			str += "<textarea class='form-control' id='replybox"+num+"' name='replycontent' rows='4' placeholder='댓글을 입력하세요' style='resize: none;'>@"+name+" </textarea>";
+    			str += "<button class='btn btn-border-d btn-round replybox_btn' data-groupnum='"+groupnum+"' data-num='"+num+"' type='button' style='float: right; margin-top: 2%;'>댓글 등록</button>"
+    			$("#rereplyform"+num).append(str);
+    		}
 		});
     	
+    	//대댓글 등록
+    	$(document).on("click", ".replybox_btn", function() {
+    		//해당 댓글(자신) 번호
+    		var num = $(this).data("num");
+    		//해당 댓글(부모글) 번호
+			var groupnum = $(this).data("groupnum");
+    		//해당 대댓글 내용
+			var replycontent = $("#replybox"+num).val();
+    		//해당 게시글 번호
+    		var postnum = ${viewList.num};
+    		$.ajax({
+    			url : "${contextPath}/reply/rereplywrite",
+    			type : "post",
+    			data : {"replygroup_num" : groupnum, 
+    					"replycontent" : replycontent,
+    					"postnum" : postnum},
+    			success : function(data) {
+    				var str = "";
+					$("#repList").empty();
+					$("#replycontent").val("");
+					str = ReplyList(data);
+					$("#repList").append(str);
+					
+					//댓글리스트 보여주기
+					$(".rep2"+groupnum).show();
+					$("#listshow"+groupnum).html("<mark>댓글 닫기</mark>");
+					$("#listshow"+groupnum).attr("class", "listhide");
+					$("#listshow"+groupnum).attr("id", "listhide"+groupnum);
+				},
+				error : function(data) {
+					alert("댓글 등록 실패");
+					$("#replycontent").val("");
+					location.href="${contextPath}/freeBoard/freeBoardView?num=${viewList.num}&nowpage=${nowpage}&search=${search}&sort=${sort}";
+				}
+    		});
+		});
+    	
+    	//댓글 보기
+    	$(document).on("click", ".listshow", function() {
+    		//해당 댓글 번호(부모 댓글 번호)
+			var repnum = $(this).data("repnum");
+			$(".rep2"+repnum).show();
+			$("#listshow"+repnum).html("<mark>댓글 닫기</mark>");
+			$("#listshow"+repnum).attr("class", "listhide");
+			$("#listshow"+repnum).attr("id", "listhide"+repnum);
+		});
+    	
+    	//댓글 닫기
+    	$(document).on("click", ".listhide", function() {
+			var repnum = $(this).data("repnum");
+			$(".rep2"+repnum).hide();
+			$("#listhide"+repnum).html("<mark>댓글 보기</mark>");
+			$("#listhide"+repnum).attr("class", "listshow");
+			$("#listhide"+repnum).attr("id", "listshow"+repnum);
+		});
     	
     });
     </script>
@@ -203,13 +283,28 @@
                    	  <c:if test="${user_nickname == reply_list.nickname}">
                    	  	<a href="javascript:;">수정</a> ㅣ <a href="javascript:;">삭제</a> ㅣ
                    	  </c:if>
-                   	  <a class="reply" href="javascript:;" data-num="${reply_list.num}">댓글</a>
+                   	  <a class="reply" href="javascript:;" data-groupnum="${reply_list.num}" data-sort='0' data-num="${reply_list.num}">
+                   	  	   댓글
+                   	  </a>
                       </div>
+                      <!-- 대댓글 리스트 보기 -->
+                      <c:forEach var="reList" items="${rereplyList}">
+                      	<c:if test="${reply_list.num == reList.replygroup_num}">
+                      		<c:set var="thereis" value="1"/>
+                      	</c:if>
+                      </c:forEach>
+                      <c:if test="${thereis >= 1}">
+                      	<a href="javascript:;" class="listshow" id="listshow${reply_list.num}" data-repnum="${reply_list.num}">
+                      		<mark>댓글 보기</mark>
+                      	</a>
+                      	<c:set var="thereis" value="0"/>
+                      </c:if>
+                      <!-- 대댓글 리스트 보기 -->
                     </div>
                    <c:forEach var="rereplyList_list2" items="${rereplyList}">
                    <fmt:formatDate var="wrtDate2" pattern="yyyy-MM-dd" value="${rereplyList_list2.writedate}"/>
                    <c:if test="${reply_list.num == rereplyList_list2.replygroup_num}">
-                    <div class="comment clearfix rep2">
+                    <div class="comment clearfix rep2${reply_list.num}" style="display: none;">
                       <div class="comment-avatar">
                       <img src="${contextPath}/resources/upload/member/${rereplyList_list2.image}" alt="avatar"/>
                       </div>
@@ -218,11 +313,11 @@
                         <div class="comment-body">
                           <p>${rereplyList_list2.replycontent}</p>
                         </div>
-                        <div class="comment-meta font-alt">${wrtDate2} - 
+                        <div id="rereplyform${rereplyList_list2.num}" class="comment-meta font-alt">${wrtDate2} - 
                         <c:if test="${user_nickname == reply_list.nickname}">
                    	  		<a href="javascript:;">수정</a> ㅣ <a href="javascript:;">삭제</a> ㅣ
                    	    </c:if>
-                   	  	<a class="rereply" href="javascript:;" data-num="${reply_list.num}">
+                   	  	<a class="reply" href="javascript:;" data-nname="${rereplyList_list2.nickname}"  data-groupnum="${reply_list.num}" data-sort='1' data-num="${rereplyList_list2.num}">
                    	  	 	댓글 <!-- 대댓글 -->
                    	    </a>
                         </div>

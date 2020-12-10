@@ -33,13 +33,32 @@ public class ReplyController {
 		replyVO.setReplytype(0);
 		//댓글 등록
 		replyservice.replywrite(replyVO);
+		
+		//댓글 리스트 반환
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("replyList", replyservice.replyList(replyVO));
 		map.put("rereplyList", replyservice.replyList2(replyVO));
-		
-		
 		return map;
-		
-		
 	}
+	
+	//대댓글 등록
+	@RequestMapping(value = "rereplywrite", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> rereplywrite(ReplyVO replyVO, HttpServletRequest request) {
+		//커뮤니티 네임설정
+		replyVO.setCommunityname((String)request.getSession().getAttribute("category"));
+		//닉네임 설정
+		replyVO.setNickname((String)request.getSession().getAttribute("user_nickname"));
+		//댓글 타입 설정
+		replyVO.setReplytype(1);
+		//댓글 등록
+		replyservice.rereplywrite(replyVO);
+		
+		//댓글 리스트 반환
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("replyList", replyservice.replyList(replyVO));
+		map.put("rereplyList", replyservice.replyList2(replyVO));
+		return map;
+	}
+	
 }
