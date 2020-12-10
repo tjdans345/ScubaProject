@@ -190,11 +190,13 @@
 					str = ReplyList(data);
 					$("#repList").append(str);
 					
-					//댓글리스트 보여주기
+ 					//댓글리스트 보여주기
 					$(".rep2"+groupnum).show();
 					$("#listshow"+groupnum).html("<mark>댓글 닫기</mark>");
-					$("#listshow"+groupnum).attr("class", "listhide");
-					$("#listshow"+groupnum).attr("id", "listhide"+groupnum);
+					//슬라이드 효과 제거 시 주석 제거
+// 					$("#listshow"+groupnum).attr("class", "listhide");
+// 					$("#listshow"+groupnum).attr("id", "listhide"+groupnum);
+					
 				},
 				error : function(data) {
 					alert("댓글 등록 실패");
@@ -208,20 +210,32 @@
     	$(document).on("click", ".listshow", function() {
     		//해당 댓글 번호(부모 댓글 번호)
 			var repnum = $(this).data("repnum");
-			$(".rep2"+repnum).show();
-			$("#listshow"+repnum).html("<mark>댓글 닫기</mark>");
-			$("#listshow"+repnum).attr("class", "listhide");
-			$("#listshow"+repnum).attr("id", "listhide"+repnum);
+    		
+    		//1. 슬라이드 효과 off
+// 			$(".rep2"+repnum).show();
+// 			$("#listshow"+repnum).html("<mark>댓글 닫기</mark>");
+// 			$("#listshow"+repnum).attr("class", "listhide");
+// 			$("#listshow"+repnum).attr("id", "listhide"+repnum);
+
+			//2. 슬라이드 효과 on
+			if($(".rep2"+repnum).is(":visible")){
+				$(".rep2"+repnum).slideUp();
+				$("#listshow"+repnum).html("<mark>댓글 보기</mark>");
+			}else{
+				$(".rep2"+repnum).slideDown();
+				$("#listshow"+repnum).html("<mark>댓글 닫기</mark>");
+			}
 		});
     	
-    	//댓글 닫기
-    	$(document).on("click", ".listhide", function() {
-			var repnum = $(this).data("repnum");
-			$(".rep2"+repnum).hide();
-			$("#listhide"+repnum).html("<mark>댓글 보기</mark>");
-			$("#listhide"+repnum).attr("class", "listshow");
-			$("#listhide"+repnum).attr("id", "listshow"+repnum);
-		});
+    	//슬라이드 효과 off 시 주석 제거
+//     	//댓글 닫기
+//     	$(document).on("click", ".listhide", function() {
+// 			var repnum = $(this).data("repnum");
+// 			$(".rep2"+repnum).hide();
+// 			$("#listhide"+repnum).html("<mark>댓글 보기</mark>");
+// 			$("#listhide"+repnum).attr("class", "listshow");
+// 			$("#listhide"+repnum).attr("id", "listshow"+repnum);
+// 		});
     	
     });
     </script>
