@@ -34,5 +34,10 @@ public class ReplyDAO {
 		sqlsession.insert("mapper.Reply.rereplywrite", replyVO);
 	}
 
+	//댓글 수정
+	public void replymodify(ReplyVO replyVO) {
+		sqlsession.insert("mapper.Reply.replymodify", replyVO);
+	}
+
 	
 }

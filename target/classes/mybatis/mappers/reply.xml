@@ -49,5 +49,16 @@
 		insert into reply (postnum, communityname, replycontent, nickname, replytype, replygroup_num)
 		values (#{postnum}, #{communityname}, #{replycontent}, #{nickname}, #{replytype}, #{replygroup_num});
 	</insert>
-
+	
+	<!-- 댓글 수정 -->
+	<update id="replymodify" parameterType="replyVO">
+		update reply set replycontent = #{replycontent} where num = #{num}
+	</update>
+	
+	
+	
+	
+	
+	
+	
 </mapper>

@@ -30,7 +30,30 @@
     		location.href="${contextPath}/freeBoard/freeboarModify?num="+num+"&communityname="+cate;
 		});
     	
-    	//댓글 리스트
+    	//댓글 리스트 가져오기 (신박하네 ??)
+    	function getReplyList() {
+    		//해당 게시글 번호
+			var postnum = ${viewList.num};
+			$.ajax({
+				url : "${contextPath}/reply/replyList",
+				type : "post",
+				data : {"postnum":postnum},
+				success : function(data) {
+						var str = "";
+						$("#repList").empty();
+						//댓글 , 대댓글 등록시 댓글 등록칸 비워주기
+						$("#replycontent").val("");
+						str = ReplyList(data);
+						$("#repList").append(str);
+				},
+				error : function(data) {
+					alert("통신 실패");
+					$("#replycontent").val("");
+				}
+			});
+		}
+    	
+    	//댓글 리스트 공통메서드
     	function ReplyList(data) {
     		var str = "";
     		str += "<div class='comment clearfix'>";
@@ -50,14 +73,16 @@
 				str += " </div>";
 				str += "<div class='comment-content clearfix'>";
 				str += " <div class='comment-author font-alt'>"+nickname+"</div>";
+				str += "<div id='replymodform"+num+"'>"
 				str += "  <div class='comment-body'>";
-				str += "	<p>"+replycontent+"</p>";
+				str += "	<p id='repconarea"+num+"'>"+replycontent+"</p>";
 				str += "  </div>";
 				str += " <div id='replyform"+num+"' class='comment-meta font-alt'>"+writeDate+" - ";
 				if("${user_nickname}"==nickname) {
-					str += "<a href='javascript:;''>수정</a> ㅣ <a href='javascript:;''>삭제</a> ㅣ";
+					str += "<a class='replymodify' href='javascript:;' data-groupnum='"+num+"' data-num='"+num+"'>수정</a> ㅣ <a href='javascript:;''>삭제</a> ㅣ";
 				}
 				str += "<a class='reply' href='javascript:;' data-groupnum='"+num+"' data-sort='0' data-num='"+num+"'>댓글</a>";
+				str += " </div>";
 				str += " </div>";
 					//댓글 리스트 보기
 					$.each(data.rereplyList, function(z) {
@@ -87,14 +112,16 @@
 							str += " </div>";
 							str += "<div class='comment-content clearfix'>";
 							str += " <div class='comment-author font-alt'>"+nickname2+"</div>";
+							str += "<div id='replymodform"+num2+"'>"
 							str += "<div class='comment-body'>";
-							str += "<p>"+replycontent2+"</p>";
+							str += "<p id='repconarea"+num2+"'>"+replycontent2+"</p>";
 							str += "</div>";
 							str += " <div id='rereplyform"+num2+"' class='comment-meta font-alt'>"+writeDate2+" - ";
 							if("${user_nickname}"==nickname2) {
-								str += "<a href='javascript:;''>수정</a> ㅣ <a href='javascript:;''>삭제</a> ㅣ";
+								str += "<a class='replymodify' href='javascript:;' data-groupnum='"+num+"' data-num='"+num2+"'>수정</a> ㅣ <a href='javascript:;''>삭제</a> ㅣ";
 							}
 							str += "<a class='reply' href='javascript:;' data-nname='"+nickname2+"' data-sort='1' data-groupnum='"+num+"' data-num='"+num2+"'>댓글</a>";
+							str += "</div>";
 							str += "</div>";
 							str += "</div>";
 							str += "</div>";
@@ -121,18 +148,23 @@
 			var replycontent = $("#replycontent").val();
 			//해당 게시글 번호
 			var postnum = ${viewList.num};
-			
 			$.ajax({
 				url : "${contextPath}/reply/replywrite",
 				type : "post",
 				data : {"replycontent":replycontent, 
 						"postnum":postnum},
 				success : function(data) {
-					var str = "";
-					$("#repList").empty();
-					$("#replycontent").val("");
-					str = ReplyList(data);
-					$("#repList").append(str);
+					if(data.loginstatus == "No") {
+						alert("로그인 후 이용해주세요");
+						location.href="${contextPath}/member/login";
+					} else {
+						var str = "";
+						$("#repList").empty();
+						//댓글 , 대댓글 등록시 댓글 등록칸 비워주기
+						$("#replycontent").val("");
+						str = ReplyList(data);
+						$("#repList").append(str);
+					}
 				},
 				error : function(data) {
 					alert("댓글 등록 실패");
@@ -143,7 +175,7 @@
 			});
 		});
     	
-    	//댓글의 댓글 버튼
+    	//댓글의 댓글 버튼 / 댓글 입력 폼 생성
     	$(document).on("click", ".reply", function() {
     		//부모글 번호
     		var groupnum = $(this).data("groupnum");
@@ -151,20 +183,29 @@
     		var sort = $(this).data("sort"); 
     		//해당 댓글 번호
 			var num = $(this).data("num");
+    		//댓글 날짜
+    		var writedate = $(this).data("wrdate");
 			var str = "";
 			//대댓글일때
     		if (sort == 0) {
     			$("#replyform"+num).empty();
     			str += "<textarea class='form-control' id='replybox"+num+"' name='replycontent' rows='4' placeholder='댓글을 입력하세요' style='resize: none;'></textarea>";
     			str += "<button class='btn btn-border-d btn-round replybox_btn' data-groupnum='"+groupnum+"' data-num='"+num+"' type='button' style='float: right; margin-top: 2%;'>댓글 등록</button>"
+    			str += "<button class='btn btn-border-d btn-round repcancle_btn' data-groupnum='"+groupnum+"' data-num='"+num+"' type='button' style='float: right; margin-top: 2%; margin-right: 1%;'>취소</button>"
     			$("#replyform"+num).append(str);
     		} else if (sort == 1) { //대대댓글일때
-    			var name = $(this).data("nname"); 
+    			var name = $(this).data("nname");
     			$("#rereplyform"+num).empty();
     			str += "<textarea class='form-control' id='replybox"+num+"' name='replycontent' rows='4' placeholder='댓글을 입력하세요' style='resize: none;'>@"+name+" </textarea>";
     			str += "<button class='btn btn-border-d btn-round replybox_btn' data-groupnum='"+groupnum+"' data-num='"+num+"' type='button' style='float: right; margin-top: 2%;'>댓글 등록</button>"
+    			str += "<button class='btn btn-border-d btn-round repcancle_btn' type='button' style='float: right; margin-top: 2%; margin-right: 1%;'>취소</button>"
     			$("#rereplyform"+num).append(str);
     		}
+		});
+    	
+    	//댓글 쓰기 취소
+    	$(document).on("click", ".repcancle_btn", function() {
+    		getReplyList();
 		});
     	
     	//대댓글 등록
@@ -185,7 +226,12 @@
     					"postnum" : postnum},
     			success : function(data) {
     				var str = "";
+    				if(data.loginstatus == "No") {
+						alert("로그인 후 이용해주세요");
+						location.href="${contextPath}/member/login";
+					} else {
 					$("#repList").empty();
+					//댓글 , 대댓글 등록시 댓글 등록칸 비워주기
 					$("#replycontent").val("");
 					str = ReplyList(data);
 					$("#repList").append(str);
@@ -196,7 +242,58 @@
 					//슬라이드 효과 제거 시 주석 제거
 // 					$("#listshow"+groupnum).attr("class", "listhide");
 // 					$("#listshow"+groupnum).attr("id", "listhide"+groupnum);
+					}
+				},
+				error : function(data) {
+					alert("댓글 등록 실패");
+					$("#replycontent").val("");
+					location.href="${contextPath}/freeBoard/freeBoardView?num=${viewList.num}&nowpage=${nowpage}&search=${search}&sort=${sort}";
+				}
+    		});
+		});
+    	
+    	//댓글 수정 / 입력폼 생성
+    	$(document).on("click", ".replymodify", function() {
+    		//부모글 번호
+    		var groupnum = $(this).data("groupnum");
+    		//해당 댓글 번호
+			var num = $(this).data("num");
+    		//해당 댓글 내용
+    		var content = $("#repconarea"+num).text();
+			var str = "";
+			//대댓글일때
+    			$("#replymodform"+num).empty();
+    			str += "<textarea class='form-control' id='replymodbox"+num+"' name='replycontent' rows='4' placeholder='댓글을 입력하세요' style='resize: none;'>"+content+"</textarea>";
+    			str += "<button class='btn btn-border-d btn-round replymod_btn' data-groupnum='"+groupnum+"' data-num='"+num+"' type='button' style='float: right; margin-top: 2%;'>댓글 수정</button>"
+    			$("#replymodform"+num).append(str);
+		});
+    	
+    	//댓글 수정
+    	$(document).on("click", ".replymod_btn", function() {
+    		//부모글 번호
+    		var groupnum = $(this).data("groupnum");
+    		//해당 댓글(자신) 번호
+    		var num = $(this).data("num");
+    		//해당 대댓글 내용
+			var replycontent = $("#replymodbox"+num).val();
+    		//해당 게시글 번호
+    		var postnum = ${viewList.num};
+    		$.ajax({
+    			url : "${contextPath}/reply/replymodify",
+    			type : "post",
+    			data : {"replycontent" : replycontent,
+    					"postnum" : postnum,
+    					"num" : num},
+    			success : function(data) {
+    				var str = "";
+					$("#repList").empty();
+					$("#replycontent").val("");
+					str = ReplyList(data);
+					$("#repList").append(str);
 					
+ 					//댓글리스트 보여주기
+					$(".rep2"+groupnum).show();
+					$("#listshow"+groupnum).html("<mark>댓글 닫기</mark>");
 				},
 				error : function(data) {
 					alert("댓글 등록 실패");
@@ -268,6 +365,7 @@
                   <button class="btn btn-border-d btn-round Modify_btn" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}" data-cate="${viewList.communityname}">글 수정</button>
                   </c:if>
                 </div>
+                
                 <!-- 댓글 입력창 -->
                 <div class="comment-form" style="margin-top: 0px;">
                   <h6 class="comment-form-title font-alt">댓글</h6>
@@ -290,17 +388,19 @@
                     </div>
                     <div class="comment-content clearfix">
                       <div class="comment-author font-alt"><a href="javascript:;">${reply_list.nickname}</a></div>
+                     <div id="replymodform${reply_list.num}">
                       <div class="comment-body">
-                        <p>${reply_list.replycontent}</p>
+                        <p id="repconarea${reply_list.num}">${reply_list.replycontent}</p>
                       </div>
                    	  <div id="replyform${reply_list.num}" class="comment-meta font-alt">${wrtDate} - 
                    	  <c:if test="${user_nickname == reply_list.nickname}">
-                   	  	<a href="javascript:;">수정</a> ㅣ <a href="javascript:;">삭제</a> ㅣ
+                   	  	<a class="replymodify" href="javascript:;" data-groupnum="${reply_list.num}" data-num="${reply_list.num}">수정</a> ㅣ <a href="javascript:;">삭제</a> ㅣ
                    	  </c:if>
-                   	  <a class="reply" href="javascript:;" data-groupnum="${reply_list.num}" data-sort='0' data-num="${reply_list.num}">
+                   	  <a class="reply" href="javascript:;" data-wrdate="${wrtDate}" data-groupnum="${reply_list.num}" data-sort='0' data-num="${reply_list.num}">
                    	  	   댓글
                    	  </a>
                       </div>
+                     </div>
                       <!-- 대댓글 리스트 보기 -->
                       <c:forEach var="reList" items="${rereplyList}">
                       	<c:if test="${reply_list.num == reList.replygroup_num}">
@@ -324,17 +424,19 @@
                       </div>
                       <div class="comment-content clearfix">
                         <div class="comment-author font-alt"><a href="javascript:;">${rereplyList_list2.nickname}</a></div>
+                       <div id="replymodform${rereplyList_list2.num}">
                         <div class="comment-body">
-                          <p>${rereplyList_list2.replycontent}</p>
+                          <p id="repconarea${rereplyList_list2.num}">${rereplyList_list2.replycontent}</p>
                         </div>
                         <div id="rereplyform${rereplyList_list2.num}" class="comment-meta font-alt">${wrtDate2} - 
                         <c:if test="${user_nickname == reply_list.nickname}">
-                   	  		<a href="javascript:;">수정</a> ㅣ <a href="javascript:;">삭제</a> ㅣ
+                   	  		<a class="replymodify" href="javascript:;" data-groupnum="${reply_list.num}" data-num="${rereplyList_list2.num}">수정</a> ㅣ <a href="javascript:;">삭제</a> ㅣ
                    	    </c:if>
                    	  	<a class="reply" href="javascript:;" data-nname="${rereplyList_list2.nickname}"  data-groupnum="${reply_list.num}" data-sort='1' data-num="${rereplyList_list2.num}">
                    	  	 	댓글 <!-- 대댓글 -->
                    	    </a>
                         </div>
+                       </div>
                       </div>
                     </div>
                    </c:if>

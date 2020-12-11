@@ -32,5 +32,11 @@ public class ReplyService {
 		
 	}
 	
+	//댓글 수정
+	public void replymodify(ReplyVO replyVO) {
+		replyDAO.replymodify(replyVO);
+		
+	}
+	
 	
 }
