@@ -66,7 +66,7 @@ function changeStatus(num,status) {
                   <tbody>
                     <tr style="text-align: center;">
                       <th class="hidden-xs" width="10%">번호</th>
-                      <th class="hidden-xs" width="10%">아이디</th>
+                      <th class="hidden-xs" width="10%">닉네임</th>
                       <th width="40%">리조트 이름</th>
                       <th width="10%">연락처</th>
                       <th width="15%">지역</th>
@@ -76,7 +76,7 @@ function changeStatus(num,status) {
                     <tr style="text-align: center;">
                       <td class="hidden-xs"><h6 class="product-title font-alt">${resortVO.num}</h6></td>
                       <td class="hidden-xs">
-                        <h6 class="product-title font-alt">${resortVO.id}</h6>
+                        <h6 class="product-title font-alt">${resortVO.nickName}</h6>
                       </td>
                       <td>
                         <h6 class="product-title font-alt"><a href="${contextPath}/Resort/moveViewResort?num=${resortVO.num}">${resortVO.resortName}</a></h6>

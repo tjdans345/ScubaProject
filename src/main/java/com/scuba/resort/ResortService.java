@@ -34,7 +34,7 @@ public class ResortService {
 			num = resortDAO.getMaxNum()+1;
 		}
 		resortVO.setNum(num);
-		resortVO.setId((String)request.getSession().getAttribute("user_id"));
+		resortVO.setNickName((String)request.getSession().getAttribute("user_nickname"));
 		resortVO.setResortName(multipartHttpServletRequest.getParameter("resortName"));
 		resortVO.setPhoneNumber(multipartHttpServletRequest.getParameter("phoneNumber"));
 		resortVO.setCacaoId(multipartHttpServletRequest.getParameter("cacaoId"));
@@ -142,7 +142,7 @@ public class ResortService {
 		map.put("search","%"+search+"%");
 		map.put("city","%"+city+"%");
 		int total = resortDAO.gettotal(map);
-		map = common.paging(nowpage, total, 3, 5);
+		map = common.paging(nowpage, total, 5, 5);
 		map.put("search","%"+search+"%");
 		map.put("city","%"+city+"%");
 		map.put("order",order);
@@ -219,7 +219,7 @@ public class ResortService {
 	}
 	//리뷰 등록하기
 	public void ReviewsWrite(ResortVO resortVO , HttpServletRequest request) {
-		resortVO.setId((String)request.getSession().getAttribute("user_id"));
+		resortVO.setNickName((String)request.getSession().getAttribute("user_nickname"));
 		resortDAO.ReviewsWrite(resortVO);
 	}
 	//리뷰 리스트
@@ -227,19 +227,19 @@ public class ResortService {
 		return resortDAO.getReviewsList(num);
 	}
 	//리뷰 썻는지 확인
-	public int reviewCheck(int num , String id) {
+	public int reviewCheck(int num , String nickName) {
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		map.put("num",num);
-		map.put("id",id);
+		map.put("nickName",nickName);
 		int check = 0;
 		check = resortDAO.reviewCheck(map);
 		return check;
 	}
 	//리뷰 삭제
-	public void delReviews(int num , String id) {
+	public void delReviews(int num , String nickName) {
 		HashMap<String,Object> map = new HashMap<String, Object>();
 		map.put("num",num);
-		map.put("id",id);
+		map.put("nickName",nickName);
 		resortDAO.delReviews(map);
 	}
 }

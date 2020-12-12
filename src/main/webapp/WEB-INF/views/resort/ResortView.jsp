@@ -23,7 +23,7 @@ function reviewWrite() {
 	$.ajax({
 		url:'${contextPath}/Resort/reviewCheck',
 		type:'POST',
-		data: {num:'${resortVO.num}' , id : '${user_id}'},
+		data: {num:'${resortVO.num}' , nickName : '${user_nickname}'},
 		success: function (data) {
 	if(grade == 0){
 		alert("별점을 선택해주세요 . ");
@@ -60,7 +60,7 @@ function reviewWrite() {
                 	</div>                 
                 	<div class="post-header font-alt">
                     <h1 class="post-title">${resortVO.resortName}</h1>
-                    <div class="post-meta">${resortVO.id}| ${resortVO.enterDate} | ♥ 개수 
+                    <div class="post-meta">${resortVO.nickName}| ${resortVO.enterDate} | ♥ 개수 
                     </div>
                   </div>
                   <div class="post-entry">
@@ -207,8 +207,8 @@ function reviewWrite() {
                    	  <div class="comment clearfix">
                         <div class="comment-avatar"><img src="${contextPath}/resources/upload/member/${review.image1}"/></div>
                         <div class="comment-content clearfix">
-                          <div class="comment-author font-alt">${review.id}
-                          <c:if test="${review.id == user_id }">
+                          <div class="comment-author font-alt">${review.nickName}
+                          <c:if test="${review.nickName == user_nickname }">
                           <a href="${contextPath}/Resort/delReviews?num=${resortVO.num}" style="color: red; float: right;">삭제</a>
                           </c:if>
                           </div>

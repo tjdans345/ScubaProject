@@ -57,7 +57,7 @@ function CountryChange() {
 			}
 			$('<option selected="selected" disabled="disabled">도시 명</option>').prependTo('#CityNameCategory');
 			$('#CountryNameup').empty();
-			var tag = '<input class="form-control input-sm" type="text" value="'+CountryName+'" name="CountryName" id="CountryName" readonly="readonly">'
+			var tag = '<input class="form-control input-sm" type="text" value="'+CountryName+'" name="CountryName" id="CountryName" readonly="readonly">';
 			$('#CountryNameup').append(tag);
 		}
 	});
