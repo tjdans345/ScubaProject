@@ -38,5 +38,16 @@ public class ReplyService {
 		
 	}
 	
+	//부모 댓글 삭제
+	public void replydelete(ReplyVO replyVO) {
+		replyDAO.replydelete(replyVO);
+		
+	}
+
+	//자식 댓글 삭제
+	public void replydelete2(ReplyVO replyVO) {
+		replyDAO.replydelete2(replyVO);
+		
+	}
 	
 }

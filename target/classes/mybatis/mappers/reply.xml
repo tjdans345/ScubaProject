@@ -52,12 +52,18 @@
 	
 	<!-- 댓글 수정 -->
 	<update id="replymodify" parameterType="replyVO">
-		update reply set replycontent = #{replycontent} where num = #{num}
+		update reply set replycontent = #{replycontent} where num = #{num};
 	</update>
 	
+	<!-- 댓글 삭제 -->
+	<update id="replydelete" parameterType="replyVO">
+		update reply set status = 1 where replygroup_num = #{replygroup_num};
+	</update>	
 	
-	
-	
+	<!-- 댓글 삭제 -->
+	<update id="replydelete2" parameterType="replyVO">
+		update reply set status = 1 where num = #{num};
+	</update>
 	
 	
 	
