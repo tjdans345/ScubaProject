@@ -157,7 +157,6 @@
     	function htmlDel(content) {
     		var changeHTML = content.replace(/(<([^>]+)>)/ig,"");
     		return changeHTML.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    		
 		}
     	
     	//댓글 등록
@@ -167,13 +166,19 @@
     		//HTMl 태그 제거
 			var replycontent = htmlDel($("#replycontent").val());
     		//유효성 및 정규식
-			if(replycontent == "") {
+    		if(replycontent.trim() == "") {
+    			alert("공백이 아닌 댓글을 500자 이내로 작성해주세요.");
+    			$("#replycontent").val("");
+    			$("#replycontent").focus();
+				return;
+    		} else if(replycontent == "") {
 				alert("내용을 입력해주세요.");
 				$("#replycontent").focus();
 				return;
 			} else if(replycontent.length >= 500) {
 				alert("댓글을 500자 이내로 작성해주세요.");
-				$("#replycontent").val(replycontent.slice(0,499));
+				var contentChange = replycontent.replace(/<br\s*[\/]?>/gi, "\r\n");
+				$("#replycontent").val(contentChange.slice(0,499));
 				$("#replycontent").focus();
 				return;
 			}
@@ -258,7 +263,7 @@
 				return;
 			} else if(replycontent.length >= 500) {
 				alert("댓글을 500자 이내로 작성해주세요.");
-				$("#replycontent").val(replycontent.slice(0,499));
+				$("#replycontent").text(replycontent.slice(0,499));
 				$("#replycontent").focus();
 				return;
 			}
@@ -304,7 +309,7 @@
     		//해당 댓글 번호
 			var num = $(this).data("num");
     		//해당 댓글 내용
-    		var content = $("#repconarea"+num).text();
+    		var content = $("#repconarea"+num).html();
     		var contentChange = content.replace(/<br\s*[\/]?>/gi, "\r\n");
 			var str = "";
 			//대댓글일때
@@ -422,12 +427,6 @@
     	$(document).on("click", ".listshow", function() {
     		//해당 댓글 번호(부모 댓글 번호)
 			var repnum = $(this).data("repnum");
-    		
-    		//1. 슬라이드 효과 off
-// 			$(".rep2"+repnum).show();
-// 			$("#listshow"+repnum).html("<mark>댓글 닫기</mark>");
-// 			$("#listshow"+repnum).attr("class", "listhide");
-// 			$("#listshow"+repnum).attr("id", "listhide"+repnum);
 
 			//2. 슬라이드 효과 on
 			if($(".rep2"+repnum).is(":visible")){
@@ -438,16 +437,6 @@
 				$("#listshow"+repnum).html("댓글 닫기");
 			}
 		});
-    	
-    	//슬라이드 효과 off 시 주석 제거
-//     	//댓글 닫기
-//     	$(document).on("click", ".listhide", function() {
-// 			var repnum = $(this).data("repnum");
-// 			$(".rep2"+repnum).hide();
-// 			$("#listhide"+repnum).html("<mark>댓글 보기</mark>");
-// 			$("#listhide"+repnum).attr("class", "listshow");
-// 			$("#listhide"+repnum).attr("id", "listshow"+repnum);
-// 		});
     	
     });
     </script>

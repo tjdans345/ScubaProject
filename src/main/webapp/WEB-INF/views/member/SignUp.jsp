@@ -141,7 +141,7 @@ $('#id').on("blur",function(){
 $('#pwd').on('blur',function(){
 	if($('#pwd').val()!=""){
 	var pwd = $('#pwd').val();
-	var pwdCheck = "^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$";
+	var pwdCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
 	if(!pwdCheck.test(pwd)){
 		alert("비밀번호는 최소 8 자 이며 ,최소 하나의 문자 , 하나의 숫자 및 최소 하나의 특수문자를 포함해야 합니다")
 		$('#pwd').val("");
