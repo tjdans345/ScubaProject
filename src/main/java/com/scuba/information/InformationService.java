@@ -154,7 +154,7 @@ public class InformationService {
 	//도시가 나라에 있는지 확인
 	public int CityCheck(String CityName , String CountryName) {
 		int check = 1 ;
-		List<String> list = informationDAO.getCityList(CountryName);
+		List<String> list = informationDAO.getEnterCityList(CountryName);
 		for(int i = 0 ; i < list.size(); i++) {
 			if(list.get(i).equals(CityName)) check = 0;
 		}

@@ -42,6 +42,10 @@ public class InformationDAO {
 	public List<String> getCityList(String CountryName){
 		return sqlSession.selectList("mapper.information.getCityList",CountryName);
 	}
+	//도시 등록시 국가에 따른 도시명 가져오기
+	public List<String> getEnterCityList(String CountryName){
+		return sqlSession.selectList("mapper.information.getEnterCityList",CountryName);
+	}
 	//도시 정보 가져오기 
 	public InformationVO getCityinfo(String CityName) {
 		return sqlSession.selectOne("mapper.information.getCityinfo",CityName);
