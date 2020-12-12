@@ -363,15 +363,6 @@ public class Common {
 		int blocklast = blockfirst + (blocksize-1);
 		if(blocklast>totalpage) blocklast = totalpage;
 		
-//		System.out.println("페이징 보자");
-//		System.out.println(totalpage);
-//		System.out.println(pagefirst);
-//		System.out.println(blockfirst);
-//		System.out.println(blocklast);
-//		System.out.println(blocksize);
-//		System.out.println(nowpage);
-//		System.out.println(pagesize);
-		
 		map.put("totalpage",totalpage);
 		map.put("pagefirst",pagefirst);
 		map.put("blockfirst",blockfirst);
