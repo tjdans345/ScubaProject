@@ -115,13 +115,13 @@ public class ResortController {
 	//리뷰 글  썻는지 확인
 	@ResponseBody
 	@RequestMapping(value = "reviewCheck" , method = RequestMethod.POST)
-	public int reviewCheck(int num , String id) {
-		int check = resortService.reviewCheck(num, id);
+	public int reviewCheck(int num , String nickName) {
+		int check = resortService.reviewCheck(num, nickName);
 		return check;
 	}
 	//리뷰 삭제
 	public ModelAndView delReviews(int num , HttpServletRequest request) {
-		resortService.delReviews(num, (String)request.getSession().getAttribute("user_id"));
+		resortService.delReviews(num, (String)request.getSession().getAttribute("user_nickname"));
 		modelAndView.setViewName("redirect:/Resort/moveViewResort?num="+num);
 		return modelAndView;
 	}

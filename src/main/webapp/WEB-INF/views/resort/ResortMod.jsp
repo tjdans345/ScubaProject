@@ -254,7 +254,7 @@ function preView(event) {
                   <input type="hidden" name="num" value="${resortinfo.num}">
                   <input type="hidden" name="resortStatus" value="${resortinfo.resortStatus}">
                   <input type="hidden" name="viewCount" value="${resortinfo.viewCount}">
-                  <input type="hidden" name="id" value="${resortinfo.id}">
+                  <input type="hidden" name="nickName" value="${resortinfo.nickName}">
                   <input type="hidden" name="image1" value="${resortinfo.image1}">
                   <input type="hidden" name="image2" value="${resortinfo.image2}">
                   <input type="hidden" name="image3" value="${resortinfo.image3}">

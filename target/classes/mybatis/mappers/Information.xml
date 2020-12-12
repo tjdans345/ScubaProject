@@ -42,6 +42,12 @@
 	select distinct CityName from city where CountryName = #{CountryName}
 	]]>
 	</select>
+<!-- 	국가카테고리 등록시 도시 리스트가져오기 -->
+	<select id="getEnterCityList" parameterType="String" resultType="String">
+	<![CDATA[
+	select distinct CityName from country where CountryName = #{CountryName}
+	]]>
+	</select>
 <!-- 	도시 정보 가져오기 -->
 	<select id="getCityinfo" parameterType="String" resultType="informationVO">
 	<![CDATA[
