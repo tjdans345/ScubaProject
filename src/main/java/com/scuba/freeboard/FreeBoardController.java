@@ -84,6 +84,7 @@ public class FreeBoardController {
 		mav.addObject("replyList", replyservice.replyList(replyVO));
 		//대댓글 리스트
 		mav.addObject("rereplyList", replyservice.replyList2(replyVO));
+		//페이징, 검색, 정렬 값
 		mav.addObject("nowpage", nowpage);
 		mav.addObject("search", search);
 		mav.addObject("sort", sort);

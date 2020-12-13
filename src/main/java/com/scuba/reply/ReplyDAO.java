@@ -39,5 +39,16 @@ public class ReplyDAO {
 		sqlsession.insert("mapper.Reply.replymodify", replyVO);
 	}
 
+	//부모 댓글 삭제
+	public void replydelete(ReplyVO replyVO) {
+		sqlsession.insert("mapper.Reply.replydelete", replyVO);
+		
+	}
+
+	//자식 댓글 삭제
+	public void replydelete2(ReplyVO replyVO) {
+		sqlsession.insert("mapper.Reply.replydelete2", replyVO);
+		
+	}
 	
 }
