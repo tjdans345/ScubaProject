@@ -50,7 +50,8 @@ public class FreeBoardService {
 //		request.getSession().setAttribute("user_id", "test3");
 		// 닉네임값 설정 지워도 됨 나중에
 //		request.getSession().setAttribute("user_nickname", "1");
-		// 임시 닉네임값.
+		// 임시 닉네임값..
+		String id = (String)request.getSession().getAttribute("user_id");
 		String nickname = (String)request.getSession().getAttribute("user_nickname");
 		freeboardVO.setNickname(nickname);
 		// 이미지 사용 여부
@@ -96,7 +97,7 @@ public class FreeBoardService {
 					//이미지 경로 변경
 					String beforeContent = freeboardVO.getContent();
 					String changePath = beforeContent.replace("Temporary", category);
-					String afterContent = changePath.replace("test3", folderNum);
+					String afterContent = changePath.replace(id, folderNum);
 					HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("afterContent", afterContent);
 					map.put("contentNum", folderNum);

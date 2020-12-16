@@ -142,7 +142,14 @@ function cityChange() {
 			        	<a href="${contextPath}/Resort/moveResortList?nowpage=${map.blockfirst-1}&city=${map.city}&search=${map.search}&order=${map.order}"><i class="fa fa-angle-left"></i></a>
 			        </c:if>
 			        <c:forEach begin="${map.blockfirst}" end="${map.blocklast}" var="i">
-			        	<a href="${contextPath}/Resort/moveResortList?nowpage=${i}&city=${map.city}&search=${map.search}&order=${map.order}">${i}</a>
+			        	<c:choose>
+			        		<c:when test="${map.nowpage == i}">
+			        			<a href="${contextPath}/Resort/moveResortList?nowpage=${i}&city=${map.city}&search=${map.search}&order=${map.order}" style="background-color: #cdebfa;">${i}</a>
+			        		</c:when>
+			        		<c:otherwise>
+			        			<a href="${contextPath}/Resort/moveResortList?nowpage=${i}&city=${map.city}&search=${map.search}&order=${map.order}">${i}</a>
+			        		</c:otherwise>
+			        	</c:choose>
 			        </c:forEach>
 			        <c:if test="${map.totalpage != map.blocklast }">
 			        	<a href="${contextPath}/Resort/moveResortList?nowpage=${map.blocklast+1}&city=${map.city}&search=${map.search}&order=${map.order}"><i class="fa fa-angle-right"></i></a>

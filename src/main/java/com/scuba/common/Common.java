@@ -362,7 +362,6 @@ public class Common {
 		//블락의 마지막 번호
 		int blocklast = blockfirst + (blocksize-1);
 		if(blocklast>totalpage) blocklast = totalpage;
-		
 		map.put("totalpage",totalpage);
 		map.put("pagefirst",pagefirst);
 		map.put("blockfirst",blockfirst);
