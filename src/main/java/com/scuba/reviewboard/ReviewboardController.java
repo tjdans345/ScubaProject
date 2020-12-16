@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
+import com.scuba.reply.ReplyService;
+import com.scuba.reply.ReplyVO;
 
 @Controller
 @RequestMapping("/reviewBoard/*")
@@ -21,7 +23,9 @@ public class ReviewboardController {
 	
 	@Autowired
 	ReviewboardService reviewboardService;
-
+	@Autowired
+	ReplyService replyservice;
+	
 	private ModelAndView mav = new ModelAndView();
 	Common common = new Common();
 	ReviewboardVO reviewboardCheckVO = new ReviewboardVO();
@@ -76,8 +80,18 @@ public class ReviewboardController {
 
 	// 상세보기 페이지 이동
 	@RequestMapping(value = "reviewBoardView")
-	public ModelAndView reviewBoardView(ReviewboardVO reviewboardVO) {
+	public ModelAndView reviewBoardView(ReplyVO replyVO, ReviewboardVO reviewboardVO, HttpServletRequest request) {
 		mav.addObject("viewList", reviewboardService.viewList(reviewboardVO.getNum()));
+		//게시글 번호 저장(댓글)
+		replyVO.setPostnum(reviewboardVO.getNum());
+		//커뮤니티 카테고리 저장
+		replyVO.setCommunityname((String)request.getSession().getAttribute("category"));
+		//댓글 리스트
+		mav.addObject("replyList", replyservice.replyList(replyVO));
+		//대댓글 리스트
+		mav.addObject("rereplyList", replyservice.replyList2(replyVO));		
+		
+		
 		mav.setViewName("C_review/View");
 		return mav;
 	}
