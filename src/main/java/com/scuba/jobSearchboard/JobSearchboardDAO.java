@@ -14,8 +14,13 @@ public class JobSearchboardDAO {
 	SqlSession sqlsession;
 	
 	// 구인/구직 게시판 모든(글) 리스트 조회
-	public List<JobSearchboardVO> allBoardList() {
-		return sqlsession.selectList("mapper.JobSearchboard.allBoardList");
+	public List<JobSearchboardVO> allBoardList1(HashMap<String, Object> map) {
+		return sqlsession.selectList("mapper.JobSearchboard.allBoardList1", map);
+	}
+	
+	// 구인/구직 게시판 모든(글) 리스트 조회
+	public List<JobSearchboardVO> allBoardList2(HashMap<String, Object> map) {
+		return sqlsession.selectList("mapper.JobSearchboard.allBoardList2", map);
 	}
 
 	// 글 작성
@@ -60,6 +65,23 @@ public class JobSearchboardDAO {
 	public int condelete(int contentNum) {
 		return sqlsession.delete("mapper.JobSearchboard.condelete", contentNum);
 	}
+	
+	//리스트 토탈 구하기
+	public int getTotal1(String search, String searchsort) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("search", search);
+		map.put("searchsort", searchsort);
+		return sqlsession.selectOne("mapper.JobSearchboard.getTotal1", map);
+	}
 
-
+	//리스트 토탈 구하기
+	public int getTotal2(String search, String searchsort) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("search", search);
+		map.put("searchsort", searchsort);
+		return sqlsession.selectOne("mapper.JobSearchboard.getTotal2", map);
+	}
+		
+		
+		
 }

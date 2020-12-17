@@ -123,46 +123,6 @@
 			
 		});
     	
-    	//페이징 Ajax
-//     	$(document).on("click", ".page", function() {
-// 			var sort = $("#sort > option:selected").val();
-// 			var page = $(this).data("num");
-// 			var search = "${map.search}";
-// 			$.ajax({
-// 				url : "${contextPath}/freeBoard/SortList",
-// 				type : "post",
-// 				data : {"nowpage":page,
-// 						"sort":sort,
-// 						"search":search
-// 					   },
-// 				success : function(data) {
-// 					var str = "";
-// 					var pstr = "";
-// 					$("#Ltbody").empty();
-// 					$("#pagelist").empty();
-// 					$.each(data.list, function(i) {
-// 						var num = data.list[i].num;
-// 						var title = data.list[i].title;
-// 						var nickname = data.list[i].nickname;
-// 						var writedate = data.list[i].writedate;
-// 						var viewcount = data.list[i].viewcount;
-// 						var likecount = data.list[i].likecount;
-// 						//list 뿌려주는 메소드 호출
-// 						str += list(num, title, nickname, writedate, viewcount, likecount);
-// 					});
-// 					pstr = paging(data);
-// 					$("#Ltbody").append(str);
-// 					$(".pagenum").data("now", data.nowpage);
-// 					$("#pagelist").append(pstr);
-// 					$(window).scrollTop(300);
-// 				},
-// 				error : function() {
-// 					alert("통신 실패");
-// 				}
-// 			});
-// 		});
-    	
-    	
 	});
     </script>
   </head>
@@ -245,6 +205,7 @@
                 </table>
               </div>
             </div>
+            <!-- 페이징 -->
               <div class="col-sm-12" style="text-align: center;">
                 <div class="pagination font-alt" id="pagelist">
                 <c:if test="${map.blockfirst!=1}">
@@ -263,6 +224,7 @@
                 </c:if>
                 </div>
               </div>
+             <!-- 페이징 -->
           </div>
         </section>
       </div>
