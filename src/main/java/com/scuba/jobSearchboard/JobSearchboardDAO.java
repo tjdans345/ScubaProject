@@ -66,18 +66,18 @@ public class JobSearchboardDAO {
 		return sqlsession.delete("mapper.JobSearchboard.condelete", contentNum);
 	}
 	
-	//리스트 토탈 구하기
-	public int getTotal1(String search, String searchsort) {
+	//리스트 토탈 구하기 (구인)
+	public int getTotal1(String search1, String searchsort) {
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("search", search);
+		map.put("search1", search1);
 		map.put("searchsort", searchsort);
 		return sqlsession.selectOne("mapper.JobSearchboard.getTotal1", map);
 	}
 
-	//리스트 토탈 구하기
-	public int getTotal2(String search, String searchsort) {
+	//리스트 토탈 구하기 (구직)
+	public int getTotal2(String search2, String searchsort) {
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("search", search);
+		map.put("search2", search2);
 		map.put("searchsort", searchsort);
 		return sqlsession.selectOne("mapper.JobSearchboard.getTotal2", map);
 	}

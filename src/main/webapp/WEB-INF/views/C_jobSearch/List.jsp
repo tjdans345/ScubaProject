@@ -6,8 +6,20 @@
   <head>
     <title>Titan | Multipurpose HTML5 Template</title>
     <script type="text/javascript">
-    	$(document).ready(function() {
-    		
+    
+    //서치박스 값 확인 후 해당 서치박스 name설정
+    window.onload = function() {
+		var searchval = $(".serachselect > option:selected").val();
+		if(searchval == '구인') {
+			$(".searchbox").attr("name", "search1");
+		} else if(searchval == '구직') {
+			$(".searchbox").attr("name", "search2");
+		} else {
+			$(".searchbox").attr("name", "search1");
+		}
+	}
+    
+    $(document).ready(function() {
     		//구인 , 구직 정렬값 설정
     		var csortval = "구인";
     		$(".joffer").click(function() {
@@ -36,11 +48,17 @@
 				$("#sform").submit();
 			});			
 	    	
-	    	
-	    	
-	    	
-	    	
-	    	
+	    	//구인 구직 검색값 구별
+	    	$(".serachselect").change(function() {
+				var searchval = $(".serachselect > option:selected").val();
+				if(searchval == '구인') {
+					$(".searchbox").attr("name", "search1");
+				} else if(searchval == '구직') {
+					$(".searchbox").attr("name", "search2");
+				} else {
+					$(".searchbox").attr("name", "search1");
+				}
+			});
 	    	
 		});
     	
@@ -55,7 +73,7 @@
               <div class="col-sm-6 col-sm-offset-3">
               <form role="form" id="sform">
                 <h1 class="module-title font-alt" style="margin-bottom: 5%">구인 구직 게시판</h1>
-                <select class="form-control" name="searchsort" style="width: 25%; float: left;">
+                <select class="form-control serachselect" name="searchsort" style="width: 25%; float: left;">
                   <c:choose>
                   	<c:when test="${map.searchsort == '구인' }">
                   		<option value="구인" selected="selected">구인</option>
@@ -72,7 +90,7 @@
                   </c:choose>
                 </select>
                   <div class="search-box" style="float: left; width: 75%;">
-                    <input class="form-control" name="search" type="text" placeholder="Search..."/>
+                    <input class="form-control searchbox" name="search1" type="text" placeholder="Search..."/>
                     <button class="search-btn sbutton" type="button"><i class="fa fa-search"></i></button>
                   </div>
                 </form>
@@ -133,18 +151,18 @@
              		<div class="col-sm-12" style="text-align: center;">
                 		 <div class="pagination font-alt" id="pagelist">
 			                <c:if test="${map.paging1.blockfirst!=1}">
-			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${map.paging1.blockfirst-1}&search=${map.search}&sort=${map.sort}&searchsort=구인"><i class="fa fa-angle-left page" data-num="${map.paging1.blockfirst-1}"></i></a>
+			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${map.paging1.blockfirst-1}&search1=${map.search1}&sort=${map.sort}&searchsort=구인"><i class="fa fa-angle-left page" data-num="${map.paging1.blockfirst-1}"></i></a>
 			                </c:if>
 			                <c:forEach begin="${map.paging1.blockfirst}" end="${map.paging1.blocklast}" var="i">
 			                <c:if test="${map.paging1.nowpage == i }">
-			                <a class="active page pagenum" style="background: #cdebfa;" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${i}&search=${map.search}&sort=${map.sort}&searchsort=구인" data-now="${map.paging1.nowpage}" data-num="${i}">${i}</a>
+			                <a class="active page pagenum" style="background: #cdebfa;" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${i}&search1=${map.search1}&sort=${map.sort}&searchsort=구인" data-now="${map.paging1.nowpage}" data-num="${i}">${i}</a>
 			                </c:if>
 			                <c:if test="${map.paging1.nowpage != i }">
-			                <a class="active page pagenum" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${i}&search=${map.search}&sort=${map.sort}&searchsort=구인" data-now="${map.paging1.nowpage}" data-num="${i}">${i}</a>
+			                <a class="active page pagenum" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${i}&search1=${map.search1}&sort=${map.sort}&searchsort=구인" data-now="${map.paging1.nowpage}" data-num="${i}">${i}</a>
 			                </c:if>
 			                </c:forEach>
 			                <c:if test="${map.paging1.blocklast != map.paging1.totalpage}">
-			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${map.paging1.blocklast+1}&search=${map.search}&sort=${map.sort}&searchsort=구인"><i class="fa fa-angle-right page" data-num="${map.paging1.blocklast+1}"></i></a>
+			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${map.paging1.blocklast+1}&search1=${map.search1}&sort=${map.sort}&searchsort=구인"><i class="fa fa-angle-right page" data-num="${map.paging1.blocklast+1}"></i></a>
 			                </c:if>
 			               </div>
                 	</div>
@@ -187,18 +205,18 @@
              		<div class="col-sm-12" style="text-align: center;">
                 		 <div class="pagination font-alt" id="pagelist">
 			                <c:if test="${map.paging2.blockfirst!=1}">
-			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${map.paging2.blockfirst-1}&search=${map.search}&sort=${map.sort}&searchsort=구직"><i class="fa fa-angle-left page" data-num="${map.paging2.blockfirst-1}"></i></a>
+			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${map.paging2.blockfirst-1}&search2=${map.search2}&sort=${map.sort}&searchsort=구직"><i class="fa fa-angle-left page" data-num="${map.paging2.blockfirst-1}"></i></a>
 			                </c:if>
 			                <c:forEach begin="${map.paging2.blockfirst}" end="${map.paging2.blocklast}" var="i">
 			                <c:if test="${map.paging2.nowpage == i }">
-			                <a class="active page pagenum" style="background: #cdebfa;" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${i}&search=${map.search}&sort=${map.sort}&searchsort=구직" data-now="${map.paging2.nowpage}" data-num="${i}">${i}</a>
+			                <a class="active page pagenum" style="background: #cdebfa;" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${i}&search2=${map.search2}&sort=${map.sort}&searchsort=구직" data-now="${map.paging2.nowpage}" data-num="${i}">${i}</a>
 			                </c:if>
 			                <c:if test="${map.paging2.nowpage != i }">
-			                <a class="active page pagenum" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${i}&search=${map.search}&sort=${map.sort}&searchsort=구직" data-now="${map.paging2.nowpage}" data-num="${i}">${i}</a>
+			                <a class="active page pagenum" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${i}&search2=${map.search2}&sort=${map.sort}&searchsort=구직" data-now="${map.paging2.nowpage}" data-num="${i}">${i}</a>
 			                </c:if>
 			                </c:forEach>
 			                <c:if test="${map.paging2.blocklast != map.paging2.totalpage}">
-			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${map.paging2.blocklast+1}&search=${map.search}&sort=${map.sort}&searchsort=구직"><i class="fa fa-angle-right page" data-num="${map.paging2.blocklast+1}"></i></a>
+			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${map.paging2.blocklast+1}&search2=${map.search2}&sort=${map.sort}&searchsort=구직"><i class="fa fa-angle-right page" data-num="${map.paging2.blocklast+1}"></i></a>
 			                </c:if>
 			               </div>
                 	</div>
@@ -251,18 +269,18 @@
              		<div class="col-sm-12" style="text-align: center;">
                 		 <div class="pagination font-alt" id="pagelist">
 			                <c:if test="${map.paging1.blockfirst!=1}">
-			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${map.paging1.blockfirst-1}&search=${map.search}&sort=${map.sort}&searchsort=구인"><i class="fa fa-angle-left page" data-num="${map.paging1.blockfirst-1}"></i></a>
+			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${map.paging1.blockfirst-1}&search1=${map.search1}&sort=${map.sort}&searchsort=구인"><i class="fa fa-angle-left page" data-num="${map.paging1.blockfirst-1}"></i></a>
 			                </c:if>
 			                <c:forEach begin="${map.paging1.blockfirst}" end="${map.paging1.blocklast}" var="i">
 			                <c:if test="${map.paging1.nowpage == i }">
-			                <a class="active page pagenum" style="background: #cdebfa;" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${i}&search=${map.search}&sort=${map.sort}&searchsort=구인" data-now="${map.paging1.nowpage}" data-num="${i}">${i}</a>
+			                <a class="active page pagenum" style="background: #cdebfa;" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${i}&search1=${map.search1}&sort=${map.sort}&searchsort=구인" data-now="${map.paging1.nowpage}" data-num="${i}">${i}</a>
 			                </c:if>
 			                <c:if test="${map.paging1.nowpage != i }">
-			                <a class="active page pagenum" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${i}&search=${map.search}&sort=${map.sort}&searchsort=구인" data-now="${map.paging1.nowpage}" data-num="${i}">${i}</a>
+			                <a class="active page pagenum" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${i}&search1=${map.search1}&sort=${map.sort}&searchsort=구인" data-now="${map.paging1.nowpage}" data-num="${i}">${i}</a>
 			                </c:if>
 			                </c:forEach>
 			                <c:if test="${map.paging1.blocklast != map.paging1.totalpage}">
-			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${map.paging1.blocklast+1}&search=${map.search}&sort=${map.sort}&searchsort=구인"><i class="fa fa-angle-right page" data-num="${map.paging1.blocklast+1}"></i></a>
+			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage1=${map.paging1.blocklast+1}&search1=${map.search1}&sort=${map.sort}&searchsort=구인"><i class="fa fa-angle-right page" data-num="${map.paging1.blocklast+1}"></i></a>
 			                </c:if>
 			               </div>
                 	</div>
@@ -304,18 +322,18 @@
              		<div class="col-sm-12" style="text-align: center;">
                 		 <div class="pagination font-alt" id="pagelist">
 			                <c:if test="${map.paging2.blockfirst!=1}">
-			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${map.paging2.blockfirst-1}&search=${map.search}&sort=${map.sort}&searchsort=구직"><i class="fa fa-angle-left page" data-num="${map.paging2.blockfirst-1}"></i></a>
+			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${map.paging2.blockfirst-1}&search2=${map.search2}&sort=${map.sort}&searchsort=구직"><i class="fa fa-angle-left page" data-num="${map.paging2.blockfirst-1}"></i></a>
 			                </c:if>
 			                <c:forEach begin="${map.paging2.blockfirst}" end="${map.paging2.blocklast}" var="i">
 			                <c:if test="${map.paging2.nowpage == i }">
-			                <a class="active page pagenum" style="background: #cdebfa;" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${i}&search=${map.search}&sort=${map.sort}&searchsort=구직" data-now="${map.paging2.nowpage}" data-num="${i}">${i}</a>
+			                <a class="active page pagenum" style="background: #cdebfa;" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${i}&search2=${map.search2}&sort=${map.sort}&searchsort=구직" data-now="${map.paging2.nowpage}" data-num="${i}">${i}</a>
 			                </c:if>
 			                <c:if test="${map.paging2.nowpage != i }">
-			                <a class="active page pagenum" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${i}&search=${map.search}&sort=${map.sort}&searchsort=구직" data-now="${map.paging2.nowpage}" data-num="${i}">${i}</a>
+			                <a class="active page pagenum" href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${i}&search2=${map.search2}&sort=${map.sort}&searchsort=구직" data-now="${map.paging2.nowpage}" data-num="${i}">${i}</a>
 			                </c:if>
 			                </c:forEach>
 			                <c:if test="${map.paging2.blocklast != map.paging2.totalpage}">
-			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${map.paging2.blocklast+1}&search=${map.search}&sort=${map.sort}&searchsort=구직"><i class="fa fa-angle-right page" data-num="${map.paging2.blocklast+1}"></i></a>
+			                <a href="${contextPath}/jobSearchBoard/jobSearchBoardList?nowpage2=${map.paging2.blocklast+1}&search2=${map.search2}&sort=${map.sort}&searchsort=구직"><i class="fa fa-angle-right page" data-num="${map.paging2.blocklast+1}"></i></a>
 			                </c:if>
 			               </div>
                 	</div>

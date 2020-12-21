@@ -17,8 +17,8 @@ public class FriendsBoardDAO {
 	SqlSession sqlsession;
 	
 	// 구인/구직 게시판 모든(글) 리스트 조회
-	public List<FriendsBoardVO> allBoardList() {
-		return sqlsession.selectList("mapper.FriendsBoard.allBoardList");
+	public List<FriendsBoardVO> allBoardList(HashMap<String, Object> map) {
+		return sqlsession.selectList("mapper.FriendsBoard.allBoardList", map);
 	}
 	
 	// 글 작성
@@ -81,8 +81,13 @@ public class FriendsBoardDAO {
 	}
 
 	//정렬순 리스트
-	public List<FriendsBoardVO> SortList(String sort) {
-		return sqlsession.selectList("mapper.FriendsBoard.SortList", sort);
+	public List<FriendsBoardVO> SortList(HashMap<String, Object> map) {
+		return sqlsession.selectList("mapper.FriendsBoard.SortList", map);
+	}
+
+	//리스트 토탈 구하기
+	public int getTotal(String search) {
+		return sqlsession.selectOne("mapper.FriendsBoard.getTotal", search);
 	}
 
 

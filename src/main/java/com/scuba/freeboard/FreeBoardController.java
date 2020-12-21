@@ -39,7 +39,6 @@ public class FreeBoardController {
 									   @RequestParam(defaultValue = "1")int nowpage) {
 		request.getSession().setAttribute("category", "free");
 		// 자유게시판 전체 글 조회
-		//cck <<<검색 여부 확인 값
 		mav.addObject("map", freeboardService.allBoardList(request,nowpage, search, sort));
 		mav.setViewName("C_free/List");
 		return mav;

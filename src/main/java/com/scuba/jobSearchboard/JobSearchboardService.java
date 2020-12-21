@@ -24,20 +24,22 @@ public class JobSearchboardService {
 	Common common = new Common();
 	
 	//구인 구직 게시판 모든(글)리스트 조회
-	public Map<String, Object> allBoardList(String search, String searchsort, int nowpage1, int nowpage2) {
+	public Map<String, Object> allBoardList(String search1, String search2, String searchsort, int nowpage1, int nowpage2) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		System.out.println("서치소트 1 : " + searchsort);
 		//구인
-		map.put("paging1",common.paging(nowpage1, getTotal1(search, searchsort), 20, 5));
+		map.put("paging1",common.paging(nowpage1, getTotal1(search1, searchsort), 20, 5));
 		//구직
-		map.put("paging2",common.paging(nowpage2, getTotal2(search ,searchsort), 20, 5));
-		map.put("search", "%"+search+"%");
+		map.put("paging2",common.paging(nowpage2, getTotal2(search2 ,searchsort), 20, 5));
+		map.put("search1", "%"+search1+"%");
+		map.put("search2", "%"+search2+"%");
 		map.put("searchsort", searchsort);
 		//구인 게시판
 		map.put("jobSearchBoardList1", jobsearchboardDAO.allBoardList1(map));
 		//구직 게시판
 		map.put("jobSearchBoardList2", jobsearchboardDAO.allBoardList2(map));
-		map.put("search", search);
+		map.put("search1", search1);
+		map.put("search2", search2);
 		System.out.println("서치소트 2 : " + searchsort);
 		return map;
 	}
@@ -270,22 +272,22 @@ public class JobSearchboardService {
 				if(imgexists == 1) {
 					common.imguploadModifyServer(request, response, realimglist, category, folderNum);
 				} else { //이미지 없을 시
-					System.out.println("이미지없다 ");
+					System.out.println("이미지 없음");
 					//수정 된 글 이미지 없을 시 서버 디렉토리 삭제 해줌
 					common.DirDelete(request, response, category, folderNum);
 				}
 	}
 	
 	//전체글 개수 조회 (구인)
-	public int getTotal1(String search, String searchsort) {
-		String searchvalue = "%"+search+"%";
+	public int getTotal1(String search1, String searchsort) {
+		String searchvalue = "%"+search1+"%";
 		//전체글 조회
 		return jobsearchboardDAO.getTotal1(searchvalue, searchsort);
 	}	
 	
 	//전체글 개수 조회 (구직)
-	public int getTotal2(String search, String searchsort) {
-		String searchvalue = "%"+search+"%";
+	public int getTotal2(String search2, String searchsort) {
+		String searchvalue = "%"+search2+"%";
 		//전체글 조회
 		return jobsearchboardDAO.getTotal2(searchvalue, searchsort);
 	}		

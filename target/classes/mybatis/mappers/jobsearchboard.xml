@@ -19,7 +19,7 @@
 		<choose>
 			<when test="searchsort == '구인'">
 				<![CDATA[
-				select * from jobsearchboard where jobcategory = '구인' and title like #{search} order by num desc limit #{paging1.pagefirst},#{paging1.pagesize};
+				select * from jobsearchboard where jobcategory = '구인' and title like #{search1} order by num desc limit #{paging1.pagefirst},#{paging1.pagesize};
 				]]>
 			</when>
 			<otherwise>
@@ -35,7 +35,7 @@
 	  <choose>
 		<when test="searchsort == '구직'">
 			<![CDATA[
-			select * from jobsearchboard where jobcategory = '구직' and title like #{search} order by num desc limit #{paging2.pagefirst},#{paging2.pagesize};
+			select * from jobsearchboard where jobcategory = '구직' and title like #{search2} order by num desc limit #{paging2.pagefirst},#{paging2.pagesize};
 			]]>
 		</when>
 		<otherwise>
@@ -51,7 +51,7 @@
 		<choose>
 			<when test="searchsort == '구인'">
 				<![CDATA[
-				select count(num) from jobsearchboard where jobcategory = '구인' and title like #{search};
+				select count(num) from jobsearchboard where jobcategory = '구인' and title like #{search1};
 				]]>
 			</when>
 			<otherwise>
@@ -67,7 +67,7 @@
 		<choose>
 			<when test="searchsort == '구직'">
 				<![CDATA[
-				select count(num) from jobsearchboard where jobcategory = '구직' and title like #{search};
+				select count(num) from jobsearchboard where jobcategory = '구직' and title like #{search2};
 				]]>
 			</when>
 			<otherwise>

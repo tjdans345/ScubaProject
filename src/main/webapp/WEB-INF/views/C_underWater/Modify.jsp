@@ -134,7 +134,7 @@
                   </div>
                   <div class="form-group">
                   	<h5><b>썸네일 이미지 등록</b></h5>
-                    <input type="file" class="form-control input-lg custom-file-input" name="file" id="filename">
+                    <input type="file" accept="image/jpeg, .jpg, .png, .gif" class="form-control input-lg custom-file-input" name="file" id="filename">
                   </div>
                   <div class="form-group" id="preimg">        
                   <c:if test="${modifyList.thumbnail ne 'baseImage.jpg'}">

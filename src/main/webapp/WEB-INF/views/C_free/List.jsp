@@ -18,7 +18,6 @@
     	//상세글 보기위해 글 번호 전달
     	$(document).on("click", ".title_btn", function() {
 			var num = $(this).data("num");
-			var nowpage = ${map.nowpage};
 			var sort = $("#sort > option:selected").val();
 			location.href="${contextPath}/freeBoard/freeBoardView?num="+num+"&nowpage=${map.nowpage}&sort="+sort+"&search=${map.search}";
     	});

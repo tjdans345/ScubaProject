@@ -21,15 +21,48 @@
 	
 	<!-- 전체 게시글 조회 -->
 	<select id="allBoardList" resultMap="friendsboardResult">
-	<![CDATA[
-	select * from friendsboard order by num desc;
-	]]>
+	select * from friendsboard where title like #{search} order by
+	<choose>
+		<when test="sort == 'viewcount'">
+		viewcount desc, writedate desc 
+		</when>
+		<when test="sort == 'writedate'">
+		writedate desc 
+		</when>
+		<when test="sort == 'likecount'">
+		likecount desc, writedate desc 
+		</when>
+		<otherwise>
+		writedate desc 
+		</otherwise>
+	</choose>
+	limit #{pagefirst},#{pagesize};
 	</select>	
 	
 	<!-- 정렬순 전체 게시글 조회 -->
 	<select id="SortList" resultMap="friendsboardResult">
+	select * from friendsboard where title like #{search} order by 
+	<choose>
+		<when test="sort == 'viewcount'">
+		viewcount desc, writedate desc 
+		</when>
+		<when test="sort == 'writedate'">
+		writedate desc 
+		</when>
+		<when test="sort == 'likecount'">
+		likecount desc, writedate desc 
+		</when>
+		<otherwise>
+		writedate desc 
+		</otherwise>
+	</choose>
+	limit #{pagefirst},#{pagesize};
+	</select>
+	
+	<!-- 전체 게시글 총 수 구하기 -->
+	<select id="getTotal" resultType="_int">
 	<![CDATA[
-	select * from friendsboard order by ${value} desc;
+	select count(num) from friendsboard where title like #{search};
 	]]>
 	</select>
 
@@ -85,28 +118,28 @@
 	]]>
 	</select>	
 	
-	<!-- 게시글 작성 kakao아이디만 입력시-->
+	<!-- 게시글 수정 kakao아이디만 입력시-->
 	<update id="Modifykakao" parameterType="friendsboardVO">
 	<![CDATA[
 	update friendsboard set title = #{title}, content = #{content} , introduction = #{introduction}, appmethod = #{appmethod}, state = #{state},
-						   startdate = #{startdate}, enddate = #{enddate}, membercount = #{membercount}, nowcount = #{nowcount}, kakao = ${kakao} where num = #{num}
+						   startdate = #{startdate}, enddate = #{enddate}, membercount = #{membercount}, nowcount = #{nowcount}, kakao = #{kakao} where num = #{num}
 	]]>
 	</update>
 	
 	
-	<!-- 게시글 작성 phone만 입력시-->
+	<!-- 게시글 수정 phone만 입력시-->
 	<update id="Modifyphone" parameterType="friendsboardVO">
 	<![CDATA[
 	update friendsboard set title = #{title}, content = #{content} , introduction = #{introduction}, appmethod = #{appmethod}, state = #{state},
-						   startdate = #{startdate}, enddate = #{enddate}, membercount = #{membercount}, nowcount = #{nowcount}, phone = ${phone} where num = #{num}
+						   startdate = #{startdate}, enddate = #{enddate}, membercount = #{membercount}, nowcount = #{nowcount}, phone = #{phone} where num = #{num}
 	]]>
 	</update>
 	
-	<!-- 게시글 작성 kakao아이디 phone 둘 다입력시-->
+	<!-- 게시글 수정 kakao아이디 phone 둘 다입력시-->
 	<update id="Modify" parameterType="friendsboardVO">
 	<![CDATA[
 	update friendsboard set title = #{title}, content = #{content} , introduction = #{introduction}, appmethod = #{appmethod}, state = #{state},
-						   startdate = #{startdate}, enddate = #{enddate}, membercount = #{membercount}, nowcount = #{nowcount}, kakao = ${kakao}, phone = #{phone} where num = #{num}
+						   startdate = #{startdate}, enddate = #{enddate}, membercount = #{membercount}, nowcount = #{nowcount}, kakao = #{kakao}, phone = #{phone} where num = #{num}
 	]]>
 	</update>
 
