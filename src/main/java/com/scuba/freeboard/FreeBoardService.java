@@ -287,7 +287,6 @@ public class FreeBoardService {
 		map = (common.paging(nowpage, total, 20, 5));
 		map.put("sort", sort);
 		map.put("search", "%"+search+"%");
-		
 		map.put("list", freeboardDAO.SortList(map));
 		map.put("search", search);
 		return map;

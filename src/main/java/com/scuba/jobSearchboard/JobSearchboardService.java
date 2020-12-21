@@ -3,6 +3,7 @@ package com.scuba.jobSearchboard;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,8 +24,24 @@ public class JobSearchboardService {
 	Common common = new Common();
 	
 	//구인 구직 게시판 모든(글)리스트 조회
-	public List<JobSearchboardVO> allBoardList() {
-		return jobsearchboardDAO.allBoardList();
+	public Map<String, Object> allBoardList(String search1, String search2, String searchsort, int nowpage1, int nowpage2) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		System.out.println("서치소트 1 : " + searchsort);
+		//구인
+		map.put("paging1",common.paging(nowpage1, getTotal1(search1, searchsort), 20, 5));
+		//구직
+		map.put("paging2",common.paging(nowpage2, getTotal2(search2 ,searchsort), 20, 5));
+		map.put("search1", "%"+search1+"%");
+		map.put("search2", "%"+search2+"%");
+		map.put("searchsort", searchsort);
+		//구인 게시판
+		map.put("jobSearchBoardList1", jobsearchboardDAO.allBoardList1(map));
+		//구직 게시판
+		map.put("jobSearchBoardList2", jobsearchboardDAO.allBoardList2(map));
+		map.put("search1", search1);
+		map.put("search2", search2);
+		System.out.println("서치소트 2 : " + searchsort);
+		return map;
 	}
 	
 	//구인 구직 게시판 글 작성
@@ -241,7 +258,6 @@ public class JobSearchboardService {
 				int i = 0;
 				// 컨텐트 전체내용에서 src경로가 나올때까지 설정한 정규식을 통하여 추출함
 				while (matcher.find()) {
-					System.out.println("정규식 추출" +i+ matcher.group(1));
 					if (matcher.group(1) == null) {
 						break;
 					}
@@ -249,7 +265,6 @@ public class JobSearchboardService {
 					imglist.add(matcher.group(1));
 					// 이미지명만 따로 추출
 					realimglist.add(imglist.get(i).substring(imglist.get(i).lastIndexOf("/") + 1));
-					System.out.println("리얼이미지 네임 리스트 : " + realimglist.get(i));
 					i++;
 					//이미지 유무 확인
 					imgexists = 1;
@@ -257,12 +272,24 @@ public class JobSearchboardService {
 				if(imgexists == 1) {
 					common.imguploadModifyServer(request, response, realimglist, category, folderNum);
 				} else { //이미지 없을 시
-					System.out.println("이미지없다 ");
+					System.out.println("이미지 없음");
 					//수정 된 글 이미지 없을 시 서버 디렉토리 삭제 해줌
 					common.DirDelete(request, response, category, folderNum);
 				}
 	}
 	
+	//전체글 개수 조회 (구인)
+	public int getTotal1(String search1, String searchsort) {
+		String searchvalue = "%"+search1+"%";
+		//전체글 조회
+		return jobsearchboardDAO.getTotal1(searchvalue, searchsort);
+	}	
 	
+	//전체글 개수 조회 (구직)
+	public int getTotal2(String search2, String searchsort) {
+		String searchvalue = "%"+search2+"%";
+		//전체글 조회
+		return jobsearchboardDAO.getTotal2(searchvalue, searchsort);
+	}		
 	
 }

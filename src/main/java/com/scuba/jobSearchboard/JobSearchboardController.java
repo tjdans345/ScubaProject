@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
+import com.scuba.reply.ReplyService;
+import com.scuba.reply.ReplyVO;
 
 @Controller
 @RequestMapping("/jobSearchBoard/*")
@@ -19,6 +22,8 @@ public class JobSearchboardController {
 	
 	@Autowired
 	JobSearchboardService jobsearchboardService;
+	@Autowired
+	ReplyService replyservice;
 	
 	ModelAndView mav = new ModelAndView();
 	Common common = new Common();
@@ -26,10 +31,14 @@ public class JobSearchboardController {
 	
 	//구인 구직 게시판 이동
 	@RequestMapping(value = "jobSearchBoardList")
-	public ModelAndView jobSearchBoardList(HttpServletRequest request) {
+	public ModelAndView jobSearchBoardList(HttpServletRequest request, @RequestParam(defaultValue = "")String search1, @RequestParam(defaultValue = "")String search2,
+										   @RequestParam(defaultValue = "")String searchsort, @RequestParam(defaultValue = "1")int nowpage1,  @RequestParam(defaultValue = "1")int nowpage2) {
 		request.getSession().setAttribute("category", "jobSearch");
+		System.out.println("서치원 1 : " + search1);
+		System.out.println("서치원 2 : " + search2);
+		System.out.println("서치소트 컨트: " + searchsort);
 		// 후기게시판 전체 글 조회
-		mav.addObject("jobSearchBoardList", jobsearchboardService.allBoardList());
+		mav.addObject("map", jobsearchboardService.allBoardList(search1, search2, searchsort, nowpage1, nowpage2));
 		mav.setViewName("C_jobSearch/List");
 		return mav;
 		
@@ -72,8 +81,18 @@ public class JobSearchboardController {
 	
 	// 상세보기 페이지 이동
 	@RequestMapping(value = "jobSearchBoardView")
-	public ModelAndView jobSearchBoardView(JobSearchboardVO jobsearchboardVO) {
+	public ModelAndView jobSearchBoardView(ReplyVO replyVO, JobSearchboardVO jobsearchboardVO, HttpServletRequest request) {
 		mav.addObject("viewList", jobsearchboardService.viewList(jobsearchboardVO.getNum()));
+		//게시글 번호 저장(댓글)
+		replyVO.setPostnum(jobsearchboardVO.getNum());
+		//커뮤니티 카테고리 저장
+		replyVO.setCommunityname((String)request.getSession().getAttribute("category"));
+		//댓글 리스트
+		mav.addObject("replyList", replyservice.replyList(replyVO));
+		//대댓글 리스트
+		mav.addObject("rereplyList", replyservice.replyList2(replyVO));
+		
+		
 		mav.setViewName("C_jobSearch/View");
 		return mav;
 	}

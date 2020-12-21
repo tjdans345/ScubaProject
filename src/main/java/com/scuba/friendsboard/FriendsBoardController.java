@@ -2,6 +2,7 @@ package com.scuba.friendsboard;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
-import com.scuba.freeboard.FreeBoardVO;
-import com.scuba.marketboard.MarketBoardVO;
+import com.scuba.reply.ReplyService;
+import com.scuba.reply.ReplyVO;
 
 @Controller
 @RequestMapping("/friendsBoard/*")
@@ -24,16 +25,19 @@ public class FriendsBoardController {
 
 	@Autowired
 	FriendsBoardService friendsboardService;
-
+	@Autowired
+	ReplyService replyservice;
+	
 	ModelAndView mav = new ModelAndView();
 	Common common = new Common();
 
 	// 동료모집 게시판 이동
 	@RequestMapping(value = "friendsBoardList")
-	public ModelAndView friendsBoardList(HttpServletRequest request) {
+	public ModelAndView friendsBoardList(HttpServletRequest request, @RequestParam(defaultValue = "")String search, 
+									     @RequestParam(defaultValue = "writedate")String sort, @RequestParam(defaultValue = "1")int nowpage) {
 		request.getSession().setAttribute("category", "friends");
 		// 후기게시판 전체 글 조회
-		mav.addObject("friendsBoardList", friendsboardService.allBoardList());
+		mav.addObject("map", friendsboardService.allBoardList(request, search, nowpage, sort));
 		mav.setViewName("C_friends/List");
 		return mav;
 	}
@@ -41,8 +45,9 @@ public class FriendsBoardController {
 	// 동료 모집 게시판 정렬값으로 리스트 뿌려주기
 		@RequestMapping(value = "SortList", method = RequestMethod.POST)
 		@ResponseBody
-		public List<FriendsBoardVO> SortList(HttpServletRequest request, @RequestParam(value="sort") String sort) {
-			return friendsboardService.SortList(sort);
+		public  Map<String, Object> SortList(HttpServletRequest request,  @RequestParam(defaultValue = "writedate") String sort,
+											 @RequestParam(defaultValue = "1")int nowpage, @RequestParam(defaultValue = "")String search) {
+			return friendsboardService.SortList(sort, nowpage, search);
 		}
 
 	// 중고장터 게시판 글 쓰기 페이지 이동
@@ -84,8 +89,22 @@ public class FriendsBoardController {
 	
 	// 상세보기 페이지 이동
 	@RequestMapping(value = "friendsBoardView")
-	public ModelAndView marketBoardView(FriendsBoardVO friendsboardVO) {
+	public ModelAndView marketBoardView(ReplyVO replyVO, FriendsBoardVO friendsboardVO,  @RequestParam(defaultValue = "1")int nowpage
+										, @RequestParam(defaultValue = "")String search, HttpServletRequest request
+										, @RequestParam(defaultValue = "writedate")String sort) {
 		mav.addObject("viewList", friendsboardService.viewList(friendsboardVO.getNum()));
+		//게시글 번호 저장(댓글)
+		replyVO.setPostnum(friendsboardVO.getNum());
+		//커뮤니티 카테고리 저장
+		replyVO.setCommunityname((String)request.getSession().getAttribute("category"));
+		//댓글 리스트
+		mav.addObject("replyList", replyservice.replyList(replyVO));
+		//대댓글 리스트
+		mav.addObject("rereplyList", replyservice.replyList2(replyVO));		
+		//페이징, 검색, 정렬 값
+		mav.addObject("nowpage", nowpage);
+		mav.addObject("search", search);
+		mav.addObject("sort", sort);
 		mav.setViewName("C_friends/View");
 		return mav;
 	}	

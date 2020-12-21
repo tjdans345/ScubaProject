@@ -54,6 +54,7 @@
 	limit #{pagefirst},#{pagesize};
 	</select>
 	
+	<!-- 전체 게시글 총 수 구하기 -->
 	<select id="getTotal" resultType="_int">
 	<![CDATA[
 	select count(num) from freeboard where title like #{search};

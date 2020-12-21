@@ -108,7 +108,7 @@ public class ServiceCenterController {
 									HttpSession session) {
 		serviceCenterVO.setId((String)session.getAttribute("user_id"));
 		serviceCenterService.Enterinquiry(serviceCenterVO);
-		modelAndView.setViewName("redirect:/moveServiceCenter.ser");
+		modelAndView.setViewName("redirect:/Service/moveServiceCenter");
 		return modelAndView;
 	}
 	//1대1문의 리스트 가져오기
@@ -141,7 +141,7 @@ public class ServiceCenterController {
 	@RequestMapping(value = "ModInquiry" , method = RequestMethod.POST)
 	public ModelAndView ModInquiry(ServiceCenterVO serviceCenterVO) {
 		serviceCenterService.ModInquiry(serviceCenterVO);
-		modelAndView.setViewName("redirect:/MoveInquiryList.ser");
+		modelAndView.setViewName("redirect:/Service/moveServiceCenter");
 		return modelAndView;
 	}
 }
