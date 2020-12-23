@@ -16,5 +16,6 @@
  		<typeAlias type="com.scuba.friendsboard.FriendsBoardVO" alias="friendsboardVO"/>
  		<typeAlias type="com.scuba.declaration.DeclarationVO" alias="declarationVO"/>
  		<typeAlias type="com.scuba.reply.ReplyVO" alias="replyVO"/>
+ 		<typeAlias type="com.scuba.notice.NoticeVO" alias="noticeVO"/>
 	</typeAliases>
 </configuration>

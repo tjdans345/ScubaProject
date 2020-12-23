@@ -95,7 +95,7 @@
               <li class="dropdown" >
               	<a class="dropdown-toggle" href="#" data-toggle="dropdown">고객센터</a>
                 <ul class="dropdown-menu" style="background-color: #c4dffb;">
-                  <li><a href="index_mp_fullscreen_video_background.html">공지사항</a></li>
+                  <li><a href="${contextPath}/Notice/moveNoticeList">공지사항</a></li>
                   <li><a href="index_op_fullscreen_gradient_overlay.html">이벤트</a></li>
                   <li><a href="${contextPath}/Service/moveServiceCenter">이용안내</a></li>
                 </ul>
