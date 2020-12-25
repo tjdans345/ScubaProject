@@ -17,8 +17,6 @@
 				var num = $(this).data("num");
 				location.href="${contextPath}/reviewBoard/reviewBoardView?num="+num;
 			});	
-		
-		
 		});
 	</script>
 </head>

@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.scuba.freeboard.FreeBoardVO;
+
 @Repository
 public class UnderwaterboardDAO {
 	
@@ -37,8 +39,8 @@ public class UnderwaterboardDAO {
 	}
 
 	// 수중 게시판 모든(글)리스트 조회
-	public List<UnderwaterboardVO> allBoardList() {
-		return sqlsession.selectList("mapper.UnderWaterboard.allBoardList");
+	public List<UnderwaterboardVO> allBoardList(HashMap<String, Object> map) {
+		return sqlsession.selectList("mapper.UnderWaterboard.allBoardList", map);
 	}
 
 	// 글 수정 페이지 이동
@@ -59,6 +61,15 @@ public class UnderwaterboardDAO {
 	// 게시글 삭제
 	public int condelete(int contentNum) {
 		return sqlsession.delete("mapper.UnderWaterboard.condelete", contentNum);
+	}
+
+	//게시글 전체 수 구하기
+	public int getTotal(String search) {
+		return sqlsession.selectOne("mapper.UnderWaterboard.getTotal", search);
+	}
+
+	public List<FreeBoardVO> SortList(HashMap<String, Object> map) {
+		return sqlsession.selectList("mapper.UnderWaterboard.SortList", map);
 	}
 
 }

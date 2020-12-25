@@ -88,7 +88,7 @@
 			var sort = $("#sort > option:selected").val();
 			var page = $(".pagenum").data("now");
 			var search = "${map.search}";
-			$("#sSort").val(sort);
+			
 			$.ajax({
 				url : "${contextPath}/freeBoard/SortList",
 				type : "post",
@@ -131,8 +131,8 @@
           <div class="container">
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
-                <h1 class="module-tditle font-alt free" style="margin-bottom: 5%">자유 게시판</h1>
-                <form role="form" id="sform" style="text-align:-webkit-center;">
+                <h1 class="module-tditle font-alt free" style="margin-bottom: 5%; text-align: center;">자유 게시판</h1>
+                <form role="form" id="sform" style="text-align:-webkit-center">
                   <div class="search-box" style="width: 60%;">
                     <input class="form-control search" name="search" type="text" placeholder="Search..."/>
                     <button class="search-btn sbutton" type="button"><i class="fa fa-search sbutton"></i></button>
@@ -211,6 +211,7 @@
                 <a href="${contextPath}/freeBoard/freeBoardList?nowpage=${map.blockfirst-1}&search=${map.search}&sort=${map.sort}"><i class="fa fa-angle-left page" data-num="${map.blockfirst-1}"></i></a>
                 </c:if>
                 <c:forEach begin="${map.blockfirst}" end="${map.blocklast}" var="i">
+                <script type="text/javascript">console.log("${i}");</script>
                 <c:if test="${map.nowpage == i }">
                 <a class="active page pagenum" style="background: #cdebfa;" href="${contextPath}/freeBoard/freeBoardList?nowpage=${i}&search=${map.search}&sort=${map.sort}" data-now="${map.nowpage}" data-num="${i}">${i}</a>
                 </c:if>

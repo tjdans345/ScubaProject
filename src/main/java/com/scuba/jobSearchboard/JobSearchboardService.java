@@ -26,7 +26,6 @@ public class JobSearchboardService {
 	//구인 구직 게시판 모든(글)리스트 조회
 	public Map<String, Object> allBoardList(String search1, String search2, String searchsort, int nowpage1, int nowpage2) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		System.out.println("서치소트 1 : " + searchsort);
 		//구인
 		map.put("paging1",common.paging(nowpage1, getTotal1(search1, searchsort), 20, 5));
 		//구직
@@ -40,7 +39,6 @@ public class JobSearchboardService {
 		map.put("jobSearchBoardList2", jobsearchboardDAO.allBoardList2(map));
 		map.put("search1", search1);
 		map.put("search2", search2);
-		System.out.println("서치소트 2 : " + searchsort);
 		return map;
 	}
 	
