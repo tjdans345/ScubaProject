@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -139,10 +140,30 @@ public class UnderwaterboardService {
 	}
 	
 	//수중 게시판 모든(글)리스트 조회 
-	public List<UnderwaterboardVO> allBoardList() {
-		return underwaterboardDAO.allBoardList();
+	public  Map<String, Object> allBoardList(HttpServletRequest request, int nowpage, String search, String sort) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		//페이징 관련 메서드
+		map = (common.paging(nowpage, getTotal(search), 9, 5));
+		//검색 값 저장
+		map.put("search", "%"+search+"%");
+		//정렬값 저장
+		map.put("sort", sort);
+		//수중게시판 전체 리스트
+		map.put("underWaterBoardList", underwaterboardDAO.allBoardList(map));
+		map.put("search", search);
+		
+		return map;
 	}
 	
+	//전체글 개수 조회
+	public int getTotal(String search) {
+		String searchvalue = "%"+search+"%";
+		//전체글 조회
+		return underwaterboardDAO.getTotal(searchvalue);
+	}
+
 	// 글 수정 페이지 이동
 	public UnderwaterboardVO ModifyList(int contentnum) {
 		return underwaterboardDAO.ModifyList(contentnum);
@@ -321,6 +342,20 @@ public class UnderwaterboardService {
 			common.DirDelete(request, response, category, folderNum);
 			
 		}
+	}
+
+	//정렬순 리스트 다시뿌려주기
+	public Map<String, Object> SortList(String sort, int nowpage, String search) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		//전체글 개수 조회
+		int total = getTotal(search);
+		map = (common.paging(nowpage, total, 9, 5));
+		map.put("sort", sort);
+		map.put("search", "%"+search+"%");
+		map.put("list", underwaterboardDAO.SortList(map));
+		map.put("search", search);
+		return map;
 	}
 			
 		

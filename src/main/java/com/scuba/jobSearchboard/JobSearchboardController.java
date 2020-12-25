@@ -34,9 +34,6 @@ public class JobSearchboardController {
 	public ModelAndView jobSearchBoardList(HttpServletRequest request, @RequestParam(defaultValue = "")String search1, @RequestParam(defaultValue = "")String search2,
 										   @RequestParam(defaultValue = "")String searchsort, @RequestParam(defaultValue = "1")int nowpage1,  @RequestParam(defaultValue = "1")int nowpage2) {
 		request.getSession().setAttribute("category", "jobSearch");
-		System.out.println("서치원 1 : " + search1);
-		System.out.println("서치원 2 : " + search2);
-		System.out.println("서치소트 컨트: " + searchsort);
 		// 후기게시판 전체 글 조회
 		mav.addObject("map", jobsearchboardService.allBoardList(search1, search2, searchsort, nowpage1, nowpage2));
 		mav.setViewName("C_jobSearch/List");

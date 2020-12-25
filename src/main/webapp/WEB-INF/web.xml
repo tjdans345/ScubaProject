@@ -17,6 +17,7 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
+	
 	<!-- 초기 페이지 설정 -->
 	<welcome-file-list>
 		<welcome-file>index/index</welcome-file>
@@ -51,4 +52,5 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!-- 페이지 이동 -->
+	
 </web-app>

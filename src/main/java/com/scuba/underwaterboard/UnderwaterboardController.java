@@ -1,6 +1,7 @@
 package com.scuba.underwaterboard;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,11 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
-import com.scuba.freeboard.FreeBoardVO;
 import com.scuba.reply.ReplyService;
 import com.scuba.reply.ReplyVO;
 
@@ -32,12 +33,24 @@ public class UnderwaterboardController {
 	UnderwaterboardVO underwaterboardCheckVO = new UnderwaterboardVO();
 
 	// 수중 게시판 이동 , 수중 게시판 전체 리스트 조회
-	@RequestMapping(value = "underWaterBoardList")
-	public ModelAndView underWaterBoardList() {
+	@RequestMapping(value = "underWaterBoardList", method = RequestMethod.GET)
+	public ModelAndView underWaterBoardList(HttpServletRequest request, @RequestParam(defaultValue = "writedate") String sort,
+											@RequestParam(defaultValue = "1")int nowpage, @RequestParam(defaultValue = "")String search) {
+		
+		request.getSession().setAttribute("category", "underwater");
 		// 수중게시판 전체 글 조회
-		mav.addObject("underWaterBoardList", underwaterboardService.allBoardList());
+		mav.addObject("map", underwaterboardService.allBoardList(request, nowpage, search, sort));
 		mav.setViewName("C_underWater/List");
 		return mav;
+	}
+	
+	// 자유게시판 정렬값으로 리스트 뿌려주기
+	@RequestMapping(value = "SortList", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> SortList(HttpServletRequest request, @RequestParam(defaultValue = "writedate") String sort, 
+										 @RequestParam(defaultValue = "1")int nowpage,
+										 @RequestParam(defaultValue = "")String search) {
+		return underwaterboardService.SortList(sort, nowpage, search);
 	}
 
 	// 수중 게시판 글 쓰기 이동
