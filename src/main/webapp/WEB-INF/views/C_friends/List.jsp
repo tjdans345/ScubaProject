@@ -70,7 +70,7 @@
 	    			} else {
 	    				pstr += "<a class='active page pagenum' href='${contextPath}/friendsBoard/friendsBoardList?nowpage="+i+"&search="+data.search+"&sort="+data.sort+"'"+ "data-now='"+data.nowpage+"' data-num='"+i+"'>"+i+"</a> "; 
 	    			}
-	    				
+	    		
 	    		}
 				if(data.blocklast != data.totalpage) {
 					pstr += "<a href='${contextPath}/friendsBoard/friendsBoardList?nowpage="+data.nowpage+"&search="+data.search+"&sort="+data.sort+"'>"+"<i class='fa fa-angle-right page' data-num='"+(data.blocklast+1)+"'></i></a>";
