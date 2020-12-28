@@ -362,7 +362,6 @@ public class Common {
 		//블락의 마지막 번호
 		int blocklast = blockfirst + (blocksize-1);
 		if(blocklast>totalpage) blocklast = totalpage;
-		
 		map.put("totalpage",totalpage);
 		map.put("pagefirst",pagefirst);
 		map.put("blockfirst",blockfirst);
@@ -384,7 +383,8 @@ public class Common {
 	} 
 	//썸네일 이미지 업로드
 	public void ThumbnailUpload(MultipartFile upload, String fileSaveName, String folderNum, String category, HttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {
-
+		
+			
 		//파일업로드 서버경로를 설정해줌
 		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/images/"+category+"/Thumbnail/"+folderNum);
 		
