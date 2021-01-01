@@ -30,6 +30,61 @@
     	//댓글
     	<%@ include file="../reply/reply.jsp" %>
     	
+    	//판매 상태 수정 버튼
+    	$(document).on("click", ".state_btn", function() {
+    		var checkresult = 0;
+    		var sort = $(this).data("sort");
+    		var sortnotice = "";
+    		if(sort == "sell") {
+    			sortnotice = "판매";
+    		} else {
+    			sortnotice = "구매";
+    		}
+    		var state = $(this).data("state");
+    		var num = $(this).data("num");
+    		if(state == 1) {
+    			if(confirm(sortnotice+"상태를 "+sortnotice+"완료로 변경하시겠습니까?") == true) {
+    				checkresult = 1;
+    			} else {
+    				return;
+    			}
+    		} else{
+    			if(confirm(sortnotice+"상태를 "+sortnotice+"중으로 변경하시겠습니까?") == true) {
+    				checkresult = 1;
+    			} else {
+    				return;
+    			}
+    		}
+    		
+    		//판매상태변경 Ajax
+    		if(checkresult == 1) {
+    			$.ajax({
+    				url : "${contextPath}/marketBoard/dealstate",
+    				type : "post",
+    				data : {"state" : state,
+    						"num" : num},
+    				success : function(data) {
+    					if(state == 1) {
+    						$("#stateS").hide();
+    						$("#stateI").show();
+    						$(".dealshow").css("color", "red");
+    						$(".dealshow").html("<b>"+sortnotice+" 완료</b>");
+    					} else if(state == 0) {
+    						$("#stateS").show();
+    						$("#stateI").hide();
+    						$(".dealshow").css("color", "blue");
+    						$(".dealshow").html("<b>"+sortnotice+"중</b>");
+    					}
+    					
+    				},
+    				error : function() {
+    					alert("상태변경 에러 다시 시도해주세요");
+    				}
+    			});
+    		}
+    			
+		});
+    	
     });    
     </script>
   </head>
@@ -86,22 +141,24 @@
               <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="features-item">
                   <div class="features-icon"><i class="fa fa-fw">&#xf06b;</i></div>
+                  
                   <c:if test="${viewList.marketcategory eq '팝니다' }">
                   <h3 class="features-title font-alt">판매상태</h3>
                   <c:if test="${viewList.dealstatus == 0}">
-                  <p><b>판매중</b></p>
+                  <p class="dealshow" style=" color: blue;"><b>판매중</b></p>
                   </c:if>
                   <c:if test="${viewList.dealstatus == 1}">
-                  <p><b>판매 완료</b></p>
+                  <p class="dealshow" style=" color: red;"><b>판매 완료</b></p>
                   </c:if>
                   </c:if>
+                  
                   <c:if test="${viewList.marketcategory eq '삽니다' }">
                   <h3 class="features-title font-alt">구매상태</h3>
                   <c:if test="${viewList.dealstatus == 0}">
-                  <p><b>구매중</b></p>
+                  <p class="dealshow" style=" color: blue;"><b>구매중</b></p>
                   </c:if>
                   <c:if test="${viewList.dealstatus == 1}">
-                  <p><b>구매 완료</b></p>
+                  <p class="dealshow" style=" color: red;"><b>구매 완료</b></p>
                   </c:if>
                   </c:if>
                 </div>
@@ -110,8 +167,32 @@
                 </div>
                 <div class="row" style="padding: 0 15px;">
                	  <button class="btn btn-border-d btn-round list_btn" type="submit" style="float: right; margin: 5px;">목록보기</button>
-                  <button class="btn btn-border-d btn-round delete_btn" type="submit" style="float: right; margin: 5px;" data-num="${viewList.num}">글 삭제</button>
-                  <button class="btn btn-border-d btn-round Modify_btn" type="submit" style="float: right; margin: 5px;" data-num="${viewList.num}" data-cate="${viewList.communityname}">글 수정</button>
+               	  <c:if test="${viewList.nickname == user_nickname}">
+               	  	<c:if test="${viewList.marketcategory eq '팝니다' }">
+               	  		<c:if test="${viewList.dealstatus == 0}">
+		               	  <button class="btn btn-border-d btn-round state_btn " id="stateS" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}" data-state="1" data-sort="sell">판매 완료</button>
+		               	  <button class="btn btn-border-d btn-round state_btn " id="stateI" type="button" style="float: right; margin: 5px; display: none;" data-num="${viewList.num}" data-state="0" data-sort="sell">판매 등록</button>
+               	  		</c:if>
+               	  	<c:if test="${viewList.dealstatus == 1}">
+		               	  <button class="btn btn-border-d btn-round state_btn " id="stateI" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}" data-state="0" data-sort="sell">판매 등록</button>
+		               	  <button class="btn btn-border-d btn-round state_btn " id="stateS" type="button" style="float: right; margin: 5px; display: none;" data-num="${viewList.num}" data-state="1" data-sort="sell">판매 완료</button>
+               	  	</c:if>
+               	  	</c:if>
+               	  	<!-- 삽니다 페이지 -->
+               	  	<c:if test="${viewList.marketcategory eq '삽니다' }">
+               	  		<c:if test="${viewList.dealstatus == 0}">
+		               	  <button class="btn btn-border-d btn-round state_btn " id="stateS" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}" data-state="1" data-sort="buy">구매 완료</button>
+		               	  <button class="btn btn-border-d btn-round state_btn " id="stateI" type="button" style="float: right; margin: 5px; display: none;" data-num="${viewList.num}" data-state="0" data-sort="buy">구매 등록</button>
+               	  		</c:if>
+               	  	<c:if test="${viewList.dealstatus == 1}">
+		               	  <button class="btn btn-border-d btn-round state_btn " id="stateI" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}" data-state="0" data-sort="buy">구매 등록</button>
+		               	  <button class="btn btn-border-d btn-round state_btn " id="stateS" type="button" style="float: right; margin: 5px; display: none;" data-num="${viewList.num}" data-state="1" data-sort="buy">구매 완료</button>
+               	  	</c:if>
+               	  	</c:if>
+               	  
+                  <button class="btn btn-border-d btn-round delete_btn" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}">글 삭제</button>
+                  <button class="btn btn-border-d btn-round Modify_btn" type="button" style="float: right; margin: 5px;" data-num="${viewList.num}" data-cate="${viewList.communityname}">글 수정</button>
+                  </c:if>
                 </div>
                 
                 <!-- 댓글 입력창 -->

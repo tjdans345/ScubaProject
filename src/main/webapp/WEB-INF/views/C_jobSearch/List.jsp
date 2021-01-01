@@ -28,7 +28,6 @@
     		$(".jsearch").click(function() {
 				csortval = "구직"; 
 			});
-    		//구인 , 구직 정렬값  설정
     		
     		//글쓰기 페이지 이동
 			$(".wrt_btn").click(function() {
@@ -48,7 +47,7 @@
 				$("#sform").submit();
 			});			
 	    	
-	    	//구인 구직 검색값 구별
+	    	//구인/구직 검색값 구별
 	    	$(".serachselect").change(function() {
 				var searchval = $(".serachselect > option:selected").val();
 				if(searchval == '구인') {
@@ -60,7 +59,7 @@
 				}
 			});
 	    	
-		});
+		});1
     	
     </script>
   </head>

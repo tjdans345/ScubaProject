@@ -46,7 +46,7 @@
 	 </choose>
 	</select>
 	
-	<!-- 총 게시글 수 구하기 -->
+	<!-- 총 게시글 수 구하기 (구인)-->
 	<select id="getTotal1" parameterType="hashmap" resultType="_int">
 		<choose>
 			<when test="searchsort == '구인'">
@@ -62,7 +62,7 @@
 		</choose>
 	</select>
 	
-	<!-- 총 게시글 수 구하기 -->
+	<!-- 총 게시글 수 구하기 (구직)-->
 	<select id="getTotal2" parameterType="hashmap" resultType="_int">
 		<choose>
 			<when test="searchsort == '구직'">

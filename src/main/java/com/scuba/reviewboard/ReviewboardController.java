@@ -1,6 +1,7 @@
 package com.scuba.reviewboard;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,14 +34,26 @@ public class ReviewboardController {
 
 	// 후기 게시판 이동 , 후기 게시판 전체 리스트 조회
 	@RequestMapping(value = "reviewBoardList")
-	public ModelAndView reviewBoardList(HttpServletRequest request) {
+	public ModelAndView reviewBoardList(HttpServletRequest request,  @RequestParam(defaultValue = "writedate") String sort,
+										@RequestParam(defaultValue = "1")int nowpage, @RequestParam(defaultValue = "")String search, 
+										@RequestParam(defaultValue = "국적")String consort) {
 		request.getSession().setAttribute("category", "review");
 		// 후기게시판 전체 글 조회
-		mav.addObject("reviewBoardList", reviewboardService.allBoardList());
+		mav.addObject("map", reviewboardService.allBoardList(request, nowpage, search, sort, consort));
 		mav.setViewName("C_review/List");
 		return mav;
 		
 	}
+	
+	// 자유게시판 정렬값으로 리스트 뿌려주기
+	@RequestMapping(value = "SortList", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> SortList(HttpServletRequest request, @RequestParam(defaultValue = "writedate")String sort, 
+										 @RequestParam(defaultValue = "1")int nowpage,
+										 @RequestParam(defaultValue = "")String search, @RequestParam(defaultValue = "국적")String consort) {
+		System.out.println(consort);
+		return reviewboardService.SortList(sort, nowpage, search, consort);
+	}	
 
 	// 후기 게시판 글 쓰기 이동
 	@RequestMapping(value = "reviewBoardWrite")

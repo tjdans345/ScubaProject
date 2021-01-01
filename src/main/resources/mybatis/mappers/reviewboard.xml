@@ -20,10 +20,69 @@
 	</resultMap>
 	
 	<!-- 전체 게시글 조회 -->
-	<select id="allBoardList" resultMap="reviewboardResult">
-	<![CDATA[
-	select * from reviewboard order by num desc;
-	]]>
+	<select id="allBoardList" parameterType="hashmap" resultMap="reviewboardResult">
+	<choose>
+		<when test="consort != '국적'">
+			select * from reviewboard where country=#{consort} and title like #{search} order by 
+		</when>
+		<otherwise>
+			select * from reviewboard where title like #{search} order by 
+		</otherwise>
+	</choose>
+	<choose>
+		<when test="sort == 'viewcount'">
+		viewcount desc, writedate desc 
+		</when>
+		<when test="sort == 'writedate'">
+		writedate desc 
+		</when>
+		<when test="sort == 'likecount'">
+		likecount desc, writedate desc 
+		</when>
+		<otherwise>
+		writedate desc 
+		</otherwise>
+	</choose>
+	limit #{pagefirst},#{pagesize};
+	</select>
+	
+	<!-- 정렬순 전체 게시글 조회 -->
+	<select id="SortList" parameterType="hashmap" resultMap="reviewboardResult">
+	<choose>
+		<when test="consort != '국적'">
+			select * from reviewboard where country=#{consort} and title like #{search} order by 
+		</when>
+		<otherwise>
+			select * from reviewboard where title like #{search} order by 
+		</otherwise>
+	</choose>
+	<choose>
+		<when test="sort == 'viewcount'">
+		viewcount desc, writedate desc 
+		</when>
+		<when test="sort == 'writedate'">
+		writedate desc 
+		</when>
+		<when test="sort == 'likecount'">
+		likecount desc, writedate desc 
+		</when>
+		<otherwise>
+		writedate desc
+		</otherwise>
+	</choose>
+	limit #{pagefirst},#{pagesize};
+	</select>
+		
+	<!-- 전체 게시글 총 수 구하기 -->
+	<select id="getTotal" parameterType="hashmap" resultType="_int">
+	<choose>
+		<when test="consort != '국적'">
+			select count(num) from reviewboard where country=#{consort} and title like #{search};
+		</when>
+		<otherwise>
+			select count(num) from reviewboard where title like #{search};
+		</otherwise>
+	</choose>
 	</select>
 	
 	<!-- 게시글 작성 -->

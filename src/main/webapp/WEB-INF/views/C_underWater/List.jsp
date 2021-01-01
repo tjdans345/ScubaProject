@@ -172,7 +172,7 @@
                 </form>
                 <!-- 검색 -->
                 <div class="row" style="margin: 15px;">
-                <select class="form-control sort" id="sort" name="sort" style="width: 100px; float: left;">
+                <select class="form-control sort" id="sort" name="sort" style="width: 85px; float: left;">
                	  <c:choose>
                	  	<c:when test="${map.sort == 'writedate'}">
                	  		<option value="writedate" selected="selected">등록순</option>

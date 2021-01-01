@@ -3,6 +3,7 @@ package com.scuba.marketboard;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -121,10 +122,38 @@ public class MarketBoardService {
 	}
 	
 	// 중고 장터 게시판 모든(글) 리스트 조회
-	public List<MarketBoardVO> allBoardList() {
-		return marketboardDAO.allBoardList();
+	public Map<String, Object> allBoardList(String search1, String search2, String searchsort, int nowpage1, int nowpage2) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		//팝니다
+		map.put("paging1", common.paging(nowpage1, getTotal1(search1, searchsort), 20, 5));
+		//삽니다
+		map.put("paging2",common.paging(nowpage2, getTotal2(search2 ,searchsort), 20, 5));
+		map.put("search1", "%"+search1+"%");
+		map.put("search2", "%"+search2+"%");
+		map.put("searchsort", searchsort);
+		//팝니다 게시판
+		map.put("marketBoardList1", marketboardDAO.allBoardList1(map));
+		//삽니다 게시판
+		map.put("marketBoardList2", marketboardDAO.allBoardList2(map));
+		map.put("search1", search1);
+		map.put("search2", search2);
+		return map;
+	}
+
+	//전체글 개수 조회 (팝니다)
+	private int getTotal1(String search1, String searchsort) {
+		String searchvalue = "%"+search1+"%";
+		//전체글 조회
+		return marketboardDAO.getTotal1(searchvalue, searchsort);
 	}
 	
+	//전체글 개수 조회 (삽니다)
+	private int getTotal2(String search2, String searchsort) {
+		String searchvalue = "%"+search2+"%";
+		//전체글 조회
+		return marketboardDAO.getTotal2(searchvalue, searchsort);
+	}	
+
 	//게시글 수정 페이지 이동(수정 글 정보 select)
 	public MarketBoardVO ModifyList(int contentNum) {
 		return marketboardDAO.ModifyList(contentNum);
@@ -266,6 +295,11 @@ public class MarketBoardService {
 			//수정 된 글 이미지 없을 시 서버 디렉토리 삭제 해줌
 			common.DirDelete(request, response, category, folderNum);
 		}
+	}
+
+	//판매 상태 변경
+	public int dealState(int state, int num) {
+		return marketboardDAO.dealState(state, num);
 	}
 
 }

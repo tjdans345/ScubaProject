@@ -13,12 +13,12 @@ public class JobSearchboardDAO {
 	@Autowired
 	SqlSession sqlsession;
 	
-	// 구인/구직 게시판 모든(글) 리스트 조회
+	// 구인 게시판 모든(글) 리스트 조회
 	public List<JobSearchboardVO> allBoardList1(HashMap<String, Object> map) {
 		return sqlsession.selectList("mapper.JobSearchboard.allBoardList1", map);
 	}
 	
-	// 구인/구직 게시판 모든(글) 리스트 조회
+	// 구직 게시판 모든(글) 리스트 조회
 	public List<JobSearchboardVO> allBoardList2(HashMap<String, Object> map) {
 		return sqlsession.selectList("mapper.JobSearchboard.allBoardList2", map);
 	}

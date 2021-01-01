@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -140,10 +141,30 @@ public class ReviewboardService {
 	}
 	
 	//후기 게시판 모든(글)리스트 조회 
-	public List<ReviewboardVO> allBoardList() {
-		return reviewboardDAO.allBoardList();
+	public Map<String, Object> allBoardList(HttpServletRequest request, int nowpage, String search, String sort, String consort) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		//페이징 관련 메서드
+		map = (common.paging(nowpage, getTotal(search, consort), 9, 5));
+		//검색 값 저장
+		map.put("search", "%"+search+"%");
+		//정렬값 저장
+		map.put("sort", sort);
+		map.put("consort", consort);
+		//후기게시판 전체 리스트
+		map.put("reviewBoardList", reviewboardDAO.allBoardList(map));
+		map.put("search", search);
+		return map;
 	}
 	
+	//전체글 개수 조회
+	public int getTotal(String search, String consort) {
+		String searchvalue = "%"+search+"%";
+		//전체글 조회
+		return reviewboardDAO.getTotal(searchvalue, consort);
+	}
+
 	// 글 수정 페이지 이동
 	public ReviewboardVO ModifyList(int contentnum) {
 		return reviewboardDAO.ModifyList(contentnum);
@@ -322,6 +343,20 @@ public class ReviewboardService {
 			common.DirDelete(request, response, category, folderNum);
 			
 		}
+	}
+
+	//정렬순 리스트 다시뿌려주기
+	public Map<String, Object> SortList(String sort, int nowpage, String search, String consort) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		//전체글 개수 조회
+		int total = getTotal(search, consort);
+		map = (common.paging(nowpage, total, 9, 5));
+		map.put("sort", sort);
+		map.put("consort", consort);
+		map.put("search", "%"+search+"%");
+		map.put("list", reviewboardDAO.SortList(map));
+		map.put("search", search);
+		return map;
 	}
 			
 		
