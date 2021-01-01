@@ -19,12 +19,69 @@
 		<result property="status" column="status" />
 	</resultMap>
 	
-	<!-- 전체 게시글 조회 -->
-	<select id="allBoardList" resultMap="marketboardResult">
-	<![CDATA[
-	select * from marketboard order by num desc;
-	]]>
-	</select>
+	<!-- 전체 게시글 조회 (팝니다) -->
+	<select id="allBoardList1" parameterType="hashmap" resultMap="marketboardResult">
+		<choose>
+			<when test="searchsort == '팝니다'">
+				<![CDATA[
+				select * from marketboard where marketcategory = '팝니다' and title like #{search1} order by num desc limit #{paging1.pagefirst},#{paging1.pagesize};
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				select * from marketboard where marketcategory = '팝니다' order by num desc limit #{paging1.pagefirst},#{paging1.pagesize};
+				]]>
+			</otherwise>
+		</choose>
+	</select>	
+	
+	<!-- 전체 게시글 조회 (삽니다) -->
+	<select id="allBoardList2" parameterType="hashmap" resultMap="marketboardResult">
+		<choose>
+			<when test="searchsort == '삽니다'">
+				<![CDATA[
+				select * from marketboard where marketcategory = '삽니다' and title like #{search2} order by num desc limit #{paging2.pagefirst},#{paging2.pagesize};
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				select * from marketboard where marketcategory = '삽니다' order by num desc limit #{paging2.pagefirst},#{paging2.pagesize};
+				]]>
+			</otherwise>
+		</choose>
+	</select>		
+	
+	<!-- 총 게시글 수 구하기 (팝니다)-->
+	<select id="getTotal1" parameterType="hashmap" resultType="_int">
+		<choose>
+			<when test="searchsort == '팝니다'">
+				<![CDATA[
+				select count(num) from marketboard where marketcategory = '팝니다' and title like #{search1};
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				select count(num) from marketboard where marketcategory = '팝니다';
+				]]>
+			</otherwise>
+		</choose>
+	</select>	
+	
+	<!-- 총 게시글 수 구하기 (삽니다)-->
+	<select id="getTotal2" parameterType="hashmap" resultType="_int">
+		<choose>
+			<when test="searchsort == '삽니다'">
+				<![CDATA[
+				select count(num) from marketboard where marketcategory = '삽니다' and title like #{search2};
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				select count(num) from marketboard where marketcategory = '삽니다';
+				]]>
+			</otherwise>
+		</choose>
+	</select>	
 
 	<!-- 게시글 작성 -->
 	<insert id="write" parameterType="marketboardVO">
@@ -83,5 +140,10 @@
 	delete from marketboard where num = #{contentNum};
 	]]>
 	</delete>
+	
+	<!-- 판매 상태 변경 -->
+	<update id="dealState" parameterType="hashmap">
+	update marketboard set dealstatus = #{state} where num = #{num}
+	</update>
 
 </mapper>

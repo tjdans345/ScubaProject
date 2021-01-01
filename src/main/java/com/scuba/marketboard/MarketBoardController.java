@@ -1,6 +1,7 @@
 package com.scuba.marketboard;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
@@ -30,10 +33,11 @@ public class MarketBoardController {
 
 	// 중고장터 게시판 이동
 	@RequestMapping(value = "marketBoardList")
-	public ModelAndView marketBoardList(HttpServletRequest request) {
+	public ModelAndView marketBoardList(HttpServletRequest request, @RequestParam(defaultValue = "")String search1, @RequestParam(defaultValue = "")String search2,
+			   @RequestParam(defaultValue = "")String searchsort, @RequestParam(defaultValue = "1")int nowpage1,  @RequestParam(defaultValue = "1")int nowpage2) {
 		request.getSession().setAttribute("category", "market");
 		// 후기게시판 전체 글 조회
-		mav.addObject("marketBoardList", marketboardService.allBoardList());
+		mav.addObject("map", marketboardService.allBoardList(search1, search2, searchsort, nowpage1, nowpage2));
 		mav.setViewName("C_market/List");
 		return mav;
 
@@ -173,6 +177,11 @@ public class MarketBoardController {
 		return mav;
 	}	
 	
-	
+	// 판매 상태 변경
+	@RequestMapping(value = "dealstate")
+	@ResponseBody
+	public int dealState(HttpServletRequest request, HttpServletResponse response, @RequestParam int state, int num) {
+		return marketboardService.dealState(state, num);
+	}		
 	
 }

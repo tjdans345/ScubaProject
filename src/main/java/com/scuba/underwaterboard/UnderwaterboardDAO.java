@@ -17,13 +17,11 @@ public class UnderwaterboardDAO {
 
 	// 최신 게시글 번호 조회
 	public int getMaxNum() {
-
 		return sqlsession.selectOne("mapper.UnderWaterboard.getMaxNum");
 	}
-
+	
 	// 글 작성(등록)
 	public int write(UnderwaterboardVO underwaterboardVO) {
-
 		int insertResult = sqlsession.insert("mapper.UnderWaterboard.write", underwaterboardVO);
 		return insertResult;
 	}
@@ -67,7 +65,8 @@ public class UnderwaterboardDAO {
 	public int getTotal(String search) {
 		return sqlsession.selectOne("mapper.UnderWaterboard.getTotal", search);
 	}
-
+	
+	//정렬순 게시 글 조회
 	public List<FreeBoardVO> SortList(HashMap<String, Object> map) {
 		return sqlsession.selectList("mapper.UnderWaterboard.SortList", map);
 	}
