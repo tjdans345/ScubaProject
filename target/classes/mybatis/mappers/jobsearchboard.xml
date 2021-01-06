@@ -18,9 +18,20 @@
 	<select id="allBoardList1" parameterType="hashmap" resultMap="jobSearchBoardResult">
 		<choose>
 			<when test="searchsort == '구인'">
-				<![CDATA[
-				select * from jobsearchboard where jobcategory = '구인' and title like #{search1} order by num desc limit #{paging1.pagefirst},#{paging1.pagesize};
-				]]>
+				select * from jobsearchboard where jobcategory = '구인' and title like #{search1} order by
+				<if test="sort == 'viewcount'">
+					viewcount desc, writedate desc 
+				</if>
+				<if test="sort == 'writedate'">
+					writedate desc 
+				</if>
+				<if test="sort == 'likecount'">
+					likecount desc, writedate desc 
+				</if>
+				<if test="sort == ''">
+					writedate desc 
+				</if>
+				limit #{paging1.pagefirst},#{paging1.pagesize};
 			</when>
 			<otherwise>
 				<![CDATA[
@@ -30,14 +41,65 @@
 		</choose>
 	</select>
 	
+	<!-- 정렬순 전체 게시글 조회(구인)-->
+	<select id="SortList1" parameterType="hashmap" resultMap="jobSearchBoardResult">
+	select * from jobsearchboard where jobcategory = '구인' and title like #{search} order by 
+	<choose>
+		<when test="sort == 'viewcount'">
+		viewcount desc, writedate desc 
+		</when>
+		<when test="sort == 'writedate'">
+		writedate desc 
+		</when>
+		<when test="sort == 'likecount'">
+		likecount desc, writedate desc 
+		</when>
+		<otherwise>
+		writedate desc 
+		</otherwise>
+	</choose>
+	limit #{pagefirst},#{pagesize};
+	</select>	
+	
+	<!-- 정렬순 전체 게시글 조회(구직)-->
+	<select id="SortList2" parameterType="hashmap" resultMap="jobSearchBoardResult">
+	select * from jobsearchboard where jobcategory = '구직' and title like #{search} order by 
+	<choose>
+		<when test="sort == 'viewcount'">
+		viewcount desc, writedate desc 
+		</when>
+		<when test="sort == 'writedate'">
+		writedate desc 
+		</when>
+		<when test="sort == 'likecount'">
+		likecount desc, writedate desc 
+		</when>
+		<otherwise>
+		writedate desc 
+		</otherwise>
+	</choose>
+	limit #{pagefirst},#{pagesize};
+	</select>	
+	
 	<!-- 전체 게시글 조회 (구직) -->
 	<select id="allBoardList2" parameterType="hashmap" resultMap="jobSearchBoardResult">
 	  <choose>
 		<when test="searchsort == '구직'">
-			<![CDATA[
-			select * from jobsearchboard where jobcategory = '구직' and title like #{search2} order by num desc limit #{paging2.pagefirst},#{paging2.pagesize};
-			]]>
-		</when>
+				select * from jobsearchboard where jobcategory = '구직' and title like #{search2} order by
+				<if test="sort == 'viewcount'">
+					viewcount desc, writedate desc 
+				</if>
+				<if test="sort == 'writedate'">
+					writedate desc 
+				</if>
+				<if test="sort == 'likecount'">
+					likecount desc, writedate desc 
+				</if>
+				<if test="sort == ''">
+					writedate desc 
+				</if>
+				limit #{paging2.pagefirst},#{paging2.pagesize};
+			</when>
 		<otherwise>
 			<![CDATA[
 			select * from jobsearchboard where jobcategory = '구직' order by num desc limit #{paging2.pagefirst},#{paging2.pagesize};

@@ -13,7 +13,7 @@
 				location.href="${contextPath}/reviewBoard/reviewBoardWrite";
 			});
 		
-			$(".view_btn").click(function() {
+			$(document).on("click", ".view_btn", function() {
 				var num = $(this).data("num");
 				location.href="${contextPath}/reviewBoard/reviewBoardView?num="+num;
 			});	
@@ -105,8 +105,6 @@
 						   	"consort":consort
 					       },
 					success : function(data) {
-						console.log(data);
-						console.log(data.nowpage);
 						//pushState 사용할지 협의 하기
 						history.replaceState("", "", "${contextPath}/reviewBoard/reviewBoardList?search="+data.search+"&sort="+data.sort+"&consort="+data.consort);
 						var str = "";

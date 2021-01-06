@@ -1,6 +1,7 @@
 package com.scuba.jobSearchboard;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
@@ -32,13 +34,32 @@ public class JobSearchboardController {
 	//구인 구직 게시판 이동
 	@RequestMapping(value = "jobSearchBoardList")
 	public ModelAndView jobSearchBoardList(HttpServletRequest request, @RequestParam(defaultValue = "")String search1, @RequestParam(defaultValue = "")String search2,
-										   @RequestParam(defaultValue = "")String searchsort, @RequestParam(defaultValue = "1")int nowpage1,  @RequestParam(defaultValue = "1")int nowpage2) {
+										   @RequestParam(defaultValue = "")String searchsort, @RequestParam(defaultValue = "1")int nowpage1, 
+										   @RequestParam(defaultValue = "1")int nowpage2, @RequestParam(defaultValue = "writedate") String sort, @RequestParam(defaultValue = "구인")String csortval) {
 		request.getSession().setAttribute("category", "jobSearch");
 		// 후기게시판 전체 글 조회
-		mav.addObject("map", jobsearchboardService.allBoardList(search1, search2, searchsort, nowpage1, nowpage2));
+		mav.addObject("map", jobsearchboardService.allBoardList(search1, search2, searchsort, nowpage1, nowpage2, sort, csortval));
 		mav.setViewName("C_jobSearch/List");
 		return mav;
 		
+	}
+	
+	// 구인/구직 (구인) 정렬값으로 리스트 뿌려주기
+	@RequestMapping(value = "SortList1", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> SortList1(HttpServletRequest request, @RequestParam(defaultValue = "writedate") String sort, 
+										 @RequestParam(defaultValue = "1")int nowpage,
+										 @RequestParam(defaultValue = "")String search1, @RequestParam(defaultValue = "구인")String csortval) {
+		return jobsearchboardService.SortList1(sort, nowpage, search1, csortval);
+	}	
+
+	// 구인/구직 (구인) 정렬값으로 리스트 뿌려주기
+	@RequestMapping(value = "SortList2", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> SortList2(HttpServletRequest request, @RequestParam(defaultValue = "writedate") String sort, 
+										 @RequestParam(defaultValue = "1")int nowpage,
+										 @RequestParam(defaultValue = "")String search1, @RequestParam(defaultValue = "구인")String csortval) {
+		return jobsearchboardService.SortList2(sort, nowpage, search1, csortval);
 	}
 	
 	//구인 구직 게시판 글 쓰기 페이지 이동

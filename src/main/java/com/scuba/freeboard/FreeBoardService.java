@@ -42,6 +42,19 @@ public class FreeBoardService {
 		map.put("sort", sort);
 		return map;
 	}
+	
+	//정렬순 리스트 다시뿌려주기
+	public Map<String, Object> SortList(String sort, int nowpage, String search) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		//전체글 개수 조회
+		int total = getTotal(search);
+		map = (common.paging(nowpage, total, 20, 5));
+		map.put("sort", sort);
+		map.put("search", "%"+search+"%");
+		map.put("list", freeboardDAO.SortList(map));
+		map.put("search", search);
+		return map;
+	}
 
 	//글 작성
 	public HashMap<String, Object> write(FreeBoardVO freeboardVO, HttpServletRequest request, HttpServletResponse response)
@@ -277,19 +290,6 @@ public class FreeBoardService {
 			common.DirDelete(request, response, category, folderNum);
 			
 		}
-	}
-
-	//정렬순 리스트 다시뿌려주기
-	public Map<String, Object> SortList(String sort, int nowpage, String search) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		//전체글 개수 조회
-		int total = getTotal(search);
-		map = (common.paging(nowpage, total, 20, 5));
-		map.put("sort", sort);
-		map.put("search", "%"+search+"%");
-		map.put("list", freeboardDAO.SortList(map));
-		map.put("search", search);
-		return map;
 	}
 	
 	//전체글 개수 조회

@@ -24,7 +24,7 @@ public class JobSearchboardService {
 	Common common = new Common();
 	
 	//구인 구직 게시판 모든(글)리스트 조회
-	public Map<String, Object> allBoardList(String search1, String search2, String searchsort, int nowpage1, int nowpage2) {
+	public Map<String, Object> allBoardList(String search1, String search2, String searchsort, int nowpage1, int nowpage2, String sort, String csortval) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		//구인
 		map.put("paging1",common.paging(nowpage1, getTotal1(search1, searchsort), 20, 5));
@@ -33,12 +33,44 @@ public class JobSearchboardService {
 		map.put("search1", "%"+search1+"%");
 		map.put("search2", "%"+search2+"%");
 		map.put("searchsort", searchsort);
+		map.put("sort", sort);
+		map.put("csortval", csortval);
 		//구인 게시판
 		map.put("jobSearchBoardList1", jobsearchboardDAO.allBoardList1(map));
 		//구직 게시판
 		map.put("jobSearchBoardList2", jobsearchboardDAO.allBoardList2(map));
 		map.put("search1", search1);
 		map.put("search2", search2);
+		return map;
+	}
+	
+	//정렬순 리스트 조회 (구인)
+	public Map<String, Object> SortList1(String sort, int nowpage, String search1, String csortval) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String searchsort = "구인";
+		//전체글 개수 조회
+		int total = getTotal1(search1, searchsort);
+		map = (common.paging(nowpage, total, 20, 5));
+		map.put("sort", sort);
+		map.put("csortval", csortval);
+		map.put("search", "%"+search1+"%");
+		map.put("list", jobsearchboardDAO.SortList1(map));
+		map.put("search", search1);
+		return map;
+	}
+	
+	//정렬순 리스트 조회 (구인)
+	public Map<String, Object> SortList2(String sort, int nowpage, String search1, String csortval) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		String searchsort = "구직";
+		//전체글 개수 조회
+		int total = getTotal2(search1, searchsort);
+		map = (common.paging(nowpage, total, 20, 5));
+		map.put("sort", sort);
+		map.put("csortval", csortval);
+		map.put("search", "%"+search1+"%");
+		map.put("list", jobsearchboardDAO.SortList2(map));
+		map.put("search", search1);
 		return map;
 	}
 	
@@ -288,6 +320,9 @@ public class JobSearchboardService {
 		String searchvalue = "%"+search2+"%";
 		//전체글 조회
 		return jobsearchboardDAO.getTotal2(searchvalue, searchsort);
-	}		
+	}
+
+
+		
 	
 }

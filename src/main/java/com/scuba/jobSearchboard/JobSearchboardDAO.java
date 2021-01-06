@@ -81,7 +81,15 @@ public class JobSearchboardDAO {
 		map.put("searchsort", searchsort);
 		return sqlsession.selectOne("mapper.JobSearchboard.getTotal2", map);
 	}
+
+	//정렬순 리스트 출력(구인)
+	public Object SortList1(HashMap<String, Object> map) {
+		return sqlsession.selectList("mapper.JobSearchboard.SortList1", map);
+	}
 		
-		
+	//정렬순 리스트 출력(구직)
+	public Object SortList2(HashMap<String, Object> map) {
+		return sqlsession.selectList("mapper.JobSearchboard.SortList2", map);
+	}		
 		
 }
