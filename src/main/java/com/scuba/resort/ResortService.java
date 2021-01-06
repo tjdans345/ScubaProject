@@ -149,6 +149,7 @@ public class ResortService {
 		map.put("resortList",resortDAO.getResrotList(map));
 		map.put("search",search);
 		map.put("city",city);
+		map.put("nowpage",nowpage);
 		return map;
 	}
 	//리조트 수정

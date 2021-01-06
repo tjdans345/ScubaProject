@@ -20,7 +20,6 @@ public class FreeBoardDAO {
 	// 글 작성
 	public int write(FreeBoardVO freeboardVO) {
 		int insertResult = sqlsession.insert("mapper.Freeboard.write", freeboardVO);
-
 		return insertResult;
 	}
 	
