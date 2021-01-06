@@ -299,6 +299,26 @@ public class FreeBoardService {
 		//전체글 조회
 		return freeboardDAO.getTotal(searchvalue);
 	}
+
+	//좋아요 이벤트
+	public int likeEvent(String user_id, FreeBoardVO freeboardVO) {
+		//좋아요 유무 확인
+		//좋아요 한적이 없을 때
+		if(freeboardDAO.likeCheck(user_id, freeboardVO) == 0) {
+			//해당 글 좋아요 수 증가
+			freeboardDAO.likeup(freeboardVO);
+			//좋아요 테이블 해당 데이터 인서트
+			freeboardDAO.likeinsert(user_id, freeboardVO);
+			return 1;
+		} else { // 좋아요 한적이 있을 때
+			//해당 글 좋아요 수 감소
+			freeboardDAO.likedown(freeboardVO);
+			//좋아요 테이블 해당 데이터 인서트
+			freeboardDAO.likedelete(user_id, freeboardVO);
+			return 0;
+		}
+		
+	}
 	
 	
 

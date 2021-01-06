@@ -34,6 +34,35 @@
     	//댓글
     	<%@ include file="../reply/reply.jsp" %>
     	
+    	//좋아요 버튼
+    	$("#like_btn").click(function() {
+			var num = "${viewList.num}";
+			var communityname = "${viewList.communityname}";
+			alert(num+"+"+communityname);
+			
+			$.ajax({
+				url : "${contextPath}/freeBoard/likeEvent",
+				type : "post",
+				data : {"num":num, 
+						"communityname":communityname,
+					   },
+				success : function(data) {
+					alert("통신 성공")
+					if(data == 1) {
+						alert("좋아요 누름");
+						$("#liketext").text("좋아요 했음");
+					} else if(data == 0) {
+						alert("좋아요 취소");
+						$("#liketext").text("좋아요 아직임");
+					}
+				},
+				error : function() {
+					alert("통신 실패");
+				}
+			});
+			
+		});
+    	
     });
     </script>
     
@@ -50,7 +79,7 @@
                   <div class="post-header font-alt">
                     <h1 class="post-title">${viewList.title}</h1>
                     <fmt:formatDate var="writeDate" pattern="yyyy-MM-dd" value="${viewList.writedate}"/>
-                    <div class="post-meta"> ${viewList.nickname}  | ${writeDate} | ${viewList.likecount}
+                    <div class="post-meta"> ${viewList.nickname}  | ${writeDate} | ${viewList.likecount} | <button id="like_btn" type="button"><p id="liketext">좋아요 아직임</p></button>
                     </div>
                   </div>
                   <div class="post-entry">

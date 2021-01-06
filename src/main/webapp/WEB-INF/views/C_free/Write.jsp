@@ -10,13 +10,7 @@
 
 <script type="text/javascript">
 		$(document).ready(function(){
-			//로그인 상태 확인
-// 			var id = "${id}";
-// 			if(id == "") {
-// 				alert("로그인 후 이용해주시기 바랍니다.");
-// 				location.href="${contextPath}/login.mem";
-// 			} else {
-	
+
 			//전송 버튼 클릭 시
 			$("#wrbtn").click(function() {
 				var content = CKEDITOR.instances.content.getData();

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class FreeBoardDAO {
 	@Autowired
 	private SqlSession sqlsession;
-
+	
 	// 자유게시판 모든(글)리스트 조회
 	public List<FreeBoardVO> allBoardList(HashMap<String, Object> map) {
 		return sqlsession.selectList("mapper.Freeboard.allBoardList", map);
@@ -67,6 +67,47 @@ public class FreeBoardDAO {
 	public int getTotal(String search) {
 		return sqlsession.selectOne("mapper.Freeboard.getTotal", search);
 	}
+
+	//좋아요 유무 확인
+	public int likeCheck(String user_id, FreeBoardVO freeboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", freeboardVO.getCommunityname());
+		map.put("contentnum", freeboardVO.getNum());
+		return sqlsession.selectOne("mapper.Freeboard.likeCheck", map);
+		
+	}
+
+	//좋아요 수 증가
+	public void likeup(FreeBoardVO freeboardVO) {
+		sqlsession.update("mapper.Freeboard.likeup", freeboardVO);
+		
+	}
+	
+	//좋아요 수 감소
+	public void likedown(FreeBoardVO freeboardVO) {
+		sqlsession.update("mapper.Freeboard.likedown", freeboardVO);
+	}
+
+	//좋아요 테이블 해당 데이터 인서트
+	public void likeinsert(String user_id, FreeBoardVO freeboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", freeboardVO.getCommunityname());
+		map.put("contentnum", freeboardVO.getNum());
+		sqlsession.insert("mapper.Freeboard.likeinsert", map);
+	}
+
+	//좋아요 테이블 해당 데이터 딜리트
+	public void likedelete(String user_id, FreeBoardVO freeboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", freeboardVO.getCommunityname());
+		map.put("contentnum", freeboardVO.getNum());
+		sqlsession.delete("mapper.Freeboard.likedelete", map);
+	}
+
+	
 
 	
 

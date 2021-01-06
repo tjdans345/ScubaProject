@@ -179,7 +179,6 @@
 							$("#Ltbody2").empty();
 							$("#pagelist2").empty();
 						}
-						console.log(data)
 						$.each(data.list, function(i) {
 							var num = data.list[i].num;
 							var title = data.list[i].title;

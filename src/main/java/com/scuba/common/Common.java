@@ -35,16 +35,12 @@ public class Common {
 	@ResponseBody
 	@RequestMapping(value = "imgCheck", method = RequestMethod.POST)
 	public int imgCheck(MultipartHttpServletRequest request) throws IOException {
-		System.out.println("와쓰;");
-		System.out.println(request.getFile("imgfile"));
 		MultipartFile file = request.getFile("imgfile");
 		int result = 0;
 		
 		String fileOriginalName = file.getOriginalFilename();
 		// 파일 확장자 얻기
 		String ext = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
-		System.out.println(fileOriginalName);
-		System.out.println(ext);
 		if(!(".gif".equalsIgnoreCase(ext) || ".jpg".equalsIgnoreCase(ext) || ".png".equalsIgnoreCase(ext))) {
 			result = 1; //파일 확장자 체크
 		}else { 
