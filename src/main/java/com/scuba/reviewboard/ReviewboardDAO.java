@@ -65,18 +65,64 @@ public class ReviewboardDAO {
 	
 	//게시글 총 개수 구하기
 	public int getTotal(String search, String consort) {
-		System.out.println("뭔데 : "+search);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("search", search);
 		map.put("consort", consort);
-		System.out.println(sqlsession.selectOne("mapper.Reviewboard.getTotal", map));
 		return sqlsession.selectOne("mapper.Reviewboard.getTotal", map);
 	}
 
 	//정렬순 게시 글 조회
 	public List<ReviewboardVO> SortList(HashMap<String, Object> map) {
-		System.out.println(sqlsession.selectList("mapper.Reviewboard.SortList", map));
 		return sqlsession.selectList("mapper.Reviewboard.SortList", map);
 	}
 
+	//인기 글 리스트
+	public List<ReviewboardVO> bestList() {
+		return sqlsession.selectList("mapper.Reviewboard.bestList");
+	}
+
+	//좋아요 유무 확인
+	public int likeCheck(String user_id, ReviewboardVO reviewboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", reviewboardVO.getCommunityname());
+		map.put("contentnum", reviewboardVO.getNum());
+		return sqlsession.selectOne("mapper.Reviewboard.likeCheck", map);
+		
+	}	
+	
+	//좋아요 수 증가
+	public void likeup(ReviewboardVO reviewboardVO) {
+		sqlsession.update("mapper.Reviewboard.likeup", reviewboardVO);
+		
+	}
+	
+	//좋아요 수 감소
+	public void likedown(ReviewboardVO reviewboardVO) {
+		sqlsession.update("mapper.Reviewboard.likedown", reviewboardVO);
+	}
+
+	//좋아요 테이블 해당 데이터 인서트
+	public void likeinsert(String user_id, ReviewboardVO reviewboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", reviewboardVO.getCommunityname());
+		map.put("contentnum", reviewboardVO.getNum());
+		sqlsession.insert("mapper.Reviewboard.likeinsert", map);
+	}
+
+	//좋아요 테이블 해당 데이터 딜리트
+	public void likedelete(String user_id, ReviewboardVO reviewboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", reviewboardVO.getCommunityname());
+		map.put("contentnum", reviewboardVO.getNum());
+		sqlsession.delete("mapper.Reviewboard.likedelete", map);
+	}	
+	
+	//뷰 카운트 증가
+	public void updateViewCount(ReviewboardVO reviewboardVO) {
+		sqlsession.update("mapper.Reviewboard.updateViewCount", reviewboardVO);
+	}	
+	
 }

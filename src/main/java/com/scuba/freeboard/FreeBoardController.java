@@ -74,6 +74,10 @@ public class FreeBoardController {
 	public ModelAndView freeboardView(ReplyVO replyVO, FreeBoardVO freeboardVO, @RequestParam(defaultValue = "1")int nowpage
 									  , @RequestParam(defaultValue = "")String search, HttpServletRequest request
 									  , @RequestParam(defaultValue = "writedate")String sort) {
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		freeboardVO.setCommunityname((String)request.getSession().getAttribute("category"));
+		//조회수 증가
+		freeboardService.updateViewCount(freeboardVO);
 		//해당 게시글 정보
 		mav.addObject("viewList", freeboardService.viewList(freeboardVO.getNum()));
 		//게시글 번호 저장(댓글)
@@ -84,6 +88,8 @@ public class FreeBoardController {
 		mav.addObject("replyList", replyservice.replyList(replyVO));
 		//대댓글 리스트
 		mav.addObject("rereplyList", replyservice.replyList2(replyVO));
+		//좋아요 유무
+		mav.addObject("likestatus", freeboardService.likestatus(user_id, freeboardVO));
 		//페이징, 검색, 정렬 값
 		mav.addObject("nowpage", nowpage);
 		mav.addObject("search", search);
@@ -197,7 +203,6 @@ public class FreeBoardController {
 	@ResponseBody
 	@RequestMapping(value="likeEvent", method = RequestMethod.POST)
 	public int likeEvent(FreeBoardVO freeboardVO, HttpServletRequest request) {
-		
 		String user_id = (String)request.getSession().getAttribute("user_id");
 		return freeboardService.likeEvent(user_id, freeboardVO);
 	}

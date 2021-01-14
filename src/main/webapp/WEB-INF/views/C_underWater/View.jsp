@@ -5,7 +5,16 @@
 <html lang="en-US" dir="ltr">
   <head>
     <title>Titan | Multipurpose HTML5 Template</title>
+    <style type="text/css">
+    .like_btn {
+    	color: #f927a5;
+    	    font-size: 15px;
+    }
     
+    .like_btn:hover {
+    	color: #f51888;
+    }
+    </style>
     <script type="text/javascript">
     
  		$(document).ready(function(){
@@ -34,7 +43,33 @@
     	
     	//댓글
     	<%@ include file="../reply/reply.jsp" %>
-    	
+    
+    	//좋아요 버튼
+    	$(document).on("click", "#like_btn", function(){
+			var num = "${viewList.num}";
+			var communityname = "${viewList.communityname}";
+			
+			$.ajax({
+				url : "${contextPath}/underWaterBoard/likeEvent",
+				type : "post",
+				data : {"num":num, 
+						"communityname":communityname,
+					   },
+				success : function(data) {
+					if(data == 1) {
+						alert("이 글을 좋아요 하셨습니다.");
+						$("#liketext").html("<p id='liketext'><a href='javascript:;' id='like_btn' class='like_btn'>♥</a></p>");
+					} else if(data == 0) {
+						alert("이 글을 좋아요 취소 하셨습니다.");
+						$("#liketext").html("<p id='liketext'><a href='javascript:;' id='like_btn' class='like_btn'>♡</a></p>");
+					}
+				},
+				error : function() {
+					alert("통신 실패");
+				}
+			});
+			
+		});        	
     });
     
     
@@ -52,8 +87,10 @@
                   <div class="post-header font-alt">
                     <h1 class="post-title">${viewList.title}</h1>
                     <fmt:formatDate var="writeDate" pattern="yyyy-MM-dd" value="${viewList.writedate}"/>
-                    <div class="post-meta"> ${viewList.nickname}  | ${writeDate} | ${viewList.likecount}
-                   	</div>
+                    <div class="post-meta"> ${viewList.nickname}  | ${writeDate} | ${viewList.likecount} 
+                    <c:if test="${likestatus == 0 }"><p id="liketext"><a href="javascript:;" id="like_btn" class="like_btn">♡</a></p></c:if>
+                    <c:if test="${likestatus == 1 }"><p id="liketext"><a href="javascript:;" id="like_btn" class="like_btn">♥</a></p></c:if>
+                    </div>
                   </div>
                   <div class="post-entry">
                     <p>${viewList.content}</p>

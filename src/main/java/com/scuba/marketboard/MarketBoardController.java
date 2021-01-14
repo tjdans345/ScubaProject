@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
+import com.scuba.freeboard.FreeBoardVO;
 import com.scuba.jobSearchboard.JobSearchboardVO;
 import com.scuba.reply.ReplyService;
 import com.scuba.reply.ReplyVO;
@@ -82,6 +83,10 @@ public class MarketBoardController {
 	// 상세보기 페이지 이동
 	@RequestMapping(value = "marketBoardView")
 	public ModelAndView marketBoardView(ReplyVO replyVO, MarketBoardVO marketboardVO, HttpServletRequest request) {
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		marketboardVO.setCommunityname((String)request.getSession().getAttribute("category"));
+		//조회수 증가
+		marketboardService.updateViewCount(marketboardVO);		
 		mav.addObject("viewList", marketboardService.viewList(marketboardVO.getNum()));
 		//게시글 번호 저장(댓글)
 		replyVO.setPostnum(marketboardVO.getNum());
@@ -91,6 +96,8 @@ public class MarketBoardController {
 		mav.addObject("replyList", replyservice.replyList(replyVO));
 		//대댓글 리스트
 		mav.addObject("rereplyList", replyservice.replyList2(replyVO));
+		//좋아요 유무
+		mav.addObject("likestatus", marketboardService.likestatus(user_id, marketboardVO));
 		mav.setViewName("C_market/View");
 		return mav;
 	}
@@ -182,6 +189,15 @@ public class MarketBoardController {
 	@ResponseBody
 	public int dealState(HttpServletRequest request, HttpServletResponse response, @RequestParam int state, int num) {
 		return marketboardService.dealState(state, num);
-	}		
+	}	
+	
+	//좋아요 기능
+	@ResponseBody
+	@RequestMapping(value="likeEvent", method = RequestMethod.POST)
+	public int likeEvent(MarketBoardVO marketboardVO, HttpServletRequest request) {
+		
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		return marketboardService.likeEvent(user_id, marketboardVO);
+	}	
 	
 }

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.scuba.freeboard.FreeBoardVO;
 import com.scuba.jobSearchboard.JobSearchboardVO;
 
 @Repository
@@ -83,11 +84,56 @@ public class MarketBoardDAO {
 		return sqlsession.selectOne("mapper.Marketboard.getTotal2", map);
 	}
 
+	//판매 상태
 	public int dealState(int state, int num) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("state", state);
 		map.put("num", num);
 		return sqlsession.update("mapper.Marketboard.dealState", map);
 	}
+	
+	//좋아요 수 증가
+	public void likeup(MarketBoardVO marketboardVO) {
+		sqlsession.update("mapper.Marketboard.likeup", marketboardVO);
+		
+	}
+	
+	//좋아요 유무 확인
+	public int likeCheck(String user_id, MarketBoardVO marketboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", marketboardVO.getCommunityname());
+		map.put("contentnum", marketboardVO.getNum());
+		return sqlsession.selectOne("mapper.Marketboard.likeCheck", map);
+		
+	}	
+	
+	//좋아요 수 감소
+	public void likedown(MarketBoardVO marketboardVO) {
+		sqlsession.update("mapper.Marketboard.likedown", marketboardVO);
+	}
 
+	//좋아요 테이블 해당 데이터 인서트
+	public void likeinsert(String user_id, MarketBoardVO marketboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", marketboardVO.getCommunityname());
+		map.put("contentnum", marketboardVO.getNum());
+		sqlsession.insert("mapper.Marketboard.likeinsert", map);
+	}
+
+	//좋아요 테이블 해당 데이터 딜리트
+	public void likedelete(String user_id, MarketBoardVO marketboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", marketboardVO.getCommunityname());
+		map.put("contentnum", marketboardVO.getNum());
+		sqlsession.delete("mapper.Marketboard.likedelete", map);
+	}	
+	
+	//뷰 카운트 증가
+	public void updateViewCount(MarketBoardVO marketboardVO) {
+		sqlsession.update("mapper.Marketboard.updateViewCount", marketboardVO);
+	}	
+	
 }

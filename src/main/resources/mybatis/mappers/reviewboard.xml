@@ -126,7 +126,7 @@
 	update reviewboard set title = #{title}, content = #{content}, thumbnail = #{thumbnail}, introduction = #{introduction}, 
 		   country = #{country}, area = #{area}, hashtag = #{hashtag} where num = #{num};
 	]]>
-	</update>	
+	</update>
 	
 	<!-- 게시글 삭제시 닉네임 체크 -->
 	<select id="idCheck" parameterType="_int" resultType="String">
@@ -141,4 +141,42 @@
 	delete from reviewboard where num = #{contentNum};
 	]]>
 	</delete>
+	
+	<!-- 인기 글 리스트 -->
+	<select id="bestList" resultMap="reviewboardResult">
+	select * from reviewboard order by likecount desc limit 0,5;
+	</select>
+	
+	<!-- 좋아요 유무 체크 -->
+	<select id="likeCheck" parameterType="hashmap" resultType="_int">
+	select count(id) from liketable where contentnum = #{contentnum} and communityname = #{communityname} and id = #{id};
+	</select>
+	
+	<!-- 해당 게시글 좋아요 수 증가 -->
+	<update id="likeup" parameterType="reviewboardVO">
+	update reviewboard set likecount = likecount+1 where num = #{num}
+	</update>
+	
+	<!-- 해당 게시글 좋아요 수 증가 -->
+	<update id="likedown" parameterType="reviewboardVO">
+	update reviewboard set likecount = likecount-1 where num = #{num}
+	</update>	
+	
+	<!-- 좋아요 데이터 인서트 -->
+	<insert id="likeinsert" parameterType="hashmap">
+	insert into liketable(contentnum, communityname, id) values (#{contentnum} ,#{communityname}, #{id});
+	</insert>
+	
+	<!-- 좋아요 데이터 딜리트 -->
+	<delete id="likedelete" parameterType="hashmap">
+	delete from liketable where contentnum = #{contentnum} and communityname = #{communityname} and id = #{id};
+	</delete>	
+	
+	<!-- 뷰 카운트 증가 -->
+	<update id="updateViewCount">
+	update reviewboard set viewcount = viewcount+1 where num = #{num};
+	</update>	
+	
+	
+	
 </mapper>

@@ -142,6 +142,11 @@
 	delete from liketable where contentnum = #{contentnum} and communityname = #{communityname} and id = #{id};
 	</delete>
 	
+	<!-- 뷰 카운트 증가 -->
+	<update id="updateViewCount">
+	update freeboard set viewcount = viewcount+1 where num = #{num};
+	</update>
+	
 	
 	
 </mapper>

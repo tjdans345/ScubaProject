@@ -287,7 +287,7 @@ public class FriendsBoardService {
 		}
 	}
 	
-	//정렬순 리스트 다시뿌려주기
+		//정렬순 리스트 다시뿌려주기
 		public Map<String, Object> SortList(String sort, int nowpage, String search) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			//전체글 개수 조회
@@ -299,6 +299,36 @@ public class FriendsBoardService {
 			System.out.println(friendsboardDAO.SortList(map));
 			map.put("search", search);
 			return map;
+		}	
+
+		//좋아요 이벤트
+		public int likeEvent(String user_id, FriendsBoardVO friendsboardVO) {
+			//좋아요 유무 확인
+			//좋아요 한적이 없을 때
+			if(friendsboardDAO.likeCheck(user_id, friendsboardVO) == 0) {
+				//해당 글 좋아요 수 증가
+				friendsboardDAO.likeup(friendsboardVO);
+				//좋아요 테이블 해당 데이터 인서트
+				friendsboardDAO.likeinsert(user_id, friendsboardVO);
+				return 1;
+			} else { // 좋아요 한적이 있을 때
+				//해당 글 좋아요 수 감소
+				friendsboardDAO.likedown(friendsboardVO);
+				//좋아요 테이블 해당 데이터 인서트
+				friendsboardDAO.likedelete(user_id, friendsboardVO);
+				return 0;
+			}
+			
+		}
+
+		//좋아요 유무 확인
+		public int likestatus(String user_id, FriendsBoardVO friendsboardVO) {
+			return friendsboardDAO.likeCheck(user_id, friendsboardVO);
+		}
+
+		//뷰 카운트 증가
+		public void updateViewCount(FriendsBoardVO friendsboardVO) {
+			friendsboardDAO.updateViewCount(friendsboardVO);
 		}	
 	
 										/* 코드 임시 리팩토링 */

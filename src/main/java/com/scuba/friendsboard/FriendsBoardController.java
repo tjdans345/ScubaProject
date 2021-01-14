@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
+import com.scuba.freeboard.FreeBoardVO;
 import com.scuba.reply.ReplyService;
 import com.scuba.reply.ReplyVO;
 
@@ -92,6 +93,10 @@ public class FriendsBoardController {
 	public ModelAndView marketBoardView(ReplyVO replyVO, FriendsBoardVO friendsboardVO,  @RequestParam(defaultValue = "1")int nowpage
 										, @RequestParam(defaultValue = "")String search, HttpServletRequest request
 										, @RequestParam(defaultValue = "writedate")String sort) {
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		friendsboardVO.setCommunityname((String)request.getSession().getAttribute("category"));
+		//조회수 증가
+		friendsboardService.updateViewCount(friendsboardVO);
 		mav.addObject("viewList", friendsboardService.viewList(friendsboardVO.getNum()));
 		//게시글 번호 저장(댓글)
 		replyVO.setPostnum(friendsboardVO.getNum());
@@ -101,6 +106,8 @@ public class FriendsBoardController {
 		mav.addObject("replyList", replyservice.replyList(replyVO));
 		//대댓글 리스트
 		mav.addObject("rereplyList", replyservice.replyList2(replyVO));		
+		//좋아요 유무
+		mav.addObject("likestatus", friendsboardService.likestatus(user_id, friendsboardVO));
 		//페이징, 검색, 정렬 값
 		mav.addObject("nowpage", nowpage);
 		mav.addObject("search", search);
@@ -189,6 +196,14 @@ public class FriendsBoardController {
 		friendsboardService.modiFyCancle(friendsboardVO, request, response);
 		mav.setViewName("redirect:/friendsBoard/friendsBoardList");
 		return mav;
-	}	
-
+	}
+	
+	//좋아요 기능
+	@ResponseBody
+	@RequestMapping(value="likeEvent", method = RequestMethod.POST)
+	public int likeEvent(FriendsBoardVO friendsboardVO, HttpServletRequest request) {
+		
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		return friendsboardService.likeEvent(user_id, friendsboardVO);
+	}
 }

@@ -319,6 +319,16 @@ public class FreeBoardService {
 		}
 		
 	}
+
+	//좋아요 유무 확인
+	public int likestatus(String user_id, FreeBoardVO freeboardVO) {
+		return freeboardDAO.likeCheck(user_id, freeboardVO);
+	}
+
+	//뷰 카운트 증가
+	public void updateViewCount(FreeBoardVO freeboardVO) {
+		freeboardDAO.updateViewCount(freeboardVO);
+	}
 	
 	
 

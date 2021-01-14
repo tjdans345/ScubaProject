@@ -70,5 +70,53 @@ public class UnderwaterboardDAO {
 	public List<FreeBoardVO> SortList(HashMap<String, Object> map) {
 		return sqlsession.selectList("mapper.UnderWaterboard.SortList", map);
 	}
+	
+	//인기 글 리스트
+	public List<UnderwaterboardVO> bestList() {
+		return sqlsession.selectList("mapper.UnderWaterboard.bestList");
+	}
+	
+	//좋아요 유무 확인
+	public int likeCheck(String user_id, UnderwaterboardVO underwaterboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", underwaterboardVO.getCommunityname());
+		map.put("contentnum", underwaterboardVO.getNum());
+		return sqlsession.selectOne("mapper.UnderWaterboard.likeCheck", map);
+	}	
 
+	//좋아요 수 증가
+	public void likeup(UnderwaterboardVO underwaterboardVO) {
+		sqlsession.update("mapper.UnderWaterboard.likeup", underwaterboardVO);
+		
+	}
+	
+	//좋아요 수 감소
+	public void likedown(UnderwaterboardVO underwaterboardVO) {
+		sqlsession.update("mapper.UnderWaterboard.likedown", underwaterboardVO);
+	}
+
+	//좋아요 테이블 해당 데이터 인서트
+	public void likeinsert(String user_id, UnderwaterboardVO underwaterboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", underwaterboardVO.getCommunityname());
+		map.put("contentnum", underwaterboardVO.getNum());
+		sqlsession.insert("mapper.UnderWaterboard.likeinsert", map);
+	}
+
+	//좋아요 테이블 해당 데이터 딜리트
+	public void likedelete(String user_id, UnderwaterboardVO underwaterboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", underwaterboardVO.getCommunityname());
+		map.put("contentnum", underwaterboardVO.getNum());
+		sqlsession.delete("mapper.UnderWaterboard.likedelete", map);
+	}	
+	
+	//뷰 카운트 증가
+	public void updateViewCount(UnderwaterboardVO underwaterboardVO) {
+		sqlsession.update("mapper.UnderWaterboard.updateViewCount", underwaterboardVO);
+	}	
+	
 }

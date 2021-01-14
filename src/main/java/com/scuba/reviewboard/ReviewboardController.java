@@ -1,8 +1,11 @@
 package com.scuba.reviewboard;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
+import com.scuba.freeboard.FreeBoardVO;
 import com.scuba.reply.ReplyService;
 import com.scuba.reply.ReplyVO;
 
@@ -40,6 +44,8 @@ public class ReviewboardController {
 		request.getSession().setAttribute("category", "review");
 		// 후기게시판 전체 글 조회
 		mav.addObject("map", reviewboardService.allBoardList(request, nowpage, search, sort, consort));
+		// 인기글 리스트
+		mav.addObject("bestList", reviewboardService.bestList());
 		mav.setViewName("C_review/List");
 		return mav;
 		
@@ -51,7 +57,6 @@ public class ReviewboardController {
 	public Map<String, Object> SortList(HttpServletRequest request, @RequestParam(defaultValue = "writedate")String sort, 
 										 @RequestParam(defaultValue = "1")int nowpage,
 										 @RequestParam(defaultValue = "")String search, @RequestParam(defaultValue = "국적")String consort) {
-		System.out.println(consort);
 		return reviewboardService.SortList(sort, nowpage, search, consort);
 	}	
 
@@ -95,6 +100,10 @@ public class ReviewboardController {
 	// 상세보기 페이지 이동
 	@RequestMapping(value = "reviewBoardView")
 	public ModelAndView reviewBoardView(ReplyVO replyVO, ReviewboardVO reviewboardVO, HttpServletRequest request) {
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		reviewboardVO.setCommunityname((String)request.getSession().getAttribute("category"));
+		//조회수 증가
+		reviewboardService.updateViewCount(reviewboardVO);		
 		mav.addObject("viewList", reviewboardService.viewList(reviewboardVO.getNum()));
 		//게시글 번호 저장(댓글)
 		replyVO.setPostnum(reviewboardVO.getNum());
@@ -103,8 +112,23 @@ public class ReviewboardController {
 		//댓글 리스트
 		mav.addObject("replyList", replyservice.replyList(replyVO));
 		//대댓글 리스트
-		mav.addObject("rereplyList", replyservice.replyList2(replyVO));		
+		mav.addObject("rereplyList", replyservice.replyList2(replyVO));
+		//좋아요 유무
+		mav.addObject("likestatus", reviewboardService.likestatus(user_id, reviewboardVO));
 		
+		//최근 본 글 리스트
+		reviewboardVO = reviewboardService.ModifyList(reviewboardVO.getNum());
+		List<ReviewboardVO> latelycontent = (ArrayList<ReviewboardVO>)request.getSession().getAttribute("latelycontent");
+		if(latelycontent == null) {
+			latelycontent = new ArrayList<ReviewboardVO>();
+			//세션에 최근 본 글 리스트 추가
+			request.getSession().setAttribute("latelycontent", latelycontent);
+		}
+		//최근 본 글이 5개를 넘어가면 맨 처음 최근 본 글을 지운다.
+		if(latelycontent.size() >4) {
+			latelycontent.remove(0);
+		}
+		latelycontent.add(reviewboardVO);
 		
 		mav.setViewName("C_review/View");
 		return mav;
@@ -116,7 +140,6 @@ public class ReviewboardController {
 		request.getSession().setAttribute("category",reviewboardVO.getCommunityname());
 		request.getSession().setAttribute("modifyCheck", reviewboardVO.getNum());
 		mav.addObject("modifyList", reviewboardService.ModifyList(reviewboardVO.getNum()));
-		
 		mav.setViewName("C_review/Modify");
 		return mav;
 		}	
@@ -127,7 +150,6 @@ public class ReviewboardController {
 				throws Exception {
 			int originalNum = (Integer)request.getSession().getAttribute("modifyCheck");
 			int nowNum = reviewboardVO.getNum();
-			System.out.println("썸네일 임지 : " + reviewboardVO.getThumbnail());
 			//뷰페이지 악의적인 조작 검증
 			if(originalNum == nowNum) {
 				// Service 글 수정
@@ -192,5 +214,13 @@ public class ReviewboardController {
 		mav.setViewName("redirect:/reviewBoard/reviewBoardList");
 		return mav;
 	}
+	
+	//좋아요 기능
+	@ResponseBody
+	@RequestMapping(value="likeEvent", method = RequestMethod.POST)
+	public int likeEvent(ReviewboardVO reviewboardVO, HttpServletRequest request) {
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		return reviewboardService.likeEvent(user_id, reviewboardVO);
+	}	
 	
 }

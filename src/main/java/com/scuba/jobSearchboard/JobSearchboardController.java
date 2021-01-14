@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
+import com.scuba.freeboard.FreeBoardVO;
 import com.scuba.reply.ReplyService;
 import com.scuba.reply.ReplyVO;
 
@@ -100,6 +101,10 @@ public class JobSearchboardController {
 	// 상세보기 페이지 이동
 	@RequestMapping(value = "jobSearchBoardView")
 	public ModelAndView jobSearchBoardView(ReplyVO replyVO, JobSearchboardVO jobsearchboardVO, HttpServletRequest request) {
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		jobsearchboardVO.setCommunityname((String)request.getSession().getAttribute("category"));
+		//조회수 증가
+		jobsearchboardService.updateViewCount(jobsearchboardVO);		
 		mav.addObject("viewList", jobsearchboardService.viewList(jobsearchboardVO.getNum()));
 		//게시글 번호 저장(댓글)
 		replyVO.setPostnum(jobsearchboardVO.getNum());
@@ -109,7 +114,8 @@ public class JobSearchboardController {
 		mav.addObject("replyList", replyservice.replyList(replyVO));
 		//대댓글 리스트
 		mav.addObject("rereplyList", replyservice.replyList2(replyVO));
-		
+		//좋아요 유무
+		mav.addObject("likestatus", jobsearchboardService.likestatus(user_id, jobsearchboardVO));
 		
 		mav.setViewName("C_jobSearch/View");
 		return mav;
@@ -195,5 +201,14 @@ public class JobSearchboardController {
 		mav.setViewName("redirect:/freeBoard/freeBoardList");
 		return mav;
 	}
+	
+	//좋아요 기능
+	@ResponseBody
+	@RequestMapping(value="likeEvent", method = RequestMethod.POST)
+	public int likeEvent(JobSearchboardVO jobsearchboardVO, HttpServletRequest request) {
+		
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		return jobsearchboardService.likeEvent(user_id, jobsearchboardVO);
+	}	
 	
 }

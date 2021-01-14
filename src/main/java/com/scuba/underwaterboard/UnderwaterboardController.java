@@ -1,6 +1,8 @@
 package com.scuba.underwaterboard;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.scuba.common.Common;
+import com.scuba.freeboard.FreeBoardVO;
 import com.scuba.reply.ReplyService;
 import com.scuba.reply.ReplyVO;
+import com.scuba.reviewboard.ReviewboardVO;
 
 @Controller
 @RequestMapping("/underWaterBoard/*")
@@ -40,6 +44,8 @@ public class UnderwaterboardController {
 		request.getSession().setAttribute("category", "underwater");
 		// 수중게시판 전체 글 조회
 		mav.addObject("map", underwaterboardService.allBoardList(request, nowpage, search, sort));
+		// 인기글 리스트
+		mav.addObject("bestList", underwaterboardService.bestList());		
 		mav.setViewName("C_underWater/List");
 		return mav;
 	}
@@ -94,6 +100,10 @@ public class UnderwaterboardController {
 	// 상세보기 페이지 이동
 	@RequestMapping(value = "underWaterBoardView")
 	public ModelAndView underWaterBoardView(ReplyVO replyVO, UnderwaterboardVO underwaterboardVO, HttpServletRequest request) {
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		underwaterboardVO.setCommunityname((String)request.getSession().getAttribute("category"));
+		//조회수 증가
+		underwaterboardService.updateViewCount(underwaterboardVO);
 		mav.addObject("viewList", underwaterboardService.viewList(underwaterboardVO.getNum()));
 		//게시글 번호 저장(댓글)
 		replyVO.setPostnum(underwaterboardVO.getNum());
@@ -103,6 +113,23 @@ public class UnderwaterboardController {
 		mav.addObject("replyList", replyservice.replyList(replyVO));
 		//대댓글 리스트
 		mav.addObject("rereplyList", replyservice.replyList2(replyVO));		
+		//좋아요 유무
+				mav.addObject("likestatus", underwaterboardService.likestatus(user_id, underwaterboardVO));
+		//최근 본 글 리스트
+		underwaterboardVO = underwaterboardService.ModifyList(underwaterboardVO.getNum());
+		List<UnderwaterboardVO> latelycontent = (ArrayList<UnderwaterboardVO>)request.getSession().getAttribute("latelycontentWater");
+		if(latelycontent == null) {
+			latelycontent = new ArrayList<UnderwaterboardVO>();
+			//세션에 최근 본 글 리스트 추가
+			request.getSession().setAttribute("latelycontentWater", latelycontent);
+		}
+		//최근 본 글이 5개를 넘어가면 맨 처음 최근 본 글을 지운다.
+		if(latelycontent.size() >4) {
+			latelycontent.remove(0);
+			System.out.println("삭제 됨");
+		}
+		latelycontent.add(underwaterboardVO);	
+		
 		mav.setViewName("C_underWater/View");
 		return mav;
 	}
@@ -190,5 +217,13 @@ public class UnderwaterboardController {
 		mav.setViewName("redirect:/underWaterBoard/underWaterBoardList");
 		return mav;
 	}
+	
+	//좋아요 기능
+	@ResponseBody
+	@RequestMapping(value="likeEvent", method = RequestMethod.POST)
+	public int likeEvent(UnderwaterboardVO underwaterboardVO, HttpServletRequest request) {
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		return underwaterboardService.likeEvent(user_id, underwaterboardVO);
+	}	
 	
 }

@@ -9,6 +9,8 @@
 <title>Insert title here</title>
 	<script type="text/javascript">
 		$(document).ready(function() {
+	 	    
+			
 			$(".wrt_btn").click(function() {
 				location.href="${contextPath}/reviewBoard/reviewBoardWrite";
 			});
@@ -180,7 +182,7 @@
                	  		<option value="writedate" selected="selected">등록순</option>
 		                <option value="likecount">좋아요순</option>
 		                <option value="viewcount">조회순</option>
-               	  	</c:otherwise>
+               	  	</c:otherwise> 
                	  </c:choose>
                 </select>
               <button class="btn btn-border-d btn-round wrt_btn" style="float: right;">글쓰기</button>
@@ -232,40 +234,37 @@
 					<div class="widget">
 						<h5 class="widget-title font-alt">인기 글</h5>
 						<ul class="icon-list">
-							<li><a href="#">제목 - 7</a></li>
-							<li><a href="#">Web Design - 3</a></li>
-							<li><a href="#">Illustration - 12</a></li>
-							<li><a href="#">Marketing - 1</a></li>
-							<li><a href="#">Wordpress - 16</a></li>
+						 <c:forEach var="bestlist" items="${bestList}">
+							<li><a href="javascript:;" class="view_btn" data-num="${bestlist.num}">${bestlist.title}</a></li>
+						</c:forEach>
 						</ul>
 					</div>
 					<div class="widget">
 						<h5 class="widget-title font-alt">최근 본 글</h5>
 						<ul class="widget-posts">
+					 	 <c:forEach var="recentlyList" items="${latelycontent}">
+					 	 	<c:if test="${recentlyList != null }">
 							<li class="clearfix">
 								<div class="widget-posts-image">
-									<a href="#"><img src="${contextPath}/resources/assets/images/rp-3.jpg"
-										alt="Post Thumbnail" /></a>
+									<c:if test="${recentlyList.thumbnail != 'baseImage.jpg' }">
+								   	<a href="javascript:;" class="view_btn" data-num="${recentlyList.num}"><img src="${contextPath}/resources/images/review/Thumbnail/${recentlyList.num}/${recentlyList.thumbnail}" alt="Post Thumbnail" /></a>
+								   </c:if>
+									<c:if test="${recentlyList.thumbnail == 'baseImage.jpg' }">
+								   	<a href="javascript:;" class="view_btn" data-num="${recentlyList.num}"><img src="${contextPath}/resources/images/review/Thumbnail/${recentlyList.thumbnail}" alt="Post Thumbnail" /></a>
+								   </c:if>
 								</div>
 								<div class="widget-posts-body">
 									<div class="widget-posts-title">
-										<a href="#">제목</a>
+										<a href="javascript:;" class="view_btn" data-num="${recentlyList.num}">${recentlyList.title}</a>
 									</div>
-									<div class="widget-posts-meta">글쓴이</div>
+									<div class="widget-posts-meta">${recentlyList.nickname}</div>
 								</div>
 							</li>
-							<li class="clearfix">
-								<div class="widget-posts-image">
-									<a href="#"><img src="${contextPath}/resources/assets/images/rp-4.jpg"
-										alt="Post Thumbnail" /></a>
-								</div>
-								<div class="widget-posts-body">
-									<div class="widget-posts-title">
-										<a href="#">Realistic Business Card Mockup</a>
-									</div>
-									<div class="widget-posts-meta">15 February</div>
-								</div>
-							</li>
+							</c:if>
+							<c:if test="${recentlyList == null || recentlyList == ''}">
+								<p>최근 본 글이 없습니다.</p>
+							</c:if>
+						 </c:forEach>	
 						</ul>
 					</div>
 				</div>

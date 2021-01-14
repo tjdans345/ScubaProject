@@ -90,6 +90,47 @@ public class FriendsBoardDAO {
 		return sqlsession.selectOne("mapper.FriendsBoard.getTotal", search);
 	}
 
+	//좋아요 유무 확인
+	public int likeCheck(String user_id, FriendsBoardVO friendsboarVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", friendsboarVO.getCommunityname());
+		map.put("contentnum", friendsboarVO.getNum());
+		return sqlsession.selectOne("mapper.FriendsBoard.likeCheck", map);
+		
+	}
+	//좋아요 수 증가
+	public void likeup(FriendsBoardVO friendsboarVO) {
+		sqlsession.update("mapper.FriendsBoard.likeup", friendsboarVO);
+		
+	}
+	
+	//좋아요 수 감소
+	public void likedown(FriendsBoardVO friendsboarVO) {
+		sqlsession.update("mapper.FriendsBoard.likedown", friendsboarVO);
+	}
 
+	//좋아요 테이블 해당 데이터 인서트
+	public void likeinsert(String user_id, FriendsBoardVO friendsboarVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", friendsboarVO.getCommunityname());
+		map.put("contentnum", friendsboarVO.getNum());
+		sqlsession.insert("mapper.FriendsBoard.likeinsert", map);
+	}
+
+	//좋아요 테이블 해당 데이터 딜리트
+	public void likedelete(String user_id, FriendsBoardVO friendsboarVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", friendsboarVO.getCommunityname());
+		map.put("contentnum", friendsboarVO.getNum());
+		sqlsession.delete("mapper.FriendsBoard.likedelete", map);
+	}
+
+	//뷰 카운트 증가
+	public void updateViewCount(FriendsBoardVO friendsboarVO) {
+		sqlsession.update("mapper.FriendsBoard.updateViewCount", friendsboarVO);
+	}
 
 }

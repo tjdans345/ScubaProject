@@ -107,9 +107,12 @@ public class FreeBoardDAO {
 		sqlsession.delete("mapper.Freeboard.likedelete", map);
 	}
 
-	
+	//뷰 카운트 증가
+	public void updateViewCount(FreeBoardVO freeboardVO) {
+		sqlsession.update("mapper.Freeboard.updateViewCount", freeboardVO);
+	}
 
-	
+
 
 
 }

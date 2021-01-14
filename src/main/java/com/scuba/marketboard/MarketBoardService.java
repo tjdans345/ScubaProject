@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scuba.common.Common;
+import com.scuba.freeboard.FreeBoardVO;
 import com.scuba.jobSearchboard.JobSearchboardVO;
 import com.scuba.reviewboard.ReviewboardVO;
 
@@ -302,4 +303,33 @@ public class MarketBoardService {
 		return marketboardDAO.dealState(state, num);
 	}
 
+	//좋아요 이벤트
+	public int likeEvent(String user_id, MarketBoardVO marketboardVO) {
+		//좋아요 유무 확인
+		//좋아요 한적이 없을 때
+		if(marketboardDAO.likeCheck(user_id, marketboardVO) == 0) {
+			//해당 글 좋아요 수 증가
+			marketboardDAO.likeup(marketboardVO);
+			//좋아요 테이블 해당 데이터 인서트
+			marketboardDAO.likeinsert(user_id, marketboardVO);
+			return 1;
+		} else { // 좋아요 한적이 있을 때
+			//해당 글 좋아요 수 감소
+			marketboardDAO.likedown(marketboardVO);
+			//좋아요 테이블 해당 데이터 인서트
+			marketboardDAO.likedelete(user_id, marketboardVO);
+			return 0;
+		}
+		
+	}
+
+	//좋아요 유무 확인
+	public int likestatus(String user_id, MarketBoardVO marketboardVO) {
+		return marketboardDAO.likeCheck(user_id, marketboardVO);
+	}	
+
+	//뷰 카운트 증가
+	public void updateViewCount(MarketBoardVO marketboardVO) {
+		marketboardDAO.updateViewCount(marketboardVO);
+	}	
 }

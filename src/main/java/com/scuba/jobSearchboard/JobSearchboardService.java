@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scuba.common.Common;
+import com.scuba.freeboard.FreeBoardVO;
 
 @Service
 public class JobSearchboardService {
@@ -322,7 +323,35 @@ public class JobSearchboardService {
 		return jobsearchboardDAO.getTotal2(searchvalue, searchsort);
 	}
 
+	//좋아요 이벤트
+	public int likeEvent(String user_id, JobSearchboardVO jobsearchboardVO) {
+		//좋아요 유무 확인
+		//좋아요 한적이 없을 때
+		if(jobsearchboardDAO.likeCheck(user_id, jobsearchboardVO) == 0) {
+			//해당 글 좋아요 수 증가
+			jobsearchboardDAO.likeup(jobsearchboardVO);
+			//좋아요 테이블 해당 데이터 인서트
+			jobsearchboardDAO.likeinsert(user_id, jobsearchboardVO);
+			return 1;
+		} else { // 좋아요 한적이 있을 때
+			//해당 글 좋아요 수 감소
+			jobsearchboardDAO.likedown(jobsearchboardVO);
+			//좋아요 테이블 해당 데이터 인서트
+			jobsearchboardDAO.likedelete(user_id, jobsearchboardVO);
+			return 0;
+		}
+		
+	}
 
+	//좋아요 유무 확인
+	public int likestatus(String user_id, JobSearchboardVO jobsearchboardVO) {
+		return jobsearchboardDAO.likeCheck(user_id, jobsearchboardVO);
+	}
+
+	//뷰 카운트 증가
+	public void updateViewCount(JobSearchboardVO jobsearchboardVO) {
+		jobsearchboardDAO.updateViewCount(jobsearchboardVO);
+	}
 		
 	
 }

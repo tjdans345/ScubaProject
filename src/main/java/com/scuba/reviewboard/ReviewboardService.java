@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scuba.common.Common;
+import com.scuba.freeboard.FreeBoardVO;
 
 @Service
 public class ReviewboardService {
@@ -181,10 +182,8 @@ public class ReviewboardService {
 		String thumbNail = "baseImage.jpg";
 		// 썸네일 이미지 이름 설정
 		// 썸네일을 변경하지 않았을 때 (수정 시) 기존 이름 그대로 사용
-		System.out.println("썸네일 임지 2 : " + reviewboardVO.getThumbnail());
 		if(reviewboardVO.getThumbnail() == "" || reviewboardVO.getThumbnail() == null) {
 			if (file.getSize() > 0) {
-				System.out.println("여기를 탄다고 ? ");
 				// 이미지 이름 얻어오기(실제이름)
 				String fileOriginalName = file.getOriginalFilename();
 				// 파일 확장자 얻기
@@ -215,7 +214,6 @@ public class ReviewboardService {
 		int i = 0;
 		// 컨텐트 전체내용에서 src경로가 나올때까지 설정한 정규식을 통하여 추출함
 		while (matcher.find()) {
-			System.out.println("정규식 추출" + matcher.group(1));
 			if (matcher.group(1) == null) {
 				break;
 			}
@@ -223,7 +221,6 @@ public class ReviewboardService {
 			imglist.add(matcher.group(1));
 			// 이미지명만 따로 추출
 			realimglist.add(imglist.get(i).substring(imglist.get(i).lastIndexOf("/") + 1));
-			System.out.println("리얼이미지 네임 리스트 : " + realimglist.get(i));
 			i++;
 			//이미지 유무 확인
 			imgexists = 1;
@@ -250,7 +247,6 @@ public class ReviewboardService {
 					resultmap.put("modifyResult", 0);
 				}
 			} else { //이미지 없을 시
-				System.out.println("이미지없다 ");
 				//수정 된 글 이미지 없을 시 서버 디렉토리 삭제 해줌
 				if(common.DirDelete(request, response, category, folderNum) == 1 || common.DirDelete(request, response, category, folderNum) == 2) {
 					resultmap.put("contentNum", folderNum);
@@ -290,7 +286,6 @@ public class ReviewboardService {
 					//글 삭제 완료시 -> 서버 파일 저장 폴더 삭제
 					//1 : 성공 / 0 : 실패 / 2: 이미지 첨부 게시글 아님
 					Result = common.DirDelete(request, response, category, folderNum);
-					System.out.println("리조트  : " + Result);
 				} else if(deleteResult == 2){
 					Result = 2;
 				} else {
@@ -358,8 +353,40 @@ public class ReviewboardService {
 		map.put("search", search);
 		return map;
 	}
-			
-		
-	
 
+	//인기 글
+	public List<ReviewboardVO> bestList() {
+		return reviewboardDAO.bestList();
+	}
+			
+	//좋아요 이벤트
+	public int likeEvent(String user_id, ReviewboardVO reviewboardVO) {
+		//좋아요 유무 확인
+		//좋아요 한적이 없을 때
+		if(reviewboardDAO.likeCheck(user_id, reviewboardVO) == 0) {
+			//해당 글 좋아요 수 증가
+			reviewboardDAO.likeup(reviewboardVO);
+			//좋아요 테이블 해당 데이터 인서트
+			reviewboardDAO.likeinsert(user_id, reviewboardVO);
+			return 1;
+		} else { // 좋아요 한적이 있을 때
+			//해당 글 좋아요 수 감소
+			reviewboardDAO.likedown(reviewboardVO);
+			//좋아요 테이블 해당 데이터 인서트
+			reviewboardDAO.likedelete(user_id, reviewboardVO);
+			return 0;
+		}
+		
+	}
+
+	//좋아요 유무 확인
+	public int likestatus(String user_id, ReviewboardVO reviewboardVO) {
+		return reviewboardDAO.likeCheck(user_id, reviewboardVO);
+	}		
+	
+	//뷰 카운트 증가
+	public void updateViewCount(ReviewboardVO reviewboardVO) {
+		reviewboardDAO.updateViewCount(reviewboardVO);
+	}
+	
 }

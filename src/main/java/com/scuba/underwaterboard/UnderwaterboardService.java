@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scuba.common.Common;
+import com.scuba.freeboard.FreeBoardVO;
+import com.scuba.reviewboard.ReviewboardVO;
 
 @Service
 public class UnderwaterboardService {
@@ -357,8 +359,40 @@ public class UnderwaterboardService {
 		map.put("search", search);
 		return map;
 	}
-			
-		
-	
 
+	//인기 글
+	public List<UnderwaterboardVO> bestList() {
+		return underwaterboardDAO.bestList();
+	}
+			
+	//좋아요 이벤트
+	public int likeEvent(String user_id, UnderwaterboardVO underwaterboardVO) {
+		//좋아요 유무 확인
+		//좋아요 한적이 없을 때
+		if(underwaterboardDAO.likeCheck(user_id, underwaterboardVO) == 0) {
+			//해당 글 좋아요 수 증가
+			underwaterboardDAO.likeup(underwaterboardVO);
+			//좋아요 테이블 해당 데이터 인서트
+			underwaterboardDAO.likeinsert(user_id, underwaterboardVO);
+			return 1;
+		} else { // 좋아요 한적이 있을 때
+			//해당 글 좋아요 수 감소
+			underwaterboardDAO.likedown(underwaterboardVO);
+			//좋아요 테이블 해당 데이터 인서트
+			underwaterboardDAO.likedelete(user_id, underwaterboardVO);
+			return 0;
+		}
+		
+	}
+
+	//좋아요 유무 확인
+	public int likestatus(String user_id, UnderwaterboardVO underwaterboardVO) {
+		return underwaterboardDAO.likeCheck(user_id, underwaterboardVO);
+	}		
+	
+	//뷰 카운트 증가
+	public void updateViewCount(UnderwaterboardVO underwaterboardVO) {
+		underwaterboardDAO.updateViewCount(underwaterboardVO);
+	}
+	
 }

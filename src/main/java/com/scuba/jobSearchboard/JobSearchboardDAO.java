@@ -7,6 +7,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.scuba.freeboard.FreeBoardVO;
+
 @Repository
 public class JobSearchboardDAO {
 
@@ -90,6 +92,50 @@ public class JobSearchboardDAO {
 	//정렬순 리스트 출력(구직)
 	public Object SortList2(HashMap<String, Object> map) {
 		return sqlsession.selectList("mapper.JobSearchboard.SortList2", map);
-	}		
+	}
+	
+	//좋아요 유무 확인
+	public int likeCheck(String user_id, JobSearchboardVO jobsearchboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", jobsearchboardVO.getCommunityname());
+		map.put("contentnum", jobsearchboardVO.getNum());
+		return sqlsession.selectOne("mapper.JobSearchboard.likeCheck", map);
 		
+	}	
+
+	//좋아요 수 증가
+	public void likeup(JobSearchboardVO jobsearchboardVO) {
+		sqlsession.update("mapper.JobSearchboard.likeup", jobsearchboardVO);
+		
+	}
+	
+	//좋아요 수 감소
+	public void likedown(JobSearchboardVO jobsearchboardVO) {
+		sqlsession.update("mapper.JobSearchboard.likedown", jobsearchboardVO);
+	}
+
+	//좋아요 테이블 해당 데이터 인서트
+	public void likeinsert(String user_id, JobSearchboardVO jobsearchboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", jobsearchboardVO.getCommunityname());
+		map.put("contentnum", jobsearchboardVO.getNum());
+		sqlsession.insert("mapper.JobSearchboard.likeinsert", map);
+	}
+
+	//좋아요 테이블 해당 데이터 딜리트
+	public void likedelete(String user_id, JobSearchboardVO jobsearchboardVO) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", user_id);
+		map.put("communityname", jobsearchboardVO.getCommunityname());
+		map.put("contentnum", jobsearchboardVO.getNum());
+		sqlsession.delete("mapper.JobSearchboard.likedelete", map);
+	}
+	
+	//뷰 카운트 증가
+	public void updateViewCount(JobSearchboardVO jobsearchboardVO) {
+		sqlsession.update("mapper.JobSearchboard.updateViewCount", jobsearchboardVO);
+	}	
+	
 }
